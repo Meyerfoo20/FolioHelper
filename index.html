@@ -1,0 +1,1933 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FormFolio.se – Din Profil som Professionell Hemsida</title>
+    
+    <!-- Google Fonts för Premium Typografi på alla 3 mallar -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- jsPDF för Fakturagenerering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        /* FormFolio App-Root */
+        :root {
+            --bg-main: #f8f6f0;
+            --bg-alt: #eee8dc;
+            --bg-card: #ffffff;
+            --bg-glass: rgba(248, 246, 240, 0.88);
+            --text-main: #181c19;
+            --text-muted: #56615a;
+            --border-color: #ded8cb;
+            --shadow-elevated: 0 16px 40px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.02);
+            --btn-text: #ffffff;
+            --bg-footer: #152014;
+            --accent-main: #22331d;
+            --accent-hover: #344d2d;
+            --accent-light: #e4ebd9;
+            --accent-pop: #84cc16;
+            --danger-color: #ef4444;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        /* Dynamiska Teman för Portföljerna */
+        .theme-nordic {
+            --p-bg: #f8f6f0;
+            --p-bg-alt: #eee8dc;
+            --p-card: #ffffff;
+            --p-text: #181c19;
+            --p-muted: #56615a;
+            --p-accent: #22331d;
+            --p-accent-hover: #344d2d;
+            --p-accent-light: #e4ebd9;
+            --p-pop: #84cc16;
+            --p-border: #ded8cb;
+        }
+
+        .theme-dark {
+            --p-bg: #0b0e0f;
+            --p-bg-alt: #14191b;
+            --p-card: #1c2225;
+            --p-text: #f0f4f6;
+            --p-muted: #94a3b8;
+            --p-accent: #10b981;
+            --p-accent-hover: #059669;
+            --p-accent-light: rgba(16, 185, 129, 0.15);
+            --p-pop: #34d399;
+            --p-border: #283237;
+        }
+
+        .theme-warm {
+            --p-bg: #faf6f0;
+            --p-bg-alt: #f2e7dc;
+            --p-card: #ffffff;
+            --p-text: #2c221e;
+            --p-muted: #78655b;
+            --p-accent: #9a4c28;
+            --p-accent-hover: #7e3c1d;
+            --p-accent-light: #f7e8df;
+            --p-pop: #e07a5f;
+            --p-border: #e8d7cb;
+        }
+
+        .theme-ocean {
+            --p-bg: #f3f7f9;
+            --p-bg-alt: #e1ebf0;
+            --p-card: #ffffff;
+            --p-text: #0f1c24;
+            --p-muted: #4e6573;
+            --p-accent: #133c4d;
+            --p-accent-hover: #0c2834;
+            --p-accent-light: #deedf3;
+            --p-pop: #0284c7;
+            --p-border: #c8dce5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 60px;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-glass);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 16px 24px;
+        }
+
+        .header-container {
+            max-width: 1380px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-family: 'Bricolage Grotesque', sans-serif;
+        }
+
+        .logo-badge {
+            background: var(--accent-light);
+            color: var(--accent-main);
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        .price-tag {
+            background: var(--accent-light);
+            color: var(--accent-main);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Stegindikator */
+        .stepper {
+            max-width: 1050px;
+            margin: 28px auto 10px auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .stepper::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50px;
+            right: 50px;
+            height: 2px;
+            background: var(--border-color);
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+
+        .step-item {
+            position: relative;
+            z-index: 2;
+            background: var(--bg-main);
+            padding: 0 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .step-circle {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+        }
+
+        .step-item.active .step-circle {
+            background: var(--accent-main);
+            color: #ffffff;
+            border-color: var(--accent-main);
+            box-shadow: 0 0 0 4px var(--accent-light);
+        }
+
+        .step-item.completed .step-circle {
+            background: var(--accent-pop);
+            color: var(--accent-main);
+            border-color: var(--accent-pop);
+        }
+
+        .step-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .step-item.active .step-label {
+            color: var(--accent-main);
+        }
+
+        .container {
+            max-width: 1380px;
+            margin: 24px auto;
+            padding: 0 24px;
+        }
+
+        .step-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title h1 {
+            font-size: 2.3rem;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            font-family: 'Bricolage Grotesque', sans-serif;
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+            font-size: 1.08rem;
+        }
+
+        /* Mallval Grid */
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 28px;
+        }
+
+        .template-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-elevated);
+            border-color: var(--accent-main);
+        }
+
+        .template-card.selected {
+            border-color: var(--accent-main);
+            box-shadow: 0 0 0 4px var(--accent-light), var(--shadow-elevated);
+        }
+
+        .template-preview-banner {
+            height: 200px;
+            background: var(--bg-alt);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            text-align: center;
+        }
+
+        .template-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: var(--accent-main);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .template-info {
+            padding: 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .template-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            font-family: 'Bricolage Grotesque', sans-serif;
+        }
+
+        .template-info p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+        }
+
+        /* Redigerare Layout */
+        .editor-layout {
+            display: grid;
+            grid-template-columns: 480px 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        @media (max-width: 1100px) {
+            .editor-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .editor-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 26px;
+            box-shadow: var(--shadow-elevated);
+            max-height: 880px;
+            overflow-y: auto;
+        }
+
+        .form-section-title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.15rem;
+            margin: 24px 0 12px 0;
+            color: var(--accent-main);
+            border-bottom: 2px solid var(--accent-light);
+            padding-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            color: var(--text-main);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-size: 0.92rem;
+            transition: border 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-main);
+            background: #ffffff;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Dynamiska Kort i Redigeraren */
+        .editor-item-box {
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 14px;
+            position: relative;
+        }
+
+        .delete-item-btn {
+            background: #fee2e2;
+            color: var(--danger-color);
+            border: 1px solid #fca5a5;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            float: right;
+        }
+
+        .delete-item-btn:hover {
+            background: var(--danger-color);
+            color: #ffffff;
+        }
+
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .editor-theme-selector {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .mini-theme-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .mini-theme-btn:hover {
+            transform: scale(1.15);
+        }
+
+        .preview-wrapper {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-elevated);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 880px;
+        }
+
+        .preview-toolbar {
+            background: var(--bg-alt);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .preview-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .preview-dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+        .preview-dot:nth-child(1) { background: #ff5f56; }
+        .preview-dot:nth-child(2) { background: #ffbd2e; }
+        .preview-dot:nth-child(3) { background: #27c93f; }
+
+        .device-selector {
+            display: flex;
+            gap: 8px;
+        }
+
+        .device-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .device-btn.active {
+            background: var(--accent-main);
+            color: #fff;
+            border-color: var(--accent-main);
+        }
+
+        .preview-frame {
+            flex-grow: 1;
+            overflow-y: auto;
+            background-color: var(--p-bg);
+            color: var(--p-text);
+            transition: all 0.3s ease;
+        }
+
+        .preview-frame.device-tablet {
+            max-width: 768px;
+            margin: 0 auto;
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+        }
+
+        .preview-frame.device-mobile {
+            max-width: 414px;
+            margin: 0 auto;
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+        }
+
+        /* Färgteman Step Grid */
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .theme-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 22px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .theme-card:hover {
+            border-color: var(--accent-main);
+        }
+
+        .theme-card.selected {
+            border-color: var(--accent-main);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .theme-swatches {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .swatch {
+            height: 36px;
+            flex-grow: 1;
+            border-radius: 6px;
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+
+        /* Domänsökare */
+        .domain-search-box {
+            max-width: 720px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 36px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .search-input-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .search-input-group input {
+            flex-grow: 1;
+            font-size: 1.1rem;
+            padding: 14px 18px;
+        }
+
+        .domain-result {
+            margin-top: 24px;
+            padding: 18px 22px;
+            border-radius: var(--radius-sm);
+            display: none;
+        }
+
+        .domain-result.available {
+            display: block;
+            background: var(--accent-light);
+            border: 1px solid var(--accent-pop);
+            color: var(--accent-main);
+        }
+
+        .domain-result.taken {
+            display: block;
+            background: #fde8e8;
+            border: 1px solid #f8b4b4;
+            color: #9b1c1c;
+        }
+
+        .domain-suggestions {
+            margin-top: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .suggestion-chip {
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .suggestion-chip:hover {
+            background: var(--accent-light);
+            border-color: var(--accent-main);
+        }
+
+        /* Kassa */
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 32px;
+        }
+
+        @media (max-width: 960px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .order-summary {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 26px;
+            box-shadow: var(--shadow-elevated);
+            height: fit-content;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+
+        .summary-row.total {
+            border-bottom: none;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--accent-main);
+            padding-top: 18px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 26px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.96rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--accent-main);
+            color: var(--btn-text);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--bg-alt);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+        }
+
+        .btn-success {
+            background: var(--accent-pop);
+            color: var(--accent-main);
+            font-weight: 800;
+        }
+
+        .btn-success:hover {
+            filter: brightness(0.95);
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .success-box {
+            text-align: center;
+            background: var(--bg-card);
+            padding: 48px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-elevated);
+            max-width: 660px;
+            margin: 0 auto;
+        }
+
+        .success-icon {
+            width: 72px;
+            height: 72px;
+            background: var(--accent-light);
+            color: var(--accent-main);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin: 0 auto 24px auto;
+        }
+
+        /* ------------------------------------------------------------- */
+        /* STILAR FÖR ALLA 3 MALLAR (UNIK LAYOUT & DATOR/MOBIL RESPONSIVITET) */
+        /* ------------------------------------------------------------- */
+
+        .preview-frame .portfolio-wrapper {
+            padding: 32px 24px;
+            background: var(--p-bg);
+            color: var(--p-text);
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* MALL 1: TECH & SPECIALIST (BRICOLAGE GRID & CODE STYLING) */
+        .preview-frame .tpl-tech-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+            background: var(--p-card);
+            border: 1px solid var(--p-border);
+            border-radius: 16px;
+            padding: 28px;
+            border-left: 6px solid var(--p-accent);
+        }
+
+        .preview-frame .tpl-tech-hero-avatar {
+            width: 130px;
+            height: 130px;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 2px solid var(--p-accent);
+            flex-shrink: 0;
+            order: 2; /* Dator: Avatar till höger */
+        }
+
+        .preview-frame .tpl-tech-hero-content {
+            flex-grow: 1;
+            order: 1;
+        }
+
+        /* MALL 2: EXECUTIVE & LEADER (EDITORIAL CLASSIC & SERIF TYPOGRAPHY) */
+        .preview-frame .tpl-exec-hero {
+            text-align: center;
+            background: var(--p-card);
+            border: 1px solid var(--p-border);
+            border-radius: 16px;
+            padding: 36px 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .preview-frame .tpl-exec-hero-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--p-border);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        /* MALL 3: CREATIVE STUDIO (BENTO BOX GRID) */
+        .preview-frame .tpl-bento-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .preview-frame .tpl-bento-hero {
+            grid-column: span 2;
+            background: var(--p-card);
+            border: 1px solid var(--p-border);
+            border-radius: 24px;
+            padding: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .preview-frame .tpl-bento-avatar {
+            width: 130px;
+            height: 130px;
+            border-radius: 24px;
+            object-fit: cover;
+            order: 2;
+            flex-shrink: 0;
+        }
+
+        .preview-frame .tpl-bento-card {
+            background: var(--p-card);
+            border: 1px solid var(--p-border);
+            border-radius: 20px;
+            padding: 24px;
+        }
+
+        /* Gemensamma stilar för element i förhandsgranskningen */
+        .preview-frame .btn-action {
+            background: var(--p-accent);
+            color: #ffffff;
+            padding: 10px 22px;
+            border-radius: 24px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .preview-frame .btn-outline {
+            border: 1px solid var(--p-accent);
+            color: var(--p-accent);
+            padding: 10px 22px;
+            border-radius: 24px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .preview-frame .skills-badge-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .preview-frame .skill-badge {
+            background: var(--p-bg-alt);
+            color: var(--p-text);
+            border: 1px solid var(--p-border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .preview-frame .site-footer {
+            background: var(--p-card);
+            border: 1px solid var(--p-border);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .preview-frame .site-footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .preview-frame .site-footer-links a {
+            color: var(--p-accent);
+            font-weight: 700;
+            font-size: 0.92rem;
+            text-decoration: none;
+        }
+
+        .preview-frame .site-footer-copy {
+            font-size: 0.82rem;
+            color: var(--p-muted);
+        }
+
+        /* ------------------------------------------------------------- */
+        /* MOBILANPASSNING (MEDIA QUERIES): BILDEN HÖGST UPPI HERON! */
+        /* ------------------------------------------------------------- */
+
+        @media (max-width: 650px) {
+            .preview-frame .tpl-tech-hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            .preview-frame .tpl-tech-hero-avatar {
+                order: -1 !important; /* FLYTTAR BILDEN HÖGST UPPI HERON PÅ MOBIL */
+                margin-bottom: 12px;
+            }
+
+            .preview-frame .tpl-bento-grid {
+                grid-template-columns: 1fr;
+            }
+            .preview-frame .tpl-bento-hero {
+                grid-column: span 1;
+                flex-direction: column;
+                text-align: center;
+            }
+            .preview-frame .tpl-bento-avatar {
+                order: -1 !important; /* FLYTTAR BILDEN HÖGST UPPI HERON PÅ MOBIL */
+                margin-bottom: 12px;
+            }
+
+            .preview-frame .site-footer-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                FormFolio <span class="logo-badge">Ingen kod krävs</span>
+            </a>
+            <div class="price-tag">
+                Årsplan: <strong>979 kr/år</strong> (Faktura)
+            </div>
+        </div>
+    </header>
+
+    <!-- Stegindikator -->
+    <div class="stepper">
+        <div class="step-item active" onclick="goToStep(1)">
+            <div class="step-circle">1</div>
+            <span class="step-label">Välj design</span>
+        </div>
+        <div class="step-item" onclick="goToStep(2)">
+            <div class="step-circle">2</div>
+            <span class="step-label">Redigera innehåll</span>
+        </div>
+        <div class="step-item" onclick="goToStep(3)">
+            <div class="step-circle">3</div>
+            <span class="step-label">Färgtema</span>
+        </div>
+        <div class="step-item" onclick="goToStep(4)">
+            <div class="step-circle">4</div>
+            <span class="step-label">Välj domän</span>
+        </div>
+        <div class="step-item" onclick="goToStep(5)">
+            <div class="step-circle">5</div>
+            <span class="step-label">Faktura & Kod</span>
+        </div>
+    </div>
+
+    <main class="container">
+
+        <!-- STEG 1: VÄLJ MALL -->
+        <section id="step-1" class="step-content active">
+            <div class="section-title">
+                <h1>Välj en unik designmodell</h1>
+                <p>Tre unika layouter. Alla är responsiva med bild i topp på mobil och inbyggd footer.</p>
+            </div>
+
+            <div class="templates-grid">
+                <!-- Mall 1 -->
+                <div class="template-card selected" onclick="selectTemplate('tech_dev', this)">
+                    <div class="template-preview-banner">
+                        <span class="template-badge">Populärast</span>
+                        <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:1.35rem; color:var(--text-main);">Tech & Specialist Grid</div>
+                        <div style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;">Skarp källkodskänsla med ramar & taggar</div>
+                    </div>
+                    <div class="template-info">
+                        <div>
+                            <h3>Tech & Specialist Grid</h3>
+                            <p>Anpassad för utvecklare, IT-konsulter och ingengörer. Modern struktur med framhävda erfarenhetsblock och kompetens-badges.</p>
+                        </div>
+                        <button class="btn btn-secondary" style="width:100%;">Välj denna mall</button>
+                    </div>
+                </div>
+
+                <!-- Mall 2 -->
+                <div class="template-card" onclick="selectTemplate('executive', this)">
+                    <div class="template-preview-banner">
+                        <div style="font-family:'Playfair Display'; font-weight:700; font-size:1.35rem; color:var(--text-main);">Editorial Executive</div>
+                        <div style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;">Centrerad redaktionell serif-klassiker</div>
+                    </div>
+                    <div class="template-info">
+                        <div>
+                            <h3>Editorial Executive Leader</h3>
+                            <p>För rådgivare, chefer och ledare. Exklusiv, ren layout med *Playfair Display*, eleganta linjer och centrerat profilfokus.</p>
+                        </div>
+                        <button class="btn btn-secondary" style="width:100%;">Välj denna mall</button>
+                    </div>
+                </div>
+
+                <!-- Mall 3 -->
+                <div class="template-card" onclick="selectTemplate('creative', this)">
+                    <div class="template-preview-banner">
+                        <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:1.35rem; color:var(--text-main);">Creative Bento Box</div>
+                        <div style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;">Trendigt asymmetriskt Bento-rutnät</div>
+                    </div>
+                    <div class="template-info">
+                        <div>
+                            <h3>Creative Studio Bento</h3>
+                            <p>För designers, fotografer och kreativa producenter. Mjuka kort, flexibla sektioner och framhävda meriter i Bento-format.</p>
+                        </div>
+                        <button class="btn btn-secondary" style="width:100%;">Välj denna mall</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <div></div>
+                <button class="btn btn-primary" onclick="goToStep(2)">Gå vidare till innehåll &rarr;</button>
+            </div>
+        </section>
+
+        <!-- STEG 2: REDIGERA INNEHÅLL -->
+        <section id="step-2" class="step-content">
+            <div class="section-title">
+                <h1>Redigera ditt innehåll</h1>
+                <p>Ta bort eller lägg till sektioner och yrkeserfarenheter. Ändra färgtema direkt.</p>
+            </div>
+
+            <div class="editor-layout">
+                <!-- Redigeringspanel -->
+                <div class="editor-panel">
+                    
+                    <!-- Snabb färgtemaväxlare direkt i redigeraren -->
+                    <div style="background:var(--bg-main); padding:12px; border-radius:10px; border:1px solid var(--border-color); margin-bottom:18px;">
+                        <label style="font-weight:700; font-size:0.85rem; display:block; margin-bottom:4px;">Växla Färgtema direkt:</label>
+                        <div class="editor-theme-selector">
+                            <div class="mini-theme-btn" style="background:#22331d;" title="Skandinavisk Skog" onclick="setEditorTheme('theme-nordic')"></div>
+                            <div class="mini-theme-btn" style="background:#10b981;" title="Midnatt OLED" onclick="setEditorTheme('theme-dark')"></div>
+                            <div class="mini-theme-btn" style="background:#9a4c28;" title="Varm Terrakotta" onclick="setEditorTheme('theme-warm')"></div>
+                            <div class="mini-theme-btn" style="background:#133c4d;" title="Havsblå" onclick="setEditorTheme('theme-ocean')"></div>
+                        </div>
+                    </div>
+
+                    <!-- Profil & Headline -->
+                    <div class="form-section-title">1. Profil & Personuppgifter</div>
+                    <div class="form-group">
+                        <label>Fullständigt Namn</label>
+                        <input type="text" id="input-name" class="form-control" value="Alex Lindqvist" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>Yrkesroll / Rubrik</label>
+                        <input type="text" id="input-title" class="form-control" value="Senior Systemarkitekt & IT-Konsult" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>Plats / Ort</label>
+                        <input type="text" id="input-location" class="form-control" value="Stockholm, Sverige" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>Profilbild (URL)</label>
+                        <input type="text" id="input-avatar" class="form-control" value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" oninput="updatePreview()">
+                    </div>
+
+                    <!-- Om mig Sektion -->
+                    <div class="form-section-title">
+                        <span>2. Om mig (Sammanfattning)</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="toggle-sec-about" checked onchange="toggleSection('about')"> Visa
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="input-bio" class="form-control" oninput="updatePreview()">Med över 8 års erfarenhet hjälper jag ledande företag att bygga skalbara webbsystem, optimera infrastruktur och driva digitala förändringsresor.</textarea>
+                    </div>
+
+                    <!-- Yrkeserfarenheter (Dynamisk lista) -->
+                    <div class="form-section-title">
+                        <span>3. Yrkeserfarenheter</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="toggle-sec-experience" checked onchange="toggleSection('experience')"> Visa
+                        </label>
+                    </div>
+                    <div id="experience-list-container">
+                        <!-- Dynamiska jobb-kort genereras här med JS -->
+                    </div>
+                    <button class="btn btn-secondary" style="width:100%; margin-bottom:18px;" onclick="addExperienceItem()">+ Lägg till Ny Erfarenhet</button>
+
+                    <!-- Utbildning Sektion -->
+                    <div class="form-section-title">
+                        <span>4. Utbildning & Certifikat</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="toggle-sec-education" checked onchange="toggleSection('education')"> Visa
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Utbildning / Examen</label>
+                        <input type="text" id="input-edu1" class="form-control" value="Civilingenjör Datateknik – KTH (2014-2019)" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>Certifieringar</label>
+                        <input type="text" id="input-edu2" class="form-control" value="AWS Certified Solutions Architect & Certified Scrum Master" oninput="updatePreview()">
+                    </div>
+
+                    <!-- Kompetenser (Badges) -->
+                    <div class="form-section-title">
+                        <span>5. Kompetenser & Färdigheter</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="toggle-sec-skills" checked onchange="toggleSection('skills')"> Visa
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Kompetenser (Separera med kommatecken)</label>
+                        <input type="text" id="input-skills" class="form-control" value="JavaScript, TypeScript, React, Node.js, Cloud Architecture, Systemdesign" oninput="updatePreview()">
+                    </div>
+
+                    <!-- Kontaktuppgifter -->
+                    <div class="form-section-title">6. Kontaktuppgifter & Footer</div>
+                    <div class="form-group">
+                        <label>LinkedIn Profil URL</label>
+                        <input type="text" id="input-linkedin" class="form-control" value="https://linkedin.com/in/alex-lindqvist" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>E-postadress</label>
+                        <input type="email" id="input-email" class="form-control" value="alex@lindqvist-consulting.se" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>Telefonnummer</label>
+                        <input type="text" id="input-phone" class="form-control" value="070-123 45 67" oninput="updatePreview()">
+                    </div>
+
+                </div>
+
+                <!-- Live Preview fönster med Dator/Mobil-växlare -->
+                <div class="preview-wrapper">
+                    <div class="preview-toolbar">
+                        <div class="preview-dots">
+                            <div class="preview-dot"></div>
+                            <div class="preview-dot"></div>
+                            <div class="preview-dot"></div>
+                        </div>
+                        <div class="device-selector">
+                            <button class="device-btn active" onclick="setDevice('desktop', this)">Dator</button>
+                            <button class="device-btn" onclick="setDevice('tablet', this)">Surfplatta</button>
+                            <button class="device-btn" onclick="setDevice('mobile', this)">Mobil (Bild i topp)</button>
+                        </div>
+                        <div style="font-size:0.8rem; color:var(--accent-pop); font-weight:700;">● Live</div>
+                    </div>
+                    <div id="preview-frame" class="preview-frame theme-nordic">
+                        <!-- Renderas dynamiskt av JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="goToStep(1)">&larr; Tillbaka</button>
+                <button class="btn btn-primary" onclick="goToStep(3)">Välj färgtema &rarr;</button>
+            </div>
+        </section>
+
+        <!-- STEG 3: FÄRGTEMA -->
+        <section id="step-3" class="step-content">
+            <div class="section-title">
+                <h1>Välj ett färgtema för din hemsida</h1>
+                <p>Alla teman anpassar bakgrunder, text, kort och knappar i realtid.</p>
+            </div>
+
+            <div class="themes-grid">
+                <div class="theme-card selected" onclick="selectTheme('theme-nordic', this)">
+                    <h3>Skandinavisk Skog</h3>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Lugna toningar med skogsgrön accent.</p>
+                    <div class="theme-swatches">
+                        <div class="swatch" style="background:#f8f6f0;"></div>
+                        <div class="swatch" style="background:#ffffff;"></div>
+                        <div class="swatch" style="background:#22331d;"></div>
+                        <div class="swatch" style="background:#84cc16;"></div>
+                    </div>
+                </div>
+
+                <div class="theme-card" onclick="selectTheme('theme-dark', this)">
+                    <h3>Midnatt OLED</h3>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Djupt mörkt läge med smaragdgrön accent.</p>
+                    <div class="theme-swatches">
+                        <div class="swatch" style="background:#0b0e0f;"></div>
+                        <div class="swatch" style="background:#1c2225;"></div>
+                        <div class="swatch" style="background:#10b981;"></div>
+                        <div class="swatch" style="background:#f0f4f6;"></div>
+                    </div>
+                </div>
+
+                <div class="theme-card" onclick="selectTheme('theme-warm', this)">
+                    <h3>Varm Terrakotta</h3>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Eleganta koppar- och sandtoner.</p>
+                    <div class="theme-swatches">
+                        <div class="swatch" style="background:#faf6f0;"></div>
+                        <div class="swatch" style="background:#ffffff;"></div>
+                        <div class="swatch" style="background:#9a4c28;"></div>
+                        <div class="swatch" style="background:#2c221e;"></div>
+                    </div>
+                </div>
+
+                <div class="theme-card" onclick="selectTheme('theme-ocean', this)">
+                    <h3>Havsblå</h3>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Skarp, professionell mörkblå känsla.</p>
+                    <div class="theme-swatches">
+                        <div class="swatch" style="background:#f3f7f9;"></div>
+                        <div class="swatch" style="background:#ffffff;"></div>
+                        <div class="swatch" style="background:#133c4d;"></div>
+                        <div class="swatch" style="background:#0f1c24;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="goToStep(2)">&larr; Tillbaka</button>
+                <button class="btn btn-primary" onclick="goToStep(4)">Välj domännamn &rarr;</button>
+            </div>
+        </section>
+
+        <!-- STEG 4: DOMÄNSÖKARE -->
+        <section id="step-4" class="step-content">
+            <div class="section-title">
+                <h1>Välj ditt domännamn</h1>
+                <p>Sök efter din önskade webbadress. Systemet kontrollerar direkt om den är ledig.</p>
+            </div>
+
+            <div class="domain-search-box">
+                <label style="font-weight:700;">Skriv in önskad domän:</label>
+                <div class="search-input-group">
+                    <input type="text" id="domain-input" class="form-control" placeholder="dittnamn.se" value="alexlindqvist.se">
+                    <button class="btn btn-primary" onclick="checkDomain()">Sök domän</button>
+                </div>
+
+                <div id="domain-result" class="domain-result"></div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="goToStep(3)">&larr; Tillbaka</button>
+                <button class="btn btn-primary" id="btn-to-checkout" onclick="goToStep(5)">Gå till kassa & faktura &rarr;</button>
+            </div>
+        </section>
+
+        <!-- STEG 5: KASSA & EXPEDIERING -->
+        <section id="step-5" class="step-content">
+            <div id="checkout-form-container">
+                <div class="section-title">
+                    <h1>Slutför beställning & Faktura</h1>
+                    <p>Fyll i dina fakturauppgifter. Din PDF-faktura och responsiva HTML-filer skapas direkt.</p>
+                </div>
+
+                <div class="checkout-grid">
+                    <div style="background:var(--bg-card); padding:26px; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+                        <h3 style="margin-bottom:16px; font-family:'Bricolage Grotesque';">Fakturauppgifter</h3>
+                        <div class="form-group">
+                            <label>Namn / Företag *</label>
+                            <input type="text" id="cust-name" class="form-control" value="Lindqvist Consulting AB" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Personnummer / Org.nr *</label>
+                            <input type="text" id="cust-id" class="form-control" value="19910512-XXXX" required>
+                        </div>
+                        <div class="form-group">
+                            <label>E-postadress för faktura *</label>
+                            <input type="email" id="cust-email" class="form-control" value="alex@lindqvist-consulting.se" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Gatuadress *</label>
+                            <input type="text" id="cust-address" class="form-control" value="Kungsgatan 18" required>
+                        </div>
+                        <div style="display:grid; grid-template-columns: 1fr 2fr; gap:12px;">
+                            <div class="form-group">
+                                <label>Postnr *</label>
+                                <input type="text" id="cust-zip" class="form-control" value="111 43" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Postort *</label>
+                                <input type="text" id="cust-city" class="form-control" value="Stockholm" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-summary">
+                        <h3 style="margin-bottom:16px; font-family:'Bricolage Grotesque';">Sammanställning</h3>
+                        <div class="summary-row">
+                            <span>Vald Modell:</span>
+                            <strong id="summary-template">Tech & Specialist Grid</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span>Färgtema:</span>
+                            <strong id="summary-theme">Skandinavisk Skog</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span>Vald Domän:</span>
+                            <strong id="summary-domain" style="color:var(--accent-main);">alexlindqvist.se</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span>Webbhotell & Licens:</span>
+                            <span>1 År</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Totalt att betala:</span>
+                            <span>979 kr / år</span>
+                        </div>
+                        <p style="font-size:0.82rem; color:var(--text-muted); margin-top:12px;">
+                            Betalning via faktura (30 dagars betaltid). Inga dolda avgifter.
+                        </p>
+
+                        <button class="btn btn-success" style="width:100%; margin-top:24px; padding:16px;" onclick="processOrder()">
+                            Slutför & Generera Faktura (PDF)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="goToStep(4)">&larr; Tillbaka</button>
+                </div>
+            </div>
+
+            <div id="order-success-container" class="success-box" style="display:none;">
+                <div class="success-icon">✓</div>
+                <h2 style="font-family:'Bricolage Grotesque';">Tack för din beställning!</h2>
+                <p style="color:var(--text-muted); margin: 10px 0 24px 0;">
+                    Din nya hemsida har skapats och fakturan är redo för nedladdning.
+                </p>
+
+                <div style="display:flex; flex-direction:column; gap:12px; max-width:440px; margin:0 auto;">
+                    <button class="btn btn-primary" onclick="downloadInvoicePDF()">
+                        📄 Ladda ner Faktura (PDF)
+                    </button>
+                    <button class="btn btn-success" onclick="downloadPortfolioCode()">
+                        💻 Ladda ner din Hemsida (index.html)
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Applikationstillstånd
+        const state = {
+            step: 1,
+            template: 'tech_dev',
+            theme: 'theme-nordic',
+            device: 'desktop',
+            domain: 'alexlindqvist.se',
+            domainAvailable: true,
+            sections: {
+                about: true,
+                experience: true,
+                education: true,
+                skills: true
+            },
+            data: {
+                name: 'Alex Lindqvist',
+                title: 'Senior Systemarkitekt & IT-Konsult',
+                location: 'Stockholm, Sverige',
+                bio: 'Med över 8 års erfarenhet hjälper jag ledande företag att bygga skalbara webbsystem, optimera infrastruktur och driva digitala förändringsresor.',
+                avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
+                edu1: 'Civilingenjör Datateknik – KTH (2014-2019)',
+                edu2: 'AWS Certified Solutions Architect & Certified Scrum Master',
+                skills: 'JavaScript, TypeScript, React, Node.js, Cloud Architecture, Systemdesign',
+                linkedin: 'https://linkedin.com/in/alex-lindqvist',
+                email: 'alex@lindqvist-consulting.se',
+                phone: '070-123 45 67',
+                // Dynamiska erfarenheter
+                experiences: [
+                    {
+                        id: 1,
+                        role: 'Lead Systemarkitekt',
+                        company: 'Nordic Enterprise Solutions AB',
+                        period: '2022 – Nuvarande',
+                        desc: 'Ansvarar för teknisk arkitektur och infrastruktur. Ledde migrering av molnsystem vilket reducerade laddtider med 45%.'
+                    },
+                    {
+                        id: 2,
+                        role: 'Senior Fullstackutvecklare',
+                        company: 'Tech Consultancy Group',
+                        period: '2019 – 2022',
+                        desc: 'Utvecklade skräddarsydda webbapplikationer för storkunder i finanssektorn. Integration av betallösningar och API:er.'
+                    }
+                ]
+            }
+        };
+
+        const takenDomains = [
+            'alexlindqvist.se', 'google.se', 'spotify.se', 'portfolio.se', 
+            'design.se', 'test.se', 'kreator.se', 'studio.se', 'neocarlsson.se'
+        ];
+
+        function goToStep(stepNum) {
+            state.step = stepNum;
+            
+            document.querySelectorAll('.step-item').forEach((el, idx) => {
+                const num = idx + 1;
+                el.classList.remove('active', 'completed');
+                if (num === stepNum) el.classList.add('active');
+                else if (num < stepNum) el.classList.add('completed');
+            });
+
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step-${stepNum}`).classList.add('active');
+
+            if (stepNum === 2) {
+                renderEditorExperiences();
+                updatePreview();
+            }
+            if (stepNum === 4) checkDomain();
+            if (stepNum === 5) updateSummary();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function selectTemplate(tplName, cardEl) {
+            state.template = tplName;
+            document.querySelectorAll('.templates-grid .template-card').forEach(c => c.classList.remove('selected'));
+            cardEl.classList.add('selected');
+        }
+
+        function selectTheme(themeClass, cardEl) {
+            state.theme = themeClass;
+            document.querySelectorAll('.themes-grid .theme-card').forEach(c => c.classList.remove('selected'));
+            if(cardEl) cardEl.classList.add('selected');
+            updatePreview();
+        }
+
+        function setEditorTheme(themeClass) {
+            state.theme = themeClass;
+            updatePreview();
+        }
+
+        function setDevice(deviceType, btnEl) {
+            state.device = deviceType;
+            document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
+            btnEl.classList.add('active');
+
+            const frame = document.getElementById('preview-frame');
+            frame.className = `preview-frame ${state.theme} device-${deviceType}`;
+        }
+
+        function toggleSection(secName) {
+            const checkbox = document.getElementById(`toggle-sec-${secName}`);
+            state.sections[secName] = checkbox.checked;
+            updatePreview();
+        }
+
+        /* Dynamisk hantering av yrkeserfarenheter */
+        function renderEditorExperiences() {
+            const container = document.getElementById('experience-list-container');
+            container.innerHTML = '';
+
+            state.data.experiences.forEach((exp, index) => {
+                const box = document.createElement('div');
+                box.className = 'editor-item-box';
+                box.innerHTML = `
+                    <button class="delete-item-btn" onclick="removeExperienceItem(${exp.id})">✕ Ta bort</button>
+                    <strong style="font-size:0.85rem; color:var(--accent-main); display:block; margin-bottom:8px;">Erfarenhet #${index + 1}</strong>
+                    <div class="form-group">
+                        <label>Roll / Befattning</label>
+                        <input type="text" class="form-control" value="${exp.role}" oninput="updateExperienceField(${exp.id}, 'role', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>Företag</label>
+                        <input type="text" class="form-control" value="${exp.company}" oninput="updateExperienceField(${exp.id}, 'company', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>Period</label>
+                        <input type="text" class="form-control" value="${exp.period}" oninput="updateExperienceField(${exp.id}, 'period', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>Beskrivning</label>
+                        <textarea class="form-control" oninput="updateExperienceField(${exp.id}, 'desc', this.value)">${exp.desc}</textarea>
+                    </div>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        function addExperienceItem() {
+            const newId = Date.now();
+            state.data.experiences.push({
+                id: newId,
+                role: 'Ny Befattning',
+                company: 'Företagsnamn',
+                period: '2023 – Nuvarande',
+                desc: 'Beskriv dina huvudsakliga arbetsuppgifter och uppnådda resultat här.'
+            });
+            renderEditorExperiences();
+            updatePreview();
+        }
+
+        function removeExperienceItem(id) {
+            state.data.experiences = state.data.experiences.filter(exp => exp.id !== id);
+            renderEditorExperiences();
+            updatePreview();
+        }
+
+        function updateExperienceField(id, field, value) {
+            const exp = state.data.experiences.find(e => e.id === id);
+            if (exp) {
+                exp[field] = value;
+                updatePreview();
+            }
+        }
+
+        /* Live Preview Rendering för alla 3 Mallar */
+        function updatePreview() {
+            state.data.name = document.getElementById('input-name').value || 'Ditt Namn';
+            state.data.title = document.getElementById('input-title').value || 'Din Titel';
+            state.data.location = document.getElementById('input-location').value || 'Sverige';
+            state.data.bio = document.getElementById('input-bio').value || '';
+            state.data.avatar = document.getElementById('input-avatar').value;
+            state.data.edu1 = document.getElementById('input-edu1').value;
+            state.data.edu2 = document.getElementById('input-edu2').value;
+            state.data.skills = document.getElementById('input-skills').value;
+            state.data.linkedin = document.getElementById('input-linkedin').value;
+            state.data.email = document.getElementById('input-email').value;
+            state.data.phone = document.getElementById('input-phone').value;
+
+            const frame = document.getElementById('preview-frame');
+            frame.className = `preview-frame ${state.theme} device-${state.device}`;
+
+            const skillBadges = state.data.skills.split(',')
+                .filter(s => s.trim().length > 0)
+                .map(s => `<span class="skill-badge">${s.trim()}</span>`).join('');
+
+            const expTimelineHTML = state.data.experiences.map(exp => `
+                <div style="border-bottom:1px solid var(--p-border); padding-bottom:16px; margin-bottom:16px;">
+                    <h4 style="font-size:1.05rem; font-weight:700;">${exp.role}</h4>
+                    <div style="font-size:0.88rem; color:var(--p-accent); font-weight:600;">${exp.company} • <span style="color:var(--p-muted); font-size:0.8rem;">${exp.period}</span></div>
+                    <p style="font-size:0.85rem; color:var(--p-muted); margin-top:6px;">${exp.desc}</p>
+                </div>
+            `).join('');
+
+            let templateHTML = '';
+
+            if (state.template === 'tech_dev') {
+                // MALL 1: TECH & SPECIALIST GRID
+                templateHTML = `
+                    <div class="tpl-tech-hero">
+                        <img src="${state.data.avatar}" class="tpl-tech-hero-avatar" alt="Profil">
+                        <div class="tpl-tech-hero-content">
+                            <div style="font-family:'Space Mono'; font-size:0.8rem; color:var(--p-accent); font-weight:700;">// PORTFOLIO PROFIL</div>
+                            <h1 style="font-family:'Bricolage Grotesque'; font-size:2.2rem; font-weight:800; margin:4px 0;">${state.data.name}</h1>
+                            <div style="font-size:1.05rem; color:var(--p-accent); font-weight:700; margin-bottom:10px;">${state.data.title}</div>
+                            <div style="font-size:0.85rem; color:var(--p-muted); margin-bottom:16px;">📍 ${state.data.location}</div>
+                            <div>
+                                <a href="mailto:${state.data.email}" class="btn-action">✉ Maila mig</a>
+                                <a href="${state.data.linkedin}" target="_blank" class="btn-outline">🔗 LinkedIn</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${state.sections.about ? `
+                    <div style="background:var(--p-card); border:1px solid var(--p-border); border-radius:16px; padding:24px;">
+                        <h3 style="font-family:'Bricolage Grotesque'; font-size:1.25rem; color:var(--p-accent); margin-bottom:12px;">Om mig</h3>
+                        <p style="font-size:0.9rem; color:var(--p-muted); line-height:1.6;">${state.data.bio}</p>
+                    </div>` : ''}
+
+                    ${state.sections.experience ? `
+                    <div style="background:var(--p-card); border:1px solid var(--p-border); border-radius:16px; padding:24px;">
+                        <h3 style="font-family:'Bricolage Grotesque'; font-size:1.25rem; color:var(--p-accent); margin-bottom:16px;">Yrkeserfarenheter</h3>
+                        ${expTimelineHTML}
+                    </div>` : ''}
+
+                    ${state.sections.education ? `
+                    <div style="background:var(--p-card); border:1px solid var(--p-border); border-radius:16px; padding:24px;">
+                        <h3 style="font-family:'Bricolage Grotesque'; font-size:1.25rem; color:var(--p-accent); margin-bottom:12px;">Utbildning & Certifikat</h3>
+                        <p style="font-size:0.88rem; color:var(--p-muted);">${state.data.edu1}</p>
+                        <p style="font-size:0.88rem; color:var(--p-accent); font-weight:600; margin-top:4px;">${state.data.edu2}</p>
+                    </div>` : ''}
+
+                    ${state.sections.skills ? `
+                    <div style="background:var(--p-card); border:1px solid var(--p-border); border-radius:16px; padding:24px;">
+                        <h3 style="font-family:'Bricolage Grotesque'; font-size:1.25rem; color:var(--p-accent); margin-bottom:12px;">Kompetenser</h3>
+                        <div class="skills-badge-grid">${skillBadges}</div>
+                    </div>` : ''}
+                `;
+            } else if (state.template === 'executive') {
+                // MALL 2: EDITORIAL EXECUTIVE LEADER (PLAYFAIR DISPLAY)
+                templateHTML = `
+                    <div class="tpl-exec-hero">
+                        <img src="${state.data.avatar}" class="tpl-exec-hero-avatar" alt="Profil">
+                        <h1 style="font-family:'Playfair Display', serif; font-size:2.4rem; font-weight:700;">${state.data.name}</h1>
+                        <div style="font-size:1rem; color:var(--p-accent); font-weight:600; text-transform:uppercase; letter-spacing:0.08em; margin:8px 0 16px 0;">${state.data.title}</div>
+                        <div style="font-size:0.88rem; color:var(--p-muted); margin-bottom:20px;">📍 ${state.data.location}</div>
+                        <div>
+                            <a href="mailto:${state.data.email}" class="btn-action">✉ Kontakta mig</a>
+                            <a href="${state.data.linkedin}" target="_blank" class="btn-outline">🔗 LinkedIn</a>
+                        </div>
+                    </div>
+
+                    ${state.sections.about ? `
+                    <div style="background:var(--p-card); border:1px solid var(--p-border); border-radius:16px; padding:28px;">
+                        <h3 style="font-family:'Playfair Display', serif; font-size:1.4rem; border-bottom:1px solid var(--p-border); padding-bottom:8px; margin-bottom:14px;">Bakgrund & Profil</h3>
+                        <p style="font-size:0.92rem; color:var(--p-muted); line-height:1.7;">${state.data.bio}</p>
+                    </div>` : ''}
+
+                    ${state.sections.experience ? `
+                    <div style="background:var(--p-card); border:1px solid var(--p-border); border-radius:16px; padding:28px;">
+                        <h3 style="font-family:'Playfair Display', serif; font-size:1.4rem; border-bottom:1px solid var(--p-border); padding-bottom:8px; margin-bottom:18px;">Karriär & Befattningar</h3>
+                        ${expTimelineHTML}
+                    </div>` : ''}
+
+                    ${state.sections.education ? `
+                    <div style="background:var(--p-card); border:1px solid var(--p-border); border-radius:16px; padding:28px;">
+                        <h3 style="font-family:'Playfair Display', serif; font-size:1.4rem; border-bottom:1px solid var(--p-border); padding-bottom:8px; margin-bottom:14px;">Akademisk Bakgrund</h3>
+                        <p style="font-size:0.9rem; color:var(--p-muted);">${state.data.edu1}</p>
+                        <p style="font-size:0.9rem; color:var(--p-accent); font-weight:600; margin-top:4px;">${state.data.edu2}</p>
+                    </div>` : ''}
+
+                    ${state.sections.skills ? `
+                    <div style="background:var(--p-card); border:1px solid var(--p-border); border-radius:16px; padding:28px;">
+                        <h3 style="font-family:'Playfair Display', serif; font-size:1.4rem; border-bottom:1px solid var(--p-border); padding-bottom:8px; margin-bottom:14px;">Expertisområden</h3>
+                        <div class="skills-badge-grid">${skillBadges}</div>
+                    </div>` : ''}
+                `;
+            } else if (state.template === 'creative') {
+                // MALL 3: CREATIVE BENTO BOX GRID
+                templateHTML = `
+                    <div class="tpl-bento-grid">
+                        <div class="tpl-bento-hero">
+                            <img src="${state.data.avatar}" class="tpl-bento-avatar" alt="Profil">
+                            <div>
+                                <h1 style="font-family:'Bricolage Grotesque'; font-size:2.2rem; font-weight:800;">${state.data.name}</h1>
+                                <div style="font-size:1.1rem; color:var(--p-accent); font-weight:700; margin:6px 0 12px 0;">${state.data.title}</div>
+                                <div style="font-size:0.85rem; color:var(--p-muted); margin-bottom:16px;">📍 ${state.data.location}</div>
+                                <a href="mailto:${state.data.email}" class="btn-action">✉ Boka möte</a>
+                            </div>
+                        </div>
+
+                        ${state.sections.about ? `
+                        <div class="tpl-bento-card" style="grid-column: span 2;">
+                            <h3 style="font-family:'Bricolage Grotesque'; font-size:1.3rem; margin-bottom:10px;">Om mig</h3>
+                            <p style="font-size:0.9rem; color:var(--p-muted); line-height:1.6;">${state.data.bio}</p>
+                        </div>` : ''}
+
+                        ${state.sections.experience ? `
+                        <div class="tpl-bento-card" style="grid-column: span 2;">
+                            <h3 style="font-family:'Bricolage Grotesque'; font-size:1.3rem; margin-bottom:16px;">Tidigare Uppdrag & Roller</h3>
+                            ${expTimelineHTML}
+                        </div>` : ''}
+
+                        ${state.sections.education ? `
+                        <div class="tpl-bento-card">
+                            <h3 style="font-family:'Bricolage Grotesque'; font-size:1.2rem; margin-bottom:10px;">Utbildning</h3>
+                            <p style="font-size:0.85rem; color:var(--p-muted);">${state.data.edu1}</p>
+                            <p style="font-size:0.85rem; color:var(--p-accent); font-weight:600; margin-top:4px;">${state.data.edu2}</p>
+                        </div>` : ''}
+
+                        ${state.sections.skills ? `
+                        <div class="tpl-bento-card">
+                            <h3 style="font-family:'Bricolage Grotesque'; font-size:1.2rem; margin-bottom:10px;">Kompetenser</h3>
+                            <div class="skills-badge-grid">${skillBadges}</div>
+                        </div>` : ''}
+                    </div>
+                `;
+            }
+
+            frame.innerHTML = `
+                <div class="portfolio-wrapper">
+                    ${templateHTML}
+
+                    <!-- Footer med länkar på samtliga 3 mallar -->
+                    <footer class="site-footer">
+                        <div class="site-footer-links">
+                            <a href="${state.data.linkedin}" target="_blank" rel="noopener">🔗 LinkedIn</a>
+                            <a href="tel:${state.data.phone}">📞 ${state.data.phone}</a>
+                            <a href="mailto:${state.data.email}">✉ ${state.data.email}</a>
+                        </div>
+                        <div class="site-footer-copy">
+                            &copy; 2026 ${state.data.name}. Alla rättigheter förbehållna.
+                        </div>
+                    </footer>
+                </div>
+            `;
+        }
+
+        function checkDomain() {
+            const input = document.getElementById('domain-input').value.toLowerCase().trim();
+            const resultDiv = document.getElementById('domain-result');
+            
+            if (!input) {
+                resultDiv.style.display = 'none';
+                return;
+            }
+
+            state.domain = input;
+            const isTaken = takenDomains.includes(input);
+
+            if (isTaken) {
+                state.domainAvailable = false;
+                const alt1 = input.replace('.se', '-profile.se');
+                const alt2 = input.replace('.se', 'konsult.se');
+                const alt3 = input.replace('.se', '.nu');
+
+                resultDiv.className = 'domain-result taken';
+                resultDiv.innerHTML = `
+                    <strong>✕ Domänen ${input} är tyvärr upptagen!</strong>
+                    <p style="font-size:0.88rem; margin-top:6px;">Algoritmen hittade följande lediga alternativ för dig:</p>
+                    <div class="domain-suggestions">
+                        <span class="suggestion-chip" onclick="selectSuggestedDomain('${alt1}')">${alt1} (Ledig)</span>
+                        <span class="suggestion-chip" onclick="selectSuggestedDomain('${alt2}')">${alt2} (Ledig)</span>
+                        <span class="suggestion-chip" onclick="selectSuggestedDomain('${alt3}')">${alt3} (Ledig)</span>
+                    </div>
+                `;
+            } else {
+                state.domainAvailable = true;
+                resultDiv.className = 'domain-result available';
+                resultDiv.innerHTML = `
+                    <strong>✓ Domänen ${input} är ledig!</strong>
+                    <p style="font-size:0.88rem; margin-top:4px;">Ingår utan extra kostnad i årspriset (979 kr/år).</p>
+                `;
+            }
+        }
+
+        function selectSuggestedDomain(domainName) {
+            document.getElementById('domain-input').value = domainName;
+            checkDomain();
+        }
+
+        function updateSummary() {
+            const tplNames = {
+                'tech_dev': 'Tech & Specialist Grid',
+                'executive': 'Editorial Executive Leader',
+                'creative': 'Creative Studio Bento'
+            };
+            const themeNames = {
+                'theme-nordic': 'Skandinavisk Skog',
+                'theme-dark': 'Midnatt OLED',
+                'theme-warm': 'Varm Terrakotta',
+                'theme-ocean': 'Havsblå'
+            };
+
+            document.getElementById('summary-template').innerText = tplNames[state.template];
+            document.getElementById('summary-theme').innerText = themeNames[state.theme];
+            document.getElementById('summary-domain').innerText = state.domain || 'Ej vald';
+        }
+
+        function processOrder() {
+            const name = document.getElementById('cust-name').value;
+            const email = document.getElementById('cust-email').value;
+
+            if (!name || !email) {
+                alert('Vänligen fyll i alla obligatoriska fakturauppgifter.');
+                return;
+            }
+
+            document.getElementById('checkout-form-container').style.display = 'none';
+            document.getElementById('order-success-container').style.display = 'block';
+        }
+
+        function downloadInvoicePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const custName = document.getElementById('cust-name').value;
+            const custId = document.getElementById('cust-id').value;
+            const custAddress = document.getElementById('cust-address').value;
+            const custCity = document.getElementById('cust-city').value;
+            const invoiceNum = 'FF-' + Math.floor(100000 + Math.random() * 900000);
+            const today = new Date().toISOString().slice(0, 10);
+
+            doc.setFontSize(22);
+            doc.setTextColor(34, 51, 29);
+            doc.text("FAKTURA - FormFolio.se", 20, 25);
+
+            doc.setFontSize(10);
+            doc.setTextColor(100);
+            doc.text(`Fakturanummer: ${invoiceNum}`, 20, 35);
+            doc.text(`Fakturadatum: ${today}`, 20, 41);
+            doc.text(`Betalningsvillkor: 30 dagar nettos`, 20, 47);
+
+            doc.setFontSize(12);
+            doc.setTextColor(0);
+            doc.text("Faktureras till:", 120, 35);
+            doc.setFontSize(10);
+            doc.text(custName, 120, 42);
+            doc.text(`Org/Personnr: ${custId}`, 120, 48);
+            doc.text(custAddress, 120, 54);
+            doc.text(custCity, 120, 60);
+
+            doc.setFillColor(228, 235, 217);
+            doc.rect(20, 75, 170, 8, 'F');
+            doc.setFont("helvetica", "bold");
+            doc.text("Beskrivning", 25, 80);
+            doc.text("Period", 110, 80);
+            doc.text("Belopp (SEK)", 160, 80);
+
+            doc.setFont("helvetica", "normal");
+            doc.text(`FormFolio Årslicens (${state.domain})`, 25, 92);
+            doc.text("1 År", 110, 92);
+            doc.text("783,20 kr", 160, 92);
+
+            doc.text("Moms (25%)", 25, 100);
+            doc.text("195,80 kr", 160, 100);
+
+            doc.line(20, 110, 190, 110);
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(12);
+            doc.text("Totalt att betala:", 110, 120);
+            doc.text("979,00 kr", 160, 120);
+
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.text("Betalningsuppgifter:", 20, 140);
+            doc.text("Bankgiro: 5542-9918", 20, 148);
+            doc.text(`OCR / Referens: ${invoiceNum.replace('FF-', '')}`, 20, 154);
+
+            doc.text("Tack för att du använder FormFolio.se!", 20, 180);
+
+            doc.save(`Faktura_${invoiceNum}.pdf`);
+        }
+
+        /* Ladda ned färdig HTML-kod för den exporterade hemsidan med den valda mallen */
+        function downloadPortfolioCode() {
+            const previewHTML = document.getElementById('preview-frame').innerHTML;
+
+            const fileContent = `<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${state.data.name} – Official Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;700;800&family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --p-bg: #f8f6f0; --p-bg-alt: #eee8dc; --p-card: #ffffff; --p-text: #181c19;
+            --p-muted: #56615a; --p-accent: #22331d; --p-accent-hover: #344d2d; --p-accent-light: #e4ebd9; --p-border: #ded8cb;
+        }
+        ${state.theme === 'theme-dark' ? `:root { --p-bg: #0b0e0f; --p-bg-alt: #14191b; --p-card: #1c2225; --p-text: #f0f4f6; --p-muted: #94a3b8; --p-accent: #10b981; --p-accent-hover: #059669; --p-accent-light: rgba(16, 185, 129, 0.15); --p-border: #283237; }` : ''}
+        ${state.theme === 'theme-warm' ? `:root { --p-bg: #faf6f0; --p-bg-alt: #f2e7dc; --p-card: #ffffff; --p-text: #2c221e; --p-muted: #78655b; --p-accent: #9a4c28; --p-accent-hover: #7e3c1d; --p-accent-light: #f7e8df; --p-border: #e8d7cb; }` : ''}
+        ${state.theme === 'theme-ocean' ? `:root { --p-bg: #f3f7f9; --p-bg-alt: #e1ebf0; --p-card: #ffffff; --p-text: #0f1c24; --p-muted: #4e6573; --p-accent: #133c4d; --p-accent-hover: #0c2834; --p-accent-light: #deedf3; --p-border: #c8dce5; }` : ''}
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--p-bg); color: var(--p-text); font-family: 'Plus Jakarta Sans', sans-serif; max-width: 900px; margin: 0 auto; padding: 40px 20px; line-height: 1.6; }
+        
+        .portfolio-wrapper { display: flex; flex-direction: column; gap: 24px; }
+        .tpl-tech-hero { display: flex; align-items: center; justify-content: space-between; gap: 28px; background: var(--p-card); border: 1px solid var(--p-border); border-radius: 16px; padding: 28px; border-left: 6px solid var(--p-accent); }
+        .tpl-tech-hero-avatar { width: 130px; height: 130px; border-radius: 20px; object-fit: cover; border: 2px solid var(--p-accent); flex-shrink: 0; order: 2; }
+        
+        .tpl-exec-hero { text-align: center; background: var(--p-card); border: 1px solid var(--p-border); border-radius: 16px; padding: 36px 28px; display: flex; flex-direction: column; align-items: center; }
+        .tpl-exec-hero-avatar { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 1px solid var(--p-border); box-shadow: 0 10px 25px rgba(0,0,0,0.08); margin-bottom: 20px; }
+        
+        .tpl-bento-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .tpl-bento-hero { grid-column: span 2; background: var(--p-card); border: 1px solid var(--p-border); border-radius: 24px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+        .tpl-bento-avatar { width: 130px; height: 130px; border-radius: 24px; object-fit: cover; order: 2; flex-shrink: 0; }
+        .tpl-bento-card { background: var(--p-card); border: 1px solid var(--p-border); border-radius: 20px; padding: 24px; }
+
+        .btn-action { background: var(--p-accent); color: #ffffff; padding: 10px 22px; border-radius: 24px; font-weight: 700; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-outline { border: 1px solid var(--p-accent); color: var(--p-accent); padding: 10px 22px; border-radius: 24px; font-weight: 700; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        
+        .skills-badge-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+        .skill-badge { background: var(--p-bg-alt); color: var(--p-text); border: 1px solid var(--p-border); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+        
+        .site-footer { background: var(--p-card); border: 1px solid var(--p-border); border-radius: 16px; padding: 24px; text-align: center; margin-top: 10px; }
+        .site-footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 12px; }
+        .site-footer-links a { color: var(--p-accent); font-weight: 700; font-size: 0.92rem; text-decoration: none; }
+        .site-footer-copy { font-size: 0.82rem; color: var(--p-muted); }
+
+        /* MOBILANPASSNING */
+        @media (max-width: 650px) {
+            .tpl-tech-hero { flex-direction: column; text-align: center; }
+            .tpl-tech-hero-avatar { order: -1 !important; margin-bottom: 12px; }
+            .tpl-bento-grid { grid-template-columns: 1fr; }
+            .tpl-bento-hero { grid-column: span 1; flex-direction: column; text-align: center; }
+            .tpl-bento-avatar { order: -1 !important; margin-bottom: 12px; }
+            .site-footer-links { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+    ${previewHTML}
+</body>
+</html>`;
+
+            const blob = new Blob([fileContent], { type: 'text/html' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'index.html';
+            a.click();
+        }
+
+        // Initiera appen
+        renderEditorExperiences();
+        updatePreview();
+    </script>
+</body>
+</html>
