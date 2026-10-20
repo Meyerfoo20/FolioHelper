@@ -941,7 +941,7 @@
     <section class="hero-landing">
         <div class="hero-landing-content">
             <h1>Skapa din egna portfolio hemsida på endast <span style="color: var(--accent-hover);">5 minuter</span></h1>
-            <p>Välj bland tre skräddarsydda designmodeller. Anpassa innehåll, färger och domän i vår kordinfria redigerare och ladda ner färdig HTML & faktura direkt.</p>
+            <p>Välj bland tre skräddarsydda designmodeller. Anpassa innehåll, färger och egen domän i vår kodfria redigerare och få faktura direkt.</p>
             
             <button class="btn btn-primary" style="padding: 16px 36px; font-size:1.1rem; border-radius:30px;" onclick="scrollToStepper()">
                 Bygg Din Portfölj Nu
@@ -951,10 +951,6 @@
                 <div class="hero-feature-item">
                     <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#84cc16" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     Mobilanpassad bild i topp
-                </div>
-                <div class="hero-feature-item">
-                    <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#84cc16" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    100% Egenkodad Export (.html)
                 </div>
                 <div class="hero-feature-item">
                     <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#84cc16" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -1002,12 +998,59 @@
             </div>
 
             <div class="templates-grid">
-                <!-- Mall 1 -->
+                <!-- Mall 1: Tech & Specialist Grid -->
                 <div class="template-card selected" onclick="selectTemplate('tech_dev', this)">
                     <div class="template-preview-banner">
                         <span class="template-badge">Populärast</span>
-                        <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:1.35rem; color:var(--text-main);">Tech & Specialist Grid</div>
-                        <div style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;">Skarp källkodskänsla med ramar & taggar</div>
+                        <svg width="260" height="130" viewBox="0 0 260 130" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto; margin-top: 10px;">
+                            <!-- Mörkt läge webbläsarram -->
+                            <rect x="2" y="2" width="256" height="126" rx="8" fill="#090d11" stroke="#1e293b" stroke-width="1.5"/>
+                            <!-- Header med fönsterknappar -->
+                            <path d="M2 10C2 5.58172 5.58172 2 10 2H250C254.418 2 258 5.58172 258 10V20H2V10Z" fill="#12181f"/>
+                            <circle cx="12" cy="11" r="3" fill="#ef4444"/>
+                            <circle cx="22" cy="11" r="3" fill="#f59e0b"/>
+                            <circle cx="32" cy="11" r="3" fill="#10b981"/>
+                            <!-- Navigering & Logotyp -->
+                            <rect x="12" y="23" width="34" height="4" rx="2" fill="#84cc16"/>
+                            <rect x="175" y="24" width="16" height="2.5" rx="1" fill="#94a3b8"/>
+                            <rect x="195" y="24" width="16" height="2.5" rx="1" fill="#94a3b8"/>
+                            <rect x="215" y="24" width="16" height="2.5" rx="1" fill="#94a3b8"/>
+                            <circle cx="242" cy="25" r="3" fill="#84cc16" opacity="0.3" stroke="#84cc16" stroke-width="0.8"/>
+                            <!-- Hero Sektion -->
+                            <!-- Status & Plats -->
+                            <circle cx="14" cy="35" r="2" fill="#84cc16"/>
+                            <rect x="19" y="33.5" width="48" height="3" rx="1.5" fill="#84cc16"/>
+                            <!-- Rubrik (Namn) -->
+                            <rect x="12" y="40" width="88" height="7" rx="2" fill="#f8fafc"/>
+                            <!-- Kursiv Subtitle i grön -->
+                            <rect x="12" y="50" width="108" height="4.5" rx="2" fill="#84cc16"/>
+                            <!-- Bio text rader -->
+                            <rect x="12" y="58" width="118" height="2.5" rx="1" fill="#94a3b8" opacity="0.6"/>
+                            <rect x="12" y="63" width="98" height="2.5" rx="1" fill="#94a3b8" opacity="0.6"/>
+                            <!-- Knappar -->
+                            <rect x="12" y="70" width="38" height="10" rx="3" fill="#84cc16"/>
+                            <rect x="54" y="70" width="34" height="10" rx="3" fill="none" stroke="#1e293b" stroke-width="1"/>
+                            <rect x="60" y="73.5" width="22" height="3" rx="1.5" fill="#f8fafc"/>
+                            <!-- Sidopanel med Profilbild (Grön ram) -->
+                            <rect x="172" y="34" width="38" height="38" rx="8" fill="#161f28" stroke="#84cc16" stroke-width="1.5"/>
+                            <circle cx="191" cy="48" r="7" fill="#84cc16" opacity="0.8"/>
+                            <path d="M181 57 C181 53, 201 53, 201 57" fill="#84cc16" opacity="0.8"/>
+                            <rect x="172" y="76" width="38" height="3" rx="1.5" fill="#84cc16" opacity="0.8"/>
+                            <!-- Nedre sektion: Kort/Projekt/Erfarenheter -->
+                            <rect x="12" y="86" width="110" height="36" rx="5" fill="#161f28" stroke="#1e293b"/>
+                            <rect x="18" y="92" width="30" height="3.5" rx="1.5" fill="#84cc16"/>
+                            <rect x="18" y="100" width="22" height="5" rx="2.5" fill="#84cc16" opacity="0.3"/>
+                            <rect x="44" y="100" width="26" height="5" rx="2.5" fill="#1e293b" stroke="#84cc16" stroke-width="0.5"/>
+                            <rect x="74" y="100" width="20" height="5" rx="2.5" fill="#1e293b"/>
+                            <rect x="18" y="110" width="92" height="2.5" rx="1" fill="#94a3b8" opacity="0.5"/>
+
+                            <rect x="130" y="86" width="118" height="36" rx="5" fill="#161f28" stroke="#1e293b"/>
+                            <rect x="136" y="92" width="42" height="3.5" rx="1.5" fill="#f8fafc"/>
+                            <rect x="136" y="100" width="20" height="5" rx="2" fill="#84cc16" opacity="0.2"/>
+                            <rect x="160" y="100" width="24" height="5" rx="2" fill="#1e293b"/>
+                            <rect x="136" y="109" width="102" height="2.5" rx="1" fill="#94a3b8" opacity="0.5"/>
+                            <rect x="136" y="114" width="82" height="2.5" rx="1" fill="#94a3b8" opacity="0.5"/>
+                        </svg>
                     </div>
                     <div class="template-info">
                         <div>
@@ -1018,11 +1061,47 @@
                     </div>
                 </div>
 
-                <!-- Mall 2 -->
+                <!-- Mall 2: Editorial Executive Leader -->
                 <div class="template-card" onclick="selectTemplate('executive', this)">
                     <div class="template-preview-banner">
-                        <div style="font-family:'Playfair Display'; font-weight:700; font-size:1.35rem; color:var(--text-main);">Editorial Executive</div>
-                        <div style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;">Centrerad redaktionell serif-klassiker</div>
+                        <svg width="260" height="130" viewBox="0 0 260 130" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto;">
+                            <!-- Ljust läge webbläsarram -->
+                            <rect x="2" y="2" width="256" height="126" rx="8" fill="#fafafa" stroke="#ded8cb" stroke-width="1.5"/>
+                            <!-- Header med fönsterknappar -->
+                            <path d="M2 10C2 5.58172 5.58172 2 10 2H250C254.418 2 258 5.58172 258 10V20H2V10Z" fill="#eee8dc"/>
+                            <circle cx="12" cy="11" r="3" fill="#ef4444"/>
+                            <circle cx="22" cy="11" r="3" fill="#f59e0b"/>
+                            <circle cx="32" cy="11" r="3" fill="#10b981"/>
+                            <!-- Centrerat kort 1: Hero (editorial-hero) -->
+                            <rect x="30" y="22" width="200" height="68" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+                            <!-- Centrerad cirkulär avatar -->
+                            <circle cx="130" cy="35" r="10" fill="#fafafa" stroke="#10b981" stroke-width="1.5"/>
+                            <circle cx="130" cy="32" r="3.5" fill="#10b981"/>
+                            <path d="M123 41 C123 38, 137 38, 137 41" fill="#10b981"/>
+                            <!-- Centrerat Namn (Playfair serif känsla) -->
+                            <rect x="85" y="48" width="90" height="5" rx="2" fill="#0f172a"/>
+                            <!-- Subtitle i grön accent -->
+                            <rect x="95" y="55" width="70" height="3" rx="1.5" fill="#10b981"/>
+                            <!-- Plats -->
+                            <rect x="105" y="60" width="50" height="2" rx="1" fill="#64748b" opacity="0.7"/>
+                            <!-- Bio lead (kursiv känsla) -->
+                            <rect x="65" y="64" width="130" height="2.5" rx="1" fill="#64748b" opacity="0.6"/>
+                            <!-- Boka Möte Knapp (rundad pill) -->
+                            <rect x="100" y="69" width="60" height="8" rx="4" fill="#10b981"/>
+                            <rect x="110" y="71.5" width="40" height="3" rx="1" fill="#ffffff"/>
+                            <!-- Centrerat kort 2: Erfarenhet (section-box) -->
+                            <rect x="30" y="94" width="200" height="32" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+                            <rect x="38" y="98" width="75" height="3.5" rx="1.5" fill="#0f172a"/>
+                            <line x1="38" y1="103" x2="222" y2="103" stroke="#e2e8f0" stroke-width="0.8"/>
+                            <!-- Erfarenhetsrad 1 -->
+                            <rect x="38" y="106" width="55" height="3" rx="1" fill="#0f172a"/>
+                            <rect x="38" y="110" width="45" height="2" rx="1" fill="#10b981"/>
+                            <rect x="38" y="113" width="120" height="2" rx="1" fill="#64748b" opacity="0.5"/>
+                            <line x1="38" y1="117" x2="222" y2="117" stroke="#f1f5f9" stroke-width="0.8"/>
+                            <!-- Erfarenhetsrad 2 -->
+                            <rect x="38" y="119" width="50" height="3" rx="1" fill="#0f172a"/>
+                            <rect x="38" y="123" width="40" height="2" rx="1" fill="#10b981"/>
+                        </svg>
                     </div>
                     <div class="template-info">
                         <div>
@@ -1033,11 +1112,59 @@
                     </div>
                 </div>
 
-                <!-- Mall 3 -->
+                <!-- Mall 3: Editorial Portfolio -->
                 <div class="template-card" onclick="selectTemplate('creative', this)">
                     <div class="template-preview-banner">
-                        <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:1.35rem; color:var(--text-main);">Editorial Portfolio</div>
-                        <div style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;">Elegant portfolio med research- och meritsektioner</div>
+                        <svg width="260" height="130" viewBox="0 0 260 130" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto;">
+                            <!-- Nordiskt ljust läge webbläsarram -->
+                            <rect x="2" y="2" width="256" height="126" rx="8" fill="#f6f3ec" stroke="#d8d2c6" stroke-width="1.5"/>
+                            <!-- Header med fönsterknappar -->
+                            <path d="M2 10C2 5.58172 5.58172 2 10 2H250C254.418 2 258 5.58172 258 10V20H2V10Z" fill="#e8e2d5"/>
+                            <circle cx="12" cy="11" r="3" fill="#ef4444"/>
+                            <circle cx="22" cy="11" r="3" fill="#f59e0b"/>
+                            <circle cx="32" cy="11" r="3" fill="#10b981"/>
+                            <!-- Sticky Navbar med logotyp & navlänkar -->
+                            <rect x="12" y="23" width="38" height="4" rx="2" fill="#2a2620"/>
+                            <rect x="180" y="24" width="16" height="2.5" rx="1" fill="#756f66"/>
+                            <rect x="202" y="24" width="16" height="2.5" rx="1" fill="#756f66"/>
+                            <rect x="224" y="24" width="16" height="2.5" rx="1" fill="#756f66"/>
+                            <line x1="2" y1="29" x2="258" y2="29" stroke="#d8d2c6" stroke-width="0.8"/>
+                            <!-- Hero Sektion (2-kolumns grid) -->
+                            <!-- Vänster: Eyebrow, Serif H1 med grön em, ingress, knappar -->
+                            <rect x="12" y="33" width="65" height="2.5" rx="1" fill="#756f66"/>
+                            <rect x="12" y="38" width="80" height="6" rx="1.5" fill="#2a2620"/>
+                            <rect x="95" y="38" width="30" height="6" rx="1.5" fill="#1f6b4f"/>
+                            <rect x="12" y="46" width="100" height="6" rx="1.5" fill="#2a2620"/>
+                            <rect x="12" y="55" width="125" height="2.5" rx="1" fill="#756f66"/>
+                            <rect x="12" y="59" width="105" height="2.5" rx="1" fill="#756f66"/>
+                            <rect x="12" y="65" width="40" height="9" rx="2" fill="#1f6b4f"/>
+                            <rect x="18" y="68.5" width="28" height="2" fill="#fcfaf6"/>
+                            <rect x="56" y="65" width="36" height="9" rx="2" fill="none" stroke="#2a2620" stroke-width="0.8"/>
+                            <rect x="62" y="68.5" width="24" height="2" fill="#2a2620"/>
+                            <!-- Höger: Stående Porträttbild (4:5 proportioner) -->
+                            <rect x="178" y="31" width="38" height="46" rx="2" fill="#e8e2d5" stroke="#d8d2c6" stroke-width="1"/>
+                            <circle cx="197" cy="47" r="8" fill="#1f6b4f" opacity="0.7"/>
+                            <path d="M187 66 C187 58, 207 58, 207 66" fill="#1f6b4f" opacity="0.7"/>
+                            <!-- Sektionsavdelare -->
+                            <line x1="12" y1="81" x2="248" y2="81" stroke="#d8d2c6" stroke-width="0.8"/>
+                            <!-- Forskning / Publikationer med grön vänsterlinje -->
+                            <rect x="12" y="84" width="50" height="2.5" rx="1" fill="#756f66"/>
+                            <rect x="12" y="88" width="40" height="4" rx="1.5" fill="#2a2620"/>
+                            <!-- Paper 1 -->
+                            <line x1="12" y1="96" x2="12" y2="123" stroke="#1f6b4f" stroke-width="2.5"/>
+                            <rect x="18" y="96" width="35" height="2" rx="1" fill="#756f66"/>
+                            <rect x="18" y="100" width="110" height="4" rx="1" fill="#2a2620"/>
+                            <rect x="18" y="106" width="60" height="2" rx="1" fill="#1f6b4f"/>
+                            <rect x="18" y="110" width="115" height="2" rx="1" fill="#756f66" opacity="0.8"/>
+                            <rect x="18" y="114" width="95" height="2" rx="1" fill="#756f66" opacity="0.8"/>
+                            <!-- Paper 2 -->
+                            <line x1="145" y1="96" x2="145" y2="123" stroke="#1f6b4f" stroke-width="2.5"/>
+                            <rect x="151" y="96" width="30" height="2" rx="1" fill="#756f66"/>
+                            <rect x="151" y="100" width="90" height="4" rx="1" fill="#2a2620"/>
+                            <rect x="151" y="106" width="50" height="2" rx="1" fill="#1f6b4f"/>
+                            <rect x="151" y="110" width="95" height="2" rx="1" fill="#756f66" opacity="0.8"/>
+                            <rect x="151" y="114" width="75" height="2" rx="1" fill="#756f66" opacity="0.8"/>
+                        </svg>
                     </div>
                     <div class="template-info">
                         <div>
