@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editorial Executive Leader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --p-accent: #10b981;
+            --p-bg: #fafafa;
+            --p-card: #ffffff;
+            --p-border: #e2e8f0;
+            --p-text: #0f172a;
+            --p-muted: #64748b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--p-bg); color: var(--p-text); font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.7; padding: 60px 20px; }
+
+        .wrapper { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+
+        .editorial-hero {
+            text-align: center; background: var(--p-card); border: 1px solid var(--p-border);
+            border-radius: 24px; padding: 60px 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+
+        .avatar-circle {
+            width: 150px; height: 150px; border-radius: 50%; object-fit: cover;
+            margin-bottom: 24px; border: 4px solid var(--p-bg); box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+
+        h1 { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; margin-bottom: 8px; }
+        .executive-subtitle { font-size: 1.05rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--p-accent); font-weight: 700; margin-bottom: 20px; }
+
+        .bio-lead { font-size: 1.15rem; color: var(--p-muted); max-width: 700px; margin: 0 auto 28px auto; font-family: 'Playfair Display', serif; font-style: italic; }
+
+        .section-box { background: var(--p-card); border: 1px solid var(--p-border); border-radius: 20px; padding: 40px; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; border-bottom: 2px solid var(--p-border); padding-bottom: 12px; margin-bottom: 24px; }
+
+        .exp-row { border-bottom: 1px solid var(--p-border); padding-bottom: 20px; margin-bottom: 20px; }
+        .exp-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+        .btn-dark { background: var(--p-accent); color: var(--p-btn-text, #fff); padding: 12px 28px; border-radius: 30px; font-weight: 700; text-decoration: none; display: inline-block; }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <section class="editorial-hero">
+            <img id="img-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" class="avatar-circle" alt="Profil">
+            <h1 id="txt-name">Alex Lindqvist</h1>
+            <div id="txt-title" class="executive-subtitle">Senior Systemarkitekt & IT-Konsult</div>
+            <p id="txt-location" style="color:var(--p-muted); margin-bottom:16px;">Stockholm, Sverige</p>
+            <p id="txt-bio" class="bio-lead" data-section="about">Med över 8 års erfarenhet hjälper jag företag att bygga skalbara molnsystem, modernisera infrastruktur och leda digitala team.</p>
+            <a id="btn-email" href="mailto:alex@lindqvist.se" class="btn-dark">Boka Strategimöte</a>
+        </section>
+
+        <section class="section-box" id="section-experience">
+            <h2 class="section-title">Ledarskapsbefattningar & Karriär</h2>
+            <div id="exp-list"></div>
+        </section>
+
+        <section class="section-box" id="section-education">
+            <h2 class="section-title">Utbildning & certifikat</h2>
+            <p id="txt-edu1"></p>
+            <p id="txt-edu2" style="color:var(--p-accent); margin-top:6px;"></p>
+        </section>
+
+        <section class="section-box" id="section-skills">
+            <h2 class="section-title">Expertisområden</h2>
+            <div id="skills-list" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+        </section>
+    </div>
+
+    <script>
+        const portfolioThemes = {
+            'theme-nordic': { '--p-bg': '#f8f6f0', '--p-bg-alt': '#eee8dc', '--p-card': '#ffffff', '--p-glass': 'rgba(248, 246, 240, 0.82)', '--p-text': '#181c19', '--p-muted': '#56615a', '--p-border': '#ded8cb', '--p-shadow': '0 12px 32px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.02)', '--p-btn-text': '#ffffff', '--p-footer': '#0f2338', '--p-accent': '#123250', '--p-accent-hover': '#1d4872', '--p-accent-light': '#dbe8f5', '--p-pop': '#38bdf8' },
+            'theme-dark': { '--p-bg': '#f8f6f0', '--p-bg-alt': '#eee8dc', '--p-card': '#ffffff', '--p-glass': 'rgba(248, 246, 240, 0.82)', '--p-text': '#181c19', '--p-muted': '#56615a', '--p-border': '#ded8cb', '--p-shadow': '0 12px 32px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.02)', '--p-btn-text': '#ffffff', '--p-footer': '#152c20', '--p-accent': '#1b3b2b', '--p-accent-hover': '#29543e', '--p-accent-light': '#e3ebd9', '--p-pop': '#34d399' },
+            'theme-warm': { '--p-bg': '#f8f6f0', '--p-bg-alt': '#eee8dc', '--p-card': '#ffffff', '--p-glass': 'rgba(248, 246, 240, 0.82)', '--p-text': '#181c19', '--p-muted': '#56615a', '--p-border': '#ded8cb', '--p-shadow': '0 12px 32px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.02)', '--p-btn-text': '#ffffff', '--p-footer': '#24122b', '--p-accent': '#421a4f', '--p-accent-hover': '#5e2770', '--p-accent-light': '#f1e4f5', '--p-pop': '#c084fc' },
+            'theme-ocean': { '--p-bg': '#f8f6f0', '--p-bg-alt': '#eee8dc', '--p-card': '#ffffff', '--p-glass': 'rgba(248, 246, 240, 0.82)', '--p-text': '#181c19', '--p-muted': '#56615a', '--p-border': '#ded8cb', '--p-shadow': '0 12px 32px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.02)', '--p-btn-text': '#ffffff', '--p-footer': '#2b0910', '--p-accent': '#4a111c', '--p-accent-hover': '#691a29', '--p-accent-light': '#f5e4e7', '--p-pop': '#f43f5e' }
+        };
+
+        window.applyPortfolioData = function (d) {
+            const values = portfolioThemes[d.theme] || portfolioThemes['theme-nordic'];
+            Object.entries(values).forEach(([name, value]) => document.documentElement.style.setProperty(name, value));
+            document.getElementById('txt-name').textContent = d.name;
+            document.getElementById('txt-title').textContent = d.title;
+            document.getElementById('txt-location').textContent = d.location;
+            document.getElementById('txt-bio').textContent = d.bio;
+            document.getElementById('txt-bio').hidden = d.sections?.about === false;
+            document.getElementById('txt-edu1').textContent = d.edu1 || '';
+            document.getElementById('txt-edu2').textContent = d.edu2 || '';
+            document.getElementById('img-avatar').src = d.avatar;
+            document.getElementById('btn-email').href = `mailto:${d.email}`;
+            document.getElementById('skills-list').replaceChildren(...d.skills.split(',').filter(skill => skill.trim()).map(skill => {
+                const tag = document.createElement('span');
+                tag.className = 'skill-tag';
+                tag.textContent = skill.trim();
+                return tag;
+            }));
+            document.getElementById('exp-list').replaceChildren(...d.experiences.map(experience => {
+                const item = document.createElement('div');
+                item.className = 'exp-row';
+                const role = document.createElement('h3');
+                role.textContent = experience.role;
+                const company = document.createElement('div');
+                company.style.cssText = 'color:var(--p-accent);font-weight:700;font-size:0.88rem;margin:4px 0;';
+                company.textContent = `${experience.company} | ${experience.period}`;
+                const description = document.createElement('p');
+                description.style.color = 'var(--p-muted)';
+                description.textContent = experience.desc;
+                item.append(role, company, description);
+                return item;
+            }));
+            ['experience', 'education', 'skills'].forEach(section => {
+                document.getElementById(`section-${section}`).hidden = d.sections?.[section] === false;
+            });
+            if (window.parent !== window) {
+                window.parent.postMessage({ type: 'PORTFOLIO_RENDERED', html: document.documentElement.outerHTML }, '*');
+            }
+        };
+
+        window.addEventListener('message', event => {
+            if (event.data?.type === 'UPDATE_PORTFOLIO') window.applyPortfolioData(event.data.data);
+        });
+    </script>
+</body>
+</html>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FormFolio.se – Din Profil som Professionell Hemsida</title>
     
-    <!-- Google Fonts för Premium Typografi på alla 3 mallar -->
+    <!-- Google Fonts för Premium Typografi -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -14,79 +14,82 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
-        /* FormFolio App-Root */
         :root {
             --bg-main: #f8f6f0;
             --bg-alt: #eee8dc;
             --bg-card: #ffffff;
-            --bg-glass: rgba(248, 246, 240, 0.88);
+            --bg-glass: rgba(248, 246, 240, 0.82);
             --text-main: #181c19;
             --text-muted: #56615a;
             --border-color: #ded8cb;
-            --shadow-elevated: 0 16px 40px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.02);
+            --shadow-elevated: 0 12px 32px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.02);
             --btn-text: #ffffff;
-            --bg-footer: #152014;
-            --accent-main: #22331d;
-            --accent-hover: #344d2d;
-            --accent-light: #e4ebd9;
-            --accent-pop: #84cc16;
+            --bg-footer: #0f2338;
+            --accent-main: #123250;
+            --accent-hover: #1d4872;
+            --accent-light: #dbe8f5;
+            --accent-pop: #38bdf8;
             --danger-color: #ef4444;
             --radius-sm: 8px;
             --radius-md: 14px;
             --radius-lg: 20px;
         }
 
-        /* Dynamiska Teman för Portföljerna */
+        /* Dynamiska Teman för Portföljen */
         .theme-nordic {
             --p-bg: #f8f6f0;
             --p-bg-alt: #eee8dc;
             --p-card: #ffffff;
             --p-text: #181c19;
             --p-muted: #56615a;
-            --p-accent: #22331d;
-            --p-accent-hover: #344d2d;
-            --p-accent-light: #e4ebd9;
-            --p-pop: #84cc16;
+            --p-accent: #123250;
+            --p-accent-hover: #1d4872;
+            --p-accent-light: #dbe8f5;
+            --p-pop: #38bdf8;
             --p-border: #ded8cb;
+            --p-footer: #0f2338;
         }
 
         .theme-dark {
-            --p-bg: #0b0e0f;
-            --p-bg-alt: #14191b;
-            --p-card: #1c2225;
-            --p-text: #f0f4f6;
-            --p-muted: #94a3b8;
-            --p-accent: #10b981;
-            --p-accent-hover: #059669;
-            --p-accent-light: rgba(16, 185, 129, 0.15);
+            --p-bg: #f8f6f0;
+            --p-bg-alt: #eee8dc;
+            --p-card: #ffffff;
+            --p-text: #181c19;
+            --p-muted: #56615a;
+            --p-accent: #1b3b2b;
+            --p-accent-hover: #29543e;
+            --p-accent-light: #e3ebd9;
             --p-pop: #34d399;
-            --p-border: #283237;
+            --p-border: #ded8cb;
+            --p-footer: #152c20;
         }
 
         .theme-warm {
-            --p-bg: #faf6f0;
-            --p-bg-alt: #f2e7dc;
+            --p-bg: #f8f6f0;
+            --p-bg-alt: #eee8dc;
             --p-card: #ffffff;
-            --p-text: #2c221e;
-            --p-muted: #78655b;
-            --p-accent: #9a4c28;
-            --p-accent-hover: #7e3c1d;
-            --p-accent-light: #f7e8df;
-            --p-pop: #e07a5f;
-            --p-border: #e8d7cb;
+            --p-text: #181c19;
+            --p-muted: #56615a;
+            --p-accent: #421a4f;
+            --p-accent-hover: #5e2770;
+            --p-accent-light: #f1e4f5;
+            --p-pop: #c084fc;
+            --p-border: #ded8cb;
+            --p-footer: #24122b;
         }
 
         .theme-ocean {
-            --p-bg: #f3f7f9;
-            --p-bg-alt: #e1ebf0;
+            --p-bg: #f8f6f0;
+            --p-bg-alt: #eee8dc;
             --p-card: #ffffff;
-            --p-text: #0f1c24;
-            --p-muted: #4e6573;
-            --p-accent: #133c4d;
-            --p-accent-hover: #0c2834;
-            --p-accent-light: #deedf3;
-            --p-pop: #0284c7;
-            --p-border: #c8dce5;
+            --p-text: #181c19;
+            --p-muted: #56615a;
+            --p-accent: #4a111c;
+            --p-accent-hover: #691a29;
+            --p-accent-light: #f5e4e7;
+            --p-pop: #f43f5e;
+            --p-border: #ded8cb;
+            --p-footer: #2b0910;
         }
 
         * {
@@ -152,10 +155,72 @@
             border: 1px solid var(--border-color);
         }
 
+        /* STARTSIDA / HERO SEKTION */
+        .hero-landing {
+            background: linear-gradient(180deg, var(--bg-alt) 0%, var(--bg-main) 100%);
+            border-bottom: 1px solid var(--border-color);
+            padding: 60px 24px 50px 24px;
+            text-align: center;
+        }
+
+        .hero-landing-content {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--accent-light);
+            color: var(--accent-main);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .hero-landing h1 {
+            font-size: 3rem;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-weight: 800;
+            line-height: 1.15;
+            color: var(--text-main);
+            margin-bottom: 16px;
+        }
+
+        .hero-landing p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .hero-feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
         /* Stegindikator */
         .stepper {
             max-width: 1050px;
-            margin: 28px auto 10px auto;
+            margin: 36px auto 10px auto;
             padding: 0 20px;
             display: flex;
             justify-content: space-between;
@@ -249,8 +314,8 @@
             margin-bottom: 30px;
         }
 
-        .section-title h1 {
-            font-size: 2.3rem;
+        .section-title h2 {
+            font-size: 2.2rem;
             color: var(--text-main);
             margin-bottom: 8px;
             font-family: 'Bricolage Grotesque', sans-serif;
@@ -258,7 +323,7 @@
 
         .section-title p {
             color: var(--text-muted);
-            font-size: 1.08rem;
+            font-size: 1.05rem;
         }
 
         /* Mallval Grid */
@@ -335,28 +400,106 @@
             margin-bottom: 18px;
         }
 
-        /* Redigerare Layout */
+        /* Fullskärms Redigerare Layout med Slide-in Varukorgs-panel */
         .editor-layout {
-            display: grid;
-            grid-template-columns: 480px 1fr;
-            gap: 28px;
-            align-items: start;
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
-        @media (max-width: 1100px) {
-            .editor-layout {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .editor-panel {
+        /* Redigeringspanel - Slide-in låda från sidan som en varukorg */
+        .editor-panel-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 480px;
+            max-width: 90vw;
+            height: 100vh;
             background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 26px;
-            box-shadow: var(--shadow-elevated);
-            max-height: 880px;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            padding: 24px;
             overflow-y: auto;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateX(100%);
+            border-left: 1px solid var(--border-color);
+        }
+
+        .editor-panel-drawer.open {
+            transform: translateX(0);
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .drawer-close-btn {
+            background: var(--bg-alt);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+        }
+
+        .drawer-close-btn:hover {
+            background: #fee2e2;
+            color: var(--danger-color);
+            border-color: #fca5a5;
+        }
+
+        /* Mörk bakgrund overlay när slide-in panelen är öppen */
+        .drawer-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 35, 56, 0.4);
+            backdrop-filter: blur(2px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .drawer-backdrop.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .open-drawer-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-main);
+            color: #ffffff;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(18, 50, 80, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .open-drawer-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
         }
 
         .form-section-title {
@@ -405,7 +548,6 @@
             min-height: 80px;
         }
 
-        /* Dynamiska Kort i Redigeraren */
         .editor-item-box {
             background: var(--bg-main);
             border: 1px solid var(--border-color);
@@ -425,6 +567,9 @@
             font-weight: 700;
             cursor: pointer;
             float: right;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .delete-item-btn:hover {
@@ -460,6 +605,7 @@
             transform: scale(1.15);
         }
 
+        /* Preview Frame & Toolbar (Fullskärmsläge) */
         .preview-wrapper {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -468,7 +614,10 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            height: 880px;
+            height: 82vh;
+            min-height: 680px;
+            width: 100%;
+            transition: all 0.3s ease;
         }
 
         .preview-toolbar {
@@ -478,6 +627,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-shrink: 0;
+            gap: 12px;
         }
 
         .preview-dots {
@@ -524,17 +675,23 @@
         }
 
         .preview-frame.device-tablet {
-            max-width: 768px;
-            margin: 0 auto;
-            border-left: 1px solid var(--border-color);
-            border-right: 1px solid var(--border-color);
+            width: min(100%, 768px);
+            margin-inline: auto;
+            border-inline: 1px solid var(--border-color);
         }
 
         .preview-frame.device-mobile {
-            max-width: 414px;
-            margin: 0 auto;
-            border-left: 1px solid var(--border-color);
-            border-right: 1px solid var(--border-color);
+            width: min(100%, 414px);
+            margin-inline: auto;
+            border-inline: 1px solid var(--border-color);
+        }
+
+        .preview-frame iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            background: #ffffff;
         }
 
         /* Färgteman Step Grid */
@@ -753,213 +910,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.2rem;
             margin: 0 auto 24px auto;
         }
 
-        /* ------------------------------------------------------------- */
-        /* STILAR FÖR ALLA 3 MALLAR (UNIK LAYOUT & DATOR/MOBIL RESPONSIVITET) */
-        /* ------------------------------------------------------------- */
-
-        .preview-frame .portfolio-wrapper {
-            padding: 32px 24px;
-            background: var(--p-bg);
-            color: var(--p-text);
-            min-height: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        /* MALL 1: TECH & SPECIALIST (BRICOLAGE GRID & CODE STYLING) */
-        .preview-frame .tpl-tech-hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 28px;
-            background: var(--p-card);
-            border: 1px solid var(--p-border);
-            border-radius: 16px;
-            padding: 28px;
-            border-left: 6px solid var(--p-accent);
-        }
-
-        .preview-frame .tpl-tech-hero-avatar {
-            width: 130px;
-            height: 130px;
-            border-radius: 20px;
-            object-fit: cover;
-            border: 2px solid var(--p-accent);
-            flex-shrink: 0;
-            order: 2; /* Dator: Avatar till höger */
-        }
-
-        .preview-frame .tpl-tech-hero-content {
-            flex-grow: 1;
-            order: 1;
-        }
-
-        /* MALL 2: EXECUTIVE & LEADER (EDITORIAL CLASSIC & SERIF TYPOGRAPHY) */
-        .preview-frame .tpl-exec-hero {
-            text-align: center;
-            background: var(--p-card);
-            border: 1px solid var(--p-border);
-            border-radius: 16px;
-            padding: 36px 28px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .preview-frame .tpl-exec-hero-avatar {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 1px solid var(--p-border);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            margin-bottom: 20px;
-        }
-
-        /* MALL 3: CREATIVE STUDIO (BENTO BOX GRID) */
-        .preview-frame .tpl-bento-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .preview-frame .tpl-bento-hero {
-            grid-column: span 2;
-            background: var(--p-card);
-            border: 1px solid var(--p-border);
-            border-radius: 24px;
-            padding: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 24px;
-        }
-
-        .preview-frame .tpl-bento-avatar {
-            width: 130px;
-            height: 130px;
-            border-radius: 24px;
-            object-fit: cover;
-            order: 2;
+        .svg-icon {
+            display: inline-block;
+            vertical-align: -2px;
             flex-shrink: 0;
         }
 
-        .preview-frame .tpl-bento-card {
-            background: var(--p-card);
-            border: 1px solid var(--p-border);
-            border-radius: 20px;
-            padding: 24px;
-        }
-
-        /* Gemensamma stilar för element i förhandsgranskningen */
-        .preview-frame .btn-action {
-            background: var(--p-accent);
-            color: #ffffff;
-            padding: 10px 22px;
-            border-radius: 24px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .preview-frame .btn-outline {
-            border: 1px solid var(--p-accent);
-            color: var(--p-accent);
-            padding: 10px 22px;
-            border-radius: 24px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .preview-frame .skills-badge-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .preview-frame .skill-badge {
-            background: var(--p-bg-alt);
-            color: var(--p-text);
-            border: 1px solid var(--p-border);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .preview-frame .site-footer {
-            background: var(--p-card);
-            border: 1px solid var(--p-border);
-            border-radius: 16px;
-            padding: 24px;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .preview-frame .site-footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
-
-        .preview-frame .site-footer-links a {
-            color: var(--p-accent);
-            font-weight: 700;
-            font-size: 0.92rem;
-            text-decoration: none;
-        }
-
-        .preview-frame .site-footer-copy {
-            font-size: 0.82rem;
-            color: var(--p-muted);
-        }
-
-        /* ------------------------------------------------------------- */
-        /* MOBILANPASSNING (MEDIA QUERIES): BILDEN HÖGST UPPI HERON! */
-        /* ------------------------------------------------------------- */
-
-        @media (max-width: 650px) {
-            .preview-frame .tpl-tech-hero {
-                flex-direction: column;
-                text-align: center;
-            }
-            .preview-frame .tpl-tech-hero-avatar {
-                order: -1 !important; /* FLYTTAR BILDEN HÖGST UPPI HERON PÅ MOBIL */
-                margin-bottom: 12px;
-            }
-
-            .preview-frame .tpl-bento-grid {
-                grid-template-columns: 1fr;
-            }
-            .preview-frame .tpl-bento-hero {
-                grid-column: span 1;
-                flex-direction: column;
-                text-align: center;
-            }
-            .preview-frame .tpl-bento-avatar {
-                order: -1 !important; /* FLYTTAR BILDEN HÖGST UPPI HERON PÅ MOBIL */
-                margin-bottom: 12px;
-            }
-
-            .preview-frame .site-footer-links {
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -968,16 +927,49 @@
     <header>
         <div class="header-container">
             <a href="#" class="logo">
-                FormFolio <span class="logo-badge">Ingen kod krävs</span>
+                FormFolio
             </a>
-            <div class="price-tag">
-                Årsplan: <strong>979 kr/år</strong> (Faktura)
+            <div style="display:flex; align-items:center; gap:16px;">
+                <div>
+                    Årsplan: <strong>979 kr/år</strong> (Faktura)
+                </div>
             </div>
         </div>
     </header>
 
+    <!-- STARTSIDA / HERO SEKTION -->
+    <section class="hero-landing">
+        <div class="hero-landing-content">
+            <h1>Skapa din egna portfolio hemsida på endast <span style="color: var(--accent-hover);">5 minuter</span></h1>
+            <p>Välj bland tre skräddarsydda designmodeller. Anpassa innehåll, färger och domän i vår kordinfria redigerare och ladda ner färdig HTML & faktura direkt.</p>
+            
+            <button class="btn btn-primary" style="padding: 16px 36px; font-size:1.1rem; border-radius:30px;" onclick="scrollToStepper()">
+                Bygg Din Portfölj Nu
+            </button>
+
+            <div class="hero-features">
+                <div class="hero-feature-item">
+                    <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#84cc16" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Mobilanpassad bild i topp
+                </div>
+                <div class="hero-feature-item">
+                    <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#84cc16" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    100% Egenkodad Export (.html)
+                </div>
+                <div class="hero-feature-item">
+                    <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#84cc16" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Inkluderar PDF-faktura
+                </div>
+                <div class="hero-feature-item">
+                    <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#84cc16" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Komplett portfolioförhandsvisning
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Stegindikator -->
-    <div class="stepper">
+    <div id="builder-start" class="stepper">
         <div class="step-item active" onclick="goToStep(1)">
             <div class="step-circle">1</div>
             <span class="step-label">Välj design</span>
@@ -1005,8 +997,8 @@
         <!-- STEG 1: VÄLJ MALL -->
         <section id="step-1" class="step-content active">
             <div class="section-title">
-                <h1>Välj en unik designmodell</h1>
-                <p>Tre unika layouter. Alla är responsiva med bild i topp på mobil och inbyggd footer.</p>
+                <h2>Välj en unik designmodell</h2>
+                <p>Alla mallar är responsiva med bild i topp på mobil och inbyggd footer.</p>
             </div>
 
             <div class="templates-grid">
@@ -1020,7 +1012,7 @@
                     <div class="template-info">
                         <div>
                             <h3>Tech & Specialist Grid</h3>
-                            <p>Anpassad för utvecklare, IT-konsulter och ingengörer. Modern struktur med framhävda erfarenhetsblock och kompetens-badges.</p>
+                            <p>Anpassad för utvecklare, IT-konsulter och ingenjörer. Modern struktur med framhävda erfarenhetsblock och kompetens-badges.</p>
                         </div>
                         <button class="btn btn-secondary" style="width:100%;">Välj denna mall</button>
                     </div>
@@ -1035,7 +1027,7 @@
                     <div class="template-info">
                         <div>
                             <h3>Editorial Executive Leader</h3>
-                            <p>För rådgivare, chefer och ledare. Exklusiv, ren layout med *Playfair Display*, eleganta linjer och centrerat profilfokus.</p>
+                            <p>För rådgivare, chefer och ledare. Exklusiv, ren layout med Playfair Display, eleganta linjer och centrerat profilfokus.</p>
                         </div>
                         <button class="btn btn-secondary" style="width:100%;">Välj denna mall</button>
                     </div>
@@ -1044,13 +1036,13 @@
                 <!-- Mall 3 -->
                 <div class="template-card" onclick="selectTemplate('creative', this)">
                     <div class="template-preview-banner">
-                        <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:1.35rem; color:var(--text-main);">Creative Bento Box</div>
-                        <div style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;">Trendigt asymmetriskt Bento-rutnät</div>
+                        <div style="font-family:'Bricolage Grotesque'; font-weight:800; font-size:1.35rem; color:var(--text-main);">Editorial Portfolio</div>
+                        <div style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;">Elegant portfolio med research- och meritsektioner</div>
                     </div>
                     <div class="template-info">
                         <div>
-                            <h3>Creative Studio Bento</h3>
-                            <p>För designers, fotografer och kreativa producenter. Mjuka kort, flexibla sektioner och framhävda meriter i Bento-format.</p>
+                            <h3>Editorial Portfolio</h3>
+                            <p>En redaktionell portfolio med fokus på profil, erfarenheter, utbildning och kompetenser.</p>
                         </div>
                         <button class="btn btn-secondary" style="width:100%;">Välj denna mall</button>
                     </div>
@@ -1063,25 +1055,31 @@
             </div>
         </section>
 
-        <!-- STEG 2: REDIGERA INNEHÅLL -->
+        <!-- STEG 2: REDIGERA INNEHÅLL (FULLSKÄRMARMED SLIDE-IN VARUKORGS-PANEL) -->
         <section id="step-2" class="step-content">
             <div class="section-title">
-                <h1>Redigera ditt innehåll</h1>
-                <p>Ta bort eller lägg till sektioner och yrkeserfarenheter. Ändra färgtema direkt.</p>
+                <h2>Redigera ditt innehåll</h2>
+                <p>Din hemsida visas i fullskärm. Klicka på "Redigera innehåll" för att öppna den utskjutande redigeringspanelen.</p>
             </div>
 
+            <!-- Backdrop overlay för slide-in panelen -->
+            <div id="drawer-backdrop" class="drawer-backdrop" onclick="closeEditorDrawer()"></div>
+
             <div class="editor-layout">
-                <!-- Redigeringspanel -->
-                <div class="editor-panel">
+                <!-- Redigeringspanel (Slide-in låda från sidan) -->
+                <div id="editor-panel" class="editor-panel-drawer">
+                    <div class="drawer-header">
+                        <h3 style="font-family:'Bricolage Grotesque'; font-size:1.25rem;">Redigera innehåll</h3>
+                        <button class="drawer-close-btn" onclick="closeEditorDrawer()" title="Stäng panelen">&times;</button>
+                    </div>
                     
-                    <!-- Snabb färgtemaväxlare direkt i redigeraren -->
                     <div style="background:var(--bg-main); padding:12px; border-radius:10px; border:1px solid var(--border-color); margin-bottom:18px;">
                         <label style="font-weight:700; font-size:0.85rem; display:block; margin-bottom:4px;">Växla Färgtema direkt:</label>
                         <div class="editor-theme-selector">
-                            <div class="mini-theme-btn" style="background:#22331d;" title="Skandinavisk Skog" onclick="setEditorTheme('theme-nordic')"></div>
-                            <div class="mini-theme-btn" style="background:#10b981;" title="Midnatt OLED" onclick="setEditorTheme('theme-dark')"></div>
-                            <div class="mini-theme-btn" style="background:#9a4c28;" title="Varm Terrakotta" onclick="setEditorTheme('theme-warm')"></div>
-                            <div class="mini-theme-btn" style="background:#133c4d;" title="Havsblå" onclick="setEditorTheme('theme-ocean')"></div>
+                            <div class="mini-theme-btn" style="background:#123250;" title="Marinblå" onclick="setEditorTheme('theme-nordic')"></div>
+                            <div class="mini-theme-btn" style="background:#1b3b2b;" title="Skogsgrön" onclick="setEditorTheme('theme-dark')"></div>
+                            <div class="mini-theme-btn" style="background:#421a4f;" title="Plommon" onclick="setEditorTheme('theme-warm')"></div>
+                            <div class="mini-theme-btn" style="background:#4a111c;" title="Rubinröd" onclick="setEditorTheme('theme-ocean')"></div>
                         </div>
                     </div>
 
@@ -1099,9 +1097,15 @@
                         <label>Plats / Ort</label>
                         <input type="text" id="input-location" class="form-control" value="Stockholm, Sverige" oninput="updatePreview()">
                     </div>
+                    
+                    <!-- Bildväljare från Galleri/Dator -->
                     <div class="form-group">
-                        <label>Profilbild (URL)</label>
-                        <input type="text" id="input-avatar" class="form-control" value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" oninput="updatePreview()">
+                        <label>Profilbild (Hämta från Galleri / Dator)</label>
+                        <input type="file" id="input-avatar-file" accept="image/*" class="form-control" onchange="handleAvatarUpload(event)">
+                        <div style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+                            <img id="avatar-preview-thumb" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" style="width:40px; height:40px; border-radius:50%; object-fit:cover; border:1px solid var(--border-color);">
+                            <span style="font-size:0.8rem; color:var(--text-muted);">Aktuell profilbild</span>
+                        </div>
                     </div>
 
                     <!-- Om mig Sektion -->
@@ -1115,16 +1119,14 @@
                         <textarea id="input-bio" class="form-control" oninput="updatePreview()">Med över 8 års erfarenhet hjälper jag ledande företag att bygga skalbara webbsystem, optimera infrastruktur och driva digitala förändringsresor.</textarea>
                     </div>
 
-                    <!-- Yrkeserfarenheter (Dynamisk lista) -->
+                    <!-- Yrkeserfarenheter -->
                     <div class="form-section-title">
                         <span>3. Yrkeserfarenheter</span>
                         <label class="toggle-switch">
                             <input type="checkbox" id="toggle-sec-experience" checked onchange="toggleSection('experience')"> Visa
                         </label>
                     </div>
-                    <div id="experience-list-container">
-                        <!-- Dynamiska jobb-kort genereras här med JS -->
-                    </div>
+                    <div id="experience-list-container"></div>
                     <button class="btn btn-secondary" style="width:100%; margin-bottom:18px;" onclick="addExperienceItem()">+ Lägg till Ny Erfarenhet</button>
 
                     <!-- Utbildning Sektion -->
@@ -1143,7 +1145,7 @@
                         <input type="text" id="input-edu2" class="form-control" value="AWS Certified Solutions Architect & Certified Scrum Master" oninput="updatePreview()">
                     </div>
 
-                    <!-- Kompetenser (Badges) -->
+                    <!-- Kompetenser -->
                     <div class="form-section-title">
                         <span>5. Kompetenser & Färdigheter</span>
                         <label class="toggle-switch">
@@ -1172,24 +1174,27 @@
 
                 </div>
 
-                <!-- Live Preview fönster med Dator/Mobil-växlare -->
+                <!-- Fullskärms Live Preview med Dator/Mobil-växlare & Öppna redigerings-knapp -->
                 <div class="preview-wrapper">
                     <div class="preview-toolbar">
-                        <div class="preview-dots">
-                            <div class="preview-dot"></div>
-                            <div class="preview-dot"></div>
-                            <div class="preview-dot"></div>
+                        <div style="display:flex; align-items:center; gap:14px;">
+                            <div class="preview-dots">
+                                <div class="preview-dot"></div>
+                                <div class="preview-dot"></div>
+                                <div class="preview-dot"></div>
+                            </div>
+                            <button class="open-drawer-btn" onclick="openEditorDrawer()">
+                                <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                Redigera Innehåll
+                            </button>
                         </div>
                         <div class="device-selector">
-                            <button class="device-btn active" onclick="setDevice('desktop', this)">Dator</button>
-                            <button class="device-btn" onclick="setDevice('tablet', this)">Surfplatta</button>
-                            <button class="device-btn" onclick="setDevice('mobile', this)">Mobil (Bild i topp)</button>
+                            <button class="device-btn active" data-device="desktop" onclick="setDevice('desktop', this)">Dator</button>
+                            <button class="device-btn" data-device="tablet" onclick="setDevice('tablet', this)">Surfplatta</button>
+                            <button class="device-btn" data-device="mobile" onclick="setDevice('mobile', this)">Mobil</button>
                         </div>
-                        <div style="font-size:0.8rem; color:var(--accent-pop); font-weight:700;">● Live</div>
                     </div>
-                    <div id="preview-frame" class="preview-frame theme-nordic">
-                        <!-- Renderas dynamiskt av JS -->
-                    </div>
+                    <div id="preview-frame" class="preview-frame theme-nordic"></div>
                 </div>
             </div>
 
@@ -1202,52 +1207,37 @@
         <!-- STEG 3: FÄRGTEMA -->
         <section id="step-3" class="step-content">
             <div class="section-title">
-                <h1>Välj ett färgtema för din hemsida</h1>
+                <h2>Välj ett färgtema för din hemsida</h2>
                 <p>Alla teman anpassar bakgrunder, text, kort och knappar i realtid.</p>
             </div>
 
             <div class="themes-grid">
                 <div class="theme-card selected" onclick="selectTheme('theme-nordic', this)">
-                    <h3>Skandinavisk Skog</h3>
-                    <p style="font-size:0.85rem; color:var(--text-muted);">Lugna toningar med skogsgrön accent.</p>
+                    <h3>Marinblå</h3>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Djup marinblå accent med klar cyan.</p>
                     <div class="theme-swatches">
-                        <div class="swatch" style="background:#f8f6f0;"></div>
-                        <div class="swatch" style="background:#ffffff;"></div>
-                        <div class="swatch" style="background:#22331d;"></div>
-                        <div class="swatch" style="background:#84cc16;"></div>
+                        <div class="swatch" style="background:#f8f6f0;"></div><div class="swatch" style="background:#ffffff;"></div><div class="swatch" style="background:#123250;"></div><div class="swatch" style="background:#38bdf8;"></div>
                     </div>
                 </div>
-
                 <div class="theme-card" onclick="selectTheme('theme-dark', this)">
-                    <h3>Midnatt OLED</h3>
-                    <p style="font-size:0.85rem; color:var(--text-muted);">Djupt mörkt läge med smaragdgrön accent.</p>
+                    <h3>Skogsgrön</h3>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Skogsgrön accent med mintgrön kontrast.</p>
                     <div class="theme-swatches">
-                        <div class="swatch" style="background:#0b0e0f;"></div>
-                        <div class="swatch" style="background:#1c2225;"></div>
-                        <div class="swatch" style="background:#10b981;"></div>
-                        <div class="swatch" style="background:#f0f4f6;"></div>
+                        <div class="swatch" style="background:#f8f6f0;"></div><div class="swatch" style="background:#ffffff;"></div><div class="swatch" style="background:#1b3b2b;"></div><div class="swatch" style="background:#34d399;"></div>
                     </div>
                 </div>
-
                 <div class="theme-card" onclick="selectTheme('theme-warm', this)">
-                    <h3>Varm Terrakotta</h3>
-                    <p style="font-size:0.85rem; color:var(--text-muted);">Eleganta koppar- och sandtoner.</p>
+                    <h3>Plommon</h3>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Plommonlila accent med ljus lavendel.</p>
                     <div class="theme-swatches">
-                        <div class="swatch" style="background:#faf6f0;"></div>
-                        <div class="swatch" style="background:#ffffff;"></div>
-                        <div class="swatch" style="background:#9a4c28;"></div>
-                        <div class="swatch" style="background:#2c221e;"></div>
+                        <div class="swatch" style="background:#f8f6f0;"></div><div class="swatch" style="background:#ffffff;"></div><div class="swatch" style="background:#421a4f;"></div><div class="swatch" style="background:#c084fc;"></div>
                     </div>
                 </div>
-
                 <div class="theme-card" onclick="selectTheme('theme-ocean', this)">
-                    <h3>Havsblå</h3>
-                    <p style="font-size:0.85rem; color:var(--text-muted);">Skarp, professionell mörkblå känsla.</p>
+                    <h3>Rubinröd</h3>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">Mörk rubinröd accent med klar rosé.</p>
                     <div class="theme-swatches">
-                        <div class="swatch" style="background:#f3f7f9;"></div>
-                        <div class="swatch" style="background:#ffffff;"></div>
-                        <div class="swatch" style="background:#133c4d;"></div>
-                        <div class="swatch" style="background:#0f1c24;"></div>
+                        <div class="swatch" style="background:#f8f6f0;"></div><div class="swatch" style="background:#ffffff;"></div><div class="swatch" style="background:#4a111c;"></div><div class="swatch" style="background:#f43f5e;"></div>
                     </div>
                 </div>
             </div>
@@ -1261,7 +1251,7 @@
         <!-- STEG 4: DOMÄNSÖKARE -->
         <section id="step-4" class="step-content">
             <div class="section-title">
-                <h1>Välj ditt domännamn</h1>
+                <h2>Välj ditt domännamn</h2>
                 <p>Sök efter din önskade webbadress. Systemet kontrollerar direkt om den är ledig.</p>
             </div>
 
@@ -1271,21 +1261,20 @@
                     <input type="text" id="domain-input" class="form-control" placeholder="dittnamn.se" value="alexlindqvist.se">
                     <button class="btn btn-primary" onclick="checkDomain()">Sök domän</button>
                 </div>
-
                 <div id="domain-result" class="domain-result"></div>
             </div>
 
             <div class="nav-buttons">
                 <button class="btn btn-secondary" onclick="goToStep(3)">&larr; Tillbaka</button>
-                <button class="btn btn-primary" id="btn-to-checkout" onclick="goToStep(5)">Gå till kassa & faktura &rarr;</button>
+                <button class="btn btn-primary" onclick="goToStep(5)">Gå till kassa & faktura &rarr;</button>
             </div>
         </section>
 
-        <!-- STEG 5: KASSA & EXPEDIERING -->
+        <!-- STEG 5: KASSA & FAKTURA -->
         <section id="step-5" class="step-content">
             <div id="checkout-form-container">
                 <div class="section-title">
-                    <h1>Slutför beställning & Faktura</h1>
+                    <h2>Slutför beställning & Faktura</h2>
                     <p>Fyll i dina fakturauppgifter. Din PDF-faktura och responsiva HTML-filer skapas direkt.</p>
                 </div>
 
@@ -1328,7 +1317,7 @@
                         </div>
                         <div class="summary-row">
                             <span>Färgtema:</span>
-                            <strong id="summary-theme">Skandinavisk Skog</strong>
+                            <strong id="summary-theme">Marinblå</strong>
                         </div>
                         <div class="summary-row">
                             <span>Vald Domän:</span>
@@ -1358,7 +1347,9 @@
             </div>
 
             <div id="order-success-container" class="success-box" style="display:none;">
-                <div class="success-icon">✓</div>
+                <div class="success-icon">
+                    <svg class="svg-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
                 <h2 style="font-family:'Bricolage Grotesque';">Tack för din beställning!</h2>
                 <p style="color:var(--text-muted); margin: 10px 0 24px 0;">
                     Din nya hemsida har skapats och fakturan är redo för nedladdning.
@@ -1366,10 +1357,12 @@
 
                 <div style="display:flex; flex-direction:column; gap:12px; max-width:440px; margin:0 auto;">
                     <button class="btn btn-primary" onclick="downloadInvoicePDF()">
-                        📄 Ladda ner Faktura (PDF)
+                        <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                        Ladda ner Faktura (PDF)
                     </button>
                     <button class="btn btn-success" onclick="downloadPortfolioCode()">
-                        💻 Ladda ner din Hemsida (index.html)
+                        <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                        Ladda ner din Hemsida (portfolio.html)
                     </button>
                 </div>
             </div>
@@ -1378,6 +1371,16 @@
     </main>
 
     <script>
+        // Hjälpfunktioner för SVG-ikoner i JS-renderad HTML
+        const SVG_ICONS = {
+            pin: `<svg class="svg-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`,
+            mail: `<svg class="svg-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>`,
+            link: `<svg class="svg-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>`,
+            phone: `<svg class="svg-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>`,
+            check: `<svg class="svg-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`,
+            cross: `<svg class="svg-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`
+        };
+
         // Applikationstillstånd
         const state = {
             step: 1,
@@ -1404,7 +1407,6 @@
                 linkedin: 'https://linkedin.com/in/alex-lindqvist',
                 email: 'alex@lindqvist-consulting.se',
                 phone: '070-123 45 67',
-                // Dynamiska erfarenheter
                 experiences: [
                     {
                         id: 1,
@@ -1429,6 +1431,20 @@
             'design.se', 'test.se', 'kreator.se', 'studio.se', 'neocarlsson.se'
         ];
 
+        function scrollToStepper() {
+            document.getElementById('builder-start').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function openEditorDrawer() {
+            document.getElementById('editor-panel').classList.add('open');
+            document.getElementById('drawer-backdrop').classList.add('open');
+        }
+
+        function closeEditorDrawer() {
+            document.getElementById('editor-panel').classList.remove('open');
+            document.getElementById('drawer-backdrop').classList.remove('open');
+        }
+
         function goToStep(stepNum) {
             state.step = stepNum;
             
@@ -1445,23 +1461,58 @@
             if (stepNum === 2) {
                 renderEditorExperiences();
                 updatePreview();
+                openEditorDrawer();
+            } else {
+                closeEditorDrawer();
             }
             if (stepNum === 4) checkDomain();
             if (stepNum === 5) updateSummary();
+        }
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        const TEMPLATE_FILES = {
+            tech_dev: 'tech-specialist.html',
+            executive: 'executive-leader.html',
+            creative: 'creative-bento.html'
+        };
+        const THEME_NAMES = {
+            'theme-nordic': 'Marinblå',
+            'theme-dark': 'Skogsgrön',
+            'theme-warm': 'Plommon',
+            'theme-ocean': 'Rubinröd'
+        };
+        let renderedPortfolioHTML = '';
+
+        window.addEventListener('message', event => {
+            const previewFrame = document.getElementById('portfolio-preview-frame');
+            if (previewFrame && event.source === previewFrame.contentWindow && event.data?.type === 'PORTFOLIO_RENDERED') {
+                renderedPortfolioHTML = event.data.html;
+            }
+        });
+
+        function sendPortfolioData(portfolioFrame) {
+            portfolioFrame.contentWindow.postMessage({
+                type: 'UPDATE_PORTFOLIO',
+                data: {
+                    ...state.data,
+                    sections: { ...state.sections },
+                    theme: state.theme
+                }
+            }, '*');
         }
 
         function selectTemplate(tplName, cardEl) {
+            if (!TEMPLATE_FILES[tplName]) return;
             state.template = tplName;
             document.querySelectorAll('.templates-grid .template-card').forEach(c => c.classList.remove('selected'));
             cardEl.classList.add('selected');
+            updatePreview();
         }
 
         function selectTheme(themeClass, cardEl) {
+            if (!THEME_NAMES[themeClass]) return;
             state.theme = themeClass;
-            document.querySelectorAll('.themes-grid .theme-card').forEach(c => c.classList.remove('selected'));
-            if(cardEl) cardEl.classList.add('selected');
+            document.querySelectorAll('.themes-grid .theme-card').forEach(card => card.classList.remove('selected'));
+            if (cardEl) cardEl.classList.add('selected');
             updatePreview();
         }
 
@@ -1472,11 +1523,13 @@
 
         function setDevice(deviceType, btnEl) {
             state.device = deviceType;
-            document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
-            btnEl.classList.add('active');
+            document.querySelectorAll('.device-btn').forEach(button => {
+                button.classList.toggle('active', button.dataset.device === deviceType);
+            });
 
             const frame = document.getElementById('preview-frame');
             frame.className = `preview-frame ${state.theme} device-${deviceType}`;
+            updatePreview();
         }
 
         function toggleSection(secName) {
@@ -1485,7 +1538,20 @@
             updatePreview();
         }
 
-        /* Dynamisk hantering av yrkeserfarenheter */
+        /* Funktion för att hantera bildhämtning från fil/galleri */
+        function handleAvatarUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    state.data.avatar = e.target.result;
+                    document.getElementById('avatar-preview-thumb').src = e.target.result;
+                    updatePreview();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
         function renderEditorExperiences() {
             const container = document.getElementById('experience-list-container');
             container.innerHTML = '';
@@ -1494,7 +1560,9 @@
                 const box = document.createElement('div');
                 box.className = 'editor-item-box';
                 box.innerHTML = `
-                    <button class="delete-item-btn" onclick="removeExperienceItem(${exp.id})">✕ Ta bort</button>
+                    <button class="delete-item-btn" onclick="removeExperienceItem(${exp.id})">
+                        ${SVG_ICONS.cross} Ta bort
+                    </button>
                     <strong style="font-size:0.85rem; color:var(--accent-main); display:block; margin-bottom:8px;">Erfarenhet #${index + 1}</strong>
                     <div class="form-group">
                         <label>Roll / Befattning</label>
@@ -1524,7 +1592,7 @@
                 role: 'Ny Befattning',
                 company: 'Företagsnamn',
                 period: '2023 – Nuvarande',
-                desc: 'Beskriv dina huvudsakliga arbetsuppgifter och uppnådda resultat här.'
+                desc: 'Beskriv dina huvudsakliga arbetsuppgifter här.'
             });
             renderEditorExperiences();
             updatePreview();
@@ -1544,13 +1612,11 @@
             }
         }
 
-        /* Live Preview Rendering för alla 3 Mallar */
         function updatePreview() {
             state.data.name = document.getElementById('input-name').value || 'Ditt Namn';
             state.data.title = document.getElementById('input-title').value || 'Din Titel';
             state.data.location = document.getElementById('input-location').value || 'Sverige';
             state.data.bio = document.getElementById('input-bio').value || '';
-            state.data.avatar = document.getElementById('input-avatar').value;
             state.data.edu1 = document.getElementById('input-edu1').value;
             state.data.edu2 = document.getElementById('input-edu2').value;
             state.data.skills = document.getElementById('input-skills').value;
@@ -1560,161 +1626,29 @@
 
             const frame = document.getElementById('preview-frame');
             frame.className = `preview-frame ${state.theme} device-${state.device}`;
+            [
+                { container: frame, id: 'portfolio-preview-frame', title: 'Portfolioförhandsvisning' }
+            ].forEach(({ container, id, title }) => {
+                let portfolioFrame = document.getElementById(id);
+                if (!portfolioFrame) {
+                    container.replaceChildren();
+                    portfolioFrame = document.createElement('iframe');
+                    portfolioFrame.id = id;
+                    portfolioFrame.title = title;
+                    portfolioFrame.addEventListener('load', () => {
+                        sendPortfolioData(portfolioFrame);
+                    });
+                    container.appendChild(portfolioFrame);
+                }
 
-            const skillBadges = state.data.skills.split(',')
-                .filter(s => s.trim().length > 0)
-                .map(s => `<span class="skill-badge">${s.trim()}</span>`).join('');
-
-            const expTimelineHTML = state.data.experiences.map(exp => `
-                <div style="border-bottom:1px solid var(--p-border); padding-bottom:16px; margin-bottom:16px;">
-                    <h4 style="font-size:1.05rem; font-weight:700;">${exp.role}</h4>
-                    <div style="font-size:0.88rem; color:var(--p-accent); font-weight:600;">${exp.company} • <span style="color:var(--p-muted); font-size:0.8rem;">${exp.period}</span></div>
-                    <p style="font-size:0.85rem; color:var(--p-muted); margin-top:6px;">${exp.desc}</p>
-                </div>
-            `).join('');
-
-            let templateHTML = '';
-
-            if (state.template === 'tech_dev') {
-                // MALL 1: TECH & SPECIALIST GRID
-                templateHTML = `
-                    <div class="tpl-tech-hero">
-                        <img src="${state.data.avatar}" class="tpl-tech-hero-avatar" alt="Profil">
-                        <div class="tpl-tech-hero-content">
-                            <div style="font-family:'Space Mono'; font-size:0.8rem; color:var(--p-accent); font-weight:700;">// PORTFOLIO PROFIL</div>
-                            <h1 style="font-family:'Bricolage Grotesque'; font-size:2.2rem; font-weight:800; margin:4px 0;">${state.data.name}</h1>
-                            <div style="font-size:1.05rem; color:var(--p-accent); font-weight:700; margin-bottom:10px;">${state.data.title}</div>
-                            <div style="font-size:0.85rem; color:var(--p-muted); margin-bottom:16px;">📍 ${state.data.location}</div>
-                            <div>
-                                <a href="mailto:${state.data.email}" class="btn-action">✉ Maila mig</a>
-                                <a href="${state.data.linkedin}" target="_blank" class="btn-outline">🔗 LinkedIn</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    ${state.sections.about ? `
-                    <div style="background:var(--p-card); border:1px solid var(--p-border); border-radius:16px; padding:24px;">
-                        <h3 style="font-family:'Bricolage Grotesque'; font-size:1.25rem; color:var(--p-accent); margin-bottom:12px;">Om mig</h3>
-                        <p style="font-size:0.9rem; color:var(--p-muted); line-height:1.6;">${state.data.bio}</p>
-                    </div>` : ''}
-
-                    ${state.sections.experience ? `
-                    <div style="background:var(--p-card); border:1px solid var(--p-border); border-radius:16px; padding:24px;">
-                        <h3 style="font-family:'Bricolage Grotesque'; font-size:1.25rem; color:var(--p-accent); margin-bottom:16px;">Yrkeserfarenheter</h3>
-                        ${expTimelineHTML}
-                    </div>` : ''}
-
-                    ${state.sections.education ? `
-                    <div style="background:var(--p-card); border:1px solid var(--p-border); border-radius:16px; padding:24px;">
-                        <h3 style="font-family:'Bricolage Grotesque'; font-size:1.25rem; color:var(--p-accent); margin-bottom:12px;">Utbildning & Certifikat</h3>
-                        <p style="font-size:0.88rem; color:var(--p-muted);">${state.data.edu1}</p>
-                        <p style="font-size:0.88rem; color:var(--p-accent); font-weight:600; margin-top:4px;">${state.data.edu2}</p>
-                    </div>` : ''}
-
-                    ${state.sections.skills ? `
-                    <div style="background:var(--p-card); border:1px solid var(--p-border); border-radius:16px; padding:24px;">
-                        <h3 style="font-family:'Bricolage Grotesque'; font-size:1.25rem; color:var(--p-accent); margin-bottom:12px;">Kompetenser</h3>
-                        <div class="skills-badge-grid">${skillBadges}</div>
-                    </div>` : ''}
-                `;
-            } else if (state.template === 'executive') {
-                // MALL 2: EDITORIAL EXECUTIVE LEADER (PLAYFAIR DISPLAY)
-                templateHTML = `
-                    <div class="tpl-exec-hero">
-                        <img src="${state.data.avatar}" class="tpl-exec-hero-avatar" alt="Profil">
-                        <h1 style="font-family:'Playfair Display', serif; font-size:2.4rem; font-weight:700;">${state.data.name}</h1>
-                        <div style="font-size:1rem; color:var(--p-accent); font-weight:600; text-transform:uppercase; letter-spacing:0.08em; margin:8px 0 16px 0;">${state.data.title}</div>
-                        <div style="font-size:0.88rem; color:var(--p-muted); margin-bottom:20px;">📍 ${state.data.location}</div>
-                        <div>
-                            <a href="mailto:${state.data.email}" class="btn-action">✉ Kontakta mig</a>
-                            <a href="${state.data.linkedin}" target="_blank" class="btn-outline">🔗 LinkedIn</a>
-                        </div>
-                    </div>
-
-                    ${state.sections.about ? `
-                    <div style="background:var(--p-card); border:1px solid var(--p-border); border-radius:16px; padding:28px;">
-                        <h3 style="font-family:'Playfair Display', serif; font-size:1.4rem; border-bottom:1px solid var(--p-border); padding-bottom:8px; margin-bottom:14px;">Bakgrund & Profil</h3>
-                        <p style="font-size:0.92rem; color:var(--p-muted); line-height:1.7;">${state.data.bio}</p>
-                    </div>` : ''}
-
-                    ${state.sections.experience ? `
-                    <div style="background:var(--p-card); border:1px solid var(--p-border); border-radius:16px; padding:28px;">
-                        <h3 style="font-family:'Playfair Display', serif; font-size:1.4rem; border-bottom:1px solid var(--p-border); padding-bottom:8px; margin-bottom:18px;">Karriär & Befattningar</h3>
-                        ${expTimelineHTML}
-                    </div>` : ''}
-
-                    ${state.sections.education ? `
-                    <div style="background:var(--p-card); border:1px solid var(--p-border); border-radius:16px; padding:28px;">
-                        <h3 style="font-family:'Playfair Display', serif; font-size:1.4rem; border-bottom:1px solid var(--p-border); padding-bottom:8px; margin-bottom:14px;">Akademisk Bakgrund</h3>
-                        <p style="font-size:0.9rem; color:var(--p-muted);">${state.data.edu1}</p>
-                        <p style="font-size:0.9rem; color:var(--p-accent); font-weight:600; margin-top:4px;">${state.data.edu2}</p>
-                    </div>` : ''}
-
-                    ${state.sections.skills ? `
-                    <div style="background:var(--p-card); border:1px solid var(--p-border); border-radius:16px; padding:28px;">
-                        <h3 style="font-family:'Playfair Display', serif; font-size:1.4rem; border-bottom:1px solid var(--p-border); padding-bottom:8px; margin-bottom:14px;">Expertisområden</h3>
-                        <div class="skills-badge-grid">${skillBadges}</div>
-                    </div>` : ''}
-                `;
-            } else if (state.template === 'creative') {
-                // MALL 3: CREATIVE BENTO BOX GRID
-                templateHTML = `
-                    <div class="tpl-bento-grid">
-                        <div class="tpl-bento-hero">
-                            <img src="${state.data.avatar}" class="tpl-bento-avatar" alt="Profil">
-                            <div>
-                                <h1 style="font-family:'Bricolage Grotesque'; font-size:2.2rem; font-weight:800;">${state.data.name}</h1>
-                                <div style="font-size:1.1rem; color:var(--p-accent); font-weight:700; margin:6px 0 12px 0;">${state.data.title}</div>
-                                <div style="font-size:0.85rem; color:var(--p-muted); margin-bottom:16px;">📍 ${state.data.location}</div>
-                                <a href="mailto:${state.data.email}" class="btn-action">✉ Boka möte</a>
-                            </div>
-                        </div>
-
-                        ${state.sections.about ? `
-                        <div class="tpl-bento-card" style="grid-column: span 2;">
-                            <h3 style="font-family:'Bricolage Grotesque'; font-size:1.3rem; margin-bottom:10px;">Om mig</h3>
-                            <p style="font-size:0.9rem; color:var(--p-muted); line-height:1.6;">${state.data.bio}</p>
-                        </div>` : ''}
-
-                        ${state.sections.experience ? `
-                        <div class="tpl-bento-card" style="grid-column: span 2;">
-                            <h3 style="font-family:'Bricolage Grotesque'; font-size:1.3rem; margin-bottom:16px;">Tidigare Uppdrag & Roller</h3>
-                            ${expTimelineHTML}
-                        </div>` : ''}
-
-                        ${state.sections.education ? `
-                        <div class="tpl-bento-card">
-                            <h3 style="font-family:'Bricolage Grotesque'; font-size:1.2rem; margin-bottom:10px;">Utbildning</h3>
-                            <p style="font-size:0.85rem; color:var(--p-muted);">${state.data.edu1}</p>
-                            <p style="font-size:0.85rem; color:var(--p-accent); font-weight:600; margin-top:4px;">${state.data.edu2}</p>
-                        </div>` : ''}
-
-                        ${state.sections.skills ? `
-                        <div class="tpl-bento-card">
-                            <h3 style="font-family:'Bricolage Grotesque'; font-size:1.2rem; margin-bottom:10px;">Kompetenser</h3>
-                            <div class="skills-badge-grid">${skillBadges}</div>
-                        </div>` : ''}
-                    </div>
-                `;
-            }
-
-            frame.innerHTML = `
-                <div class="portfolio-wrapper">
-                    ${templateHTML}
-
-                    <!-- Footer med länkar på samtliga 3 mallar -->
-                    <footer class="site-footer">
-                        <div class="site-footer-links">
-                            <a href="${state.data.linkedin}" target="_blank" rel="noopener">🔗 LinkedIn</a>
-                            <a href="tel:${state.data.phone}">📞 ${state.data.phone}</a>
-                            <a href="mailto:${state.data.email}">✉ ${state.data.email}</a>
-                        </div>
-                        <div class="site-footer-copy">
-                            &copy; 2026 ${state.data.name}. Alla rättigheter förbehållna.
-                        </div>
-                    </footer>
-                </div>
-            `;
+                const templateFile = TEMPLATE_FILES[state.template];
+                if (portfolioFrame.dataset.template !== state.template) {
+                    portfolioFrame.dataset.template = state.template;
+                    portfolioFrame.src = templateFile;
+                } else {
+                    sendPortfolioData(portfolioFrame);
+                }
+            });
         }
 
         function checkDomain() {
@@ -1737,8 +1671,8 @@
 
                 resultDiv.className = 'domain-result taken';
                 resultDiv.innerHTML = `
-                    <strong>✕ Domänen ${input} är tyvärr upptagen!</strong>
-                    <p style="font-size:0.88rem; margin-top:6px;">Algoritmen hittade följande lediga alternativ för dig:</p>
+                    <strong>${SVG_ICONS.cross} Domänen ${input} är tyvärr upptagen!</strong>
+                    <p style="font-size:0.88rem; margin-top:6px;">Förslag på lediga domäner:</p>
                     <div class="domain-suggestions">
                         <span class="suggestion-chip" onclick="selectSuggestedDomain('${alt1}')">${alt1} (Ledig)</span>
                         <span class="suggestion-chip" onclick="selectSuggestedDomain('${alt2}')">${alt2} (Ledig)</span>
@@ -1749,7 +1683,7 @@
                 state.domainAvailable = true;
                 resultDiv.className = 'domain-result available';
                 resultDiv.innerHTML = `
-                    <strong>✓ Domänen ${input} är ledig!</strong>
+                    <strong>${SVG_ICONS.check} Domänen ${input} är ledig!</strong>
                     <p style="font-size:0.88rem; margin-top:4px;">Ingår utan extra kostnad i årspriset (979 kr/år).</p>
                 `;
             }
@@ -1764,17 +1698,10 @@
             const tplNames = {
                 'tech_dev': 'Tech & Specialist Grid',
                 'executive': 'Editorial Executive Leader',
-                'creative': 'Creative Studio Bento'
+                'creative': 'Editorial Portfolio'
             };
-            const themeNames = {
-                'theme-nordic': 'Skandinavisk Skog',
-                'theme-dark': 'Midnatt OLED',
-                'theme-warm': 'Varm Terrakotta',
-                'theme-ocean': 'Havsblå'
-            };
-
             document.getElementById('summary-template').innerText = tplNames[state.template];
-            document.getElementById('summary-theme').innerText = themeNames[state.theme];
+            document.getElementById('summary-theme').innerText = THEME_NAMES[state.theme];
             document.getElementById('summary-domain').innerText = state.domain || 'Ej vald';
         }
 
@@ -1843,89 +1770,28 @@
             doc.text("Totalt att betala:", 110, 120);
             doc.text("979,00 kr", 160, 120);
 
-            doc.setFontSize(10);
-            doc.setFont("helvetica", "normal");
-            doc.text("Betalningsuppgifter:", 20, 140);
-            doc.text("Bankgiro: 5542-9918", 20, 148);
-            doc.text(`OCR / Referens: ${invoiceNum.replace('FF-', '')}`, 20, 154);
-
-            doc.text("Tack för att du använder FormFolio.se!", 20, 180);
-
             doc.save(`Faktura_${invoiceNum}.pdf`);
         }
 
-        /* Ladda ned färdig HTML-kod för den exporterade hemsidan med den valda mallen */
         function downloadPortfolioCode() {
-            const previewHTML = document.getElementById('preview-frame').innerHTML;
+            if (!renderedPortfolioHTML) {
+                alert('Förhandsvisningen har inte laddats ännu. Försök igen om en stund.');
+                return;
+            }
 
-            const fileContent = `<!DOCTYPE html>
-<html lang="sv">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${state.data.name} – Official Profile</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;700;800&family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --p-bg: #f8f6f0; --p-bg-alt: #eee8dc; --p-card: #ffffff; --p-text: #181c19;
-            --p-muted: #56615a; --p-accent: #22331d; --p-accent-hover: #344d2d; --p-accent-light: #e4ebd9; --p-border: #ded8cb;
-        }
-        ${state.theme === 'theme-dark' ? `:root { --p-bg: #0b0e0f; --p-bg-alt: #14191b; --p-card: #1c2225; --p-text: #f0f4f6; --p-muted: #94a3b8; --p-accent: #10b981; --p-accent-hover: #059669; --p-accent-light: rgba(16, 185, 129, 0.15); --p-border: #283237; }` : ''}
-        ${state.theme === 'theme-warm' ? `:root { --p-bg: #faf6f0; --p-bg-alt: #f2e7dc; --p-card: #ffffff; --p-text: #2c221e; --p-muted: #78655b; --p-accent: #9a4c28; --p-accent-hover: #7e3c1d; --p-accent-light: #f7e8df; --p-border: #e8d7cb; }` : ''}
-        ${state.theme === 'theme-ocean' ? `:root { --p-bg: #f3f7f9; --p-bg-alt: #e1ebf0; --p-card: #ffffff; --p-text: #0f1c24; --p-muted: #4e6573; --p-accent: #133c4d; --p-accent-hover: #0c2834; --p-accent-light: #deedf3; --p-border: #c8dce5; }` : ''}
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: var(--p-bg); color: var(--p-text); font-family: 'Plus Jakarta Sans', sans-serif; max-width: 900px; margin: 0 auto; padding: 40px 20px; line-height: 1.6; }
-        
-        .portfolio-wrapper { display: flex; flex-direction: column; gap: 24px; }
-        .tpl-tech-hero { display: flex; align-items: center; justify-content: space-between; gap: 28px; background: var(--p-card); border: 1px solid var(--p-border); border-radius: 16px; padding: 28px; border-left: 6px solid var(--p-accent); }
-        .tpl-tech-hero-avatar { width: 130px; height: 130px; border-radius: 20px; object-fit: cover; border: 2px solid var(--p-accent); flex-shrink: 0; order: 2; }
-        
-        .tpl-exec-hero { text-align: center; background: var(--p-card); border: 1px solid var(--p-border); border-radius: 16px; padding: 36px 28px; display: flex; flex-direction: column; align-items: center; }
-        .tpl-exec-hero-avatar { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 1px solid var(--p-border); box-shadow: 0 10px 25px rgba(0,0,0,0.08); margin-bottom: 20px; }
-        
-        .tpl-bento-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .tpl-bento-hero { grid-column: span 2; background: var(--p-card); border: 1px solid var(--p-border); border-radius: 24px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-        .tpl-bento-avatar { width: 130px; height: 130px; border-radius: 24px; object-fit: cover; order: 2; flex-shrink: 0; }
-        .tpl-bento-card { background: var(--p-card); border: 1px solid var(--p-border); border-radius: 20px; padding: 24px; }
-
-        .btn-action { background: var(--p-accent); color: #ffffff; padding: 10px 22px; border-radius: 24px; font-weight: 700; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
-        .btn-outline { border: 1px solid var(--p-accent); color: var(--p-accent); padding: 10px 22px; border-radius: 24px; font-weight: 700; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
-        
-        .skills-badge-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-        .skill-badge { background: var(--p-bg-alt); color: var(--p-text); border: 1px solid var(--p-border); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
-        
-        .site-footer { background: var(--p-card); border: 1px solid var(--p-border); border-radius: 16px; padding: 24px; text-align: center; margin-top: 10px; }
-        .site-footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 12px; }
-        .site-footer-links a { color: var(--p-accent); font-weight: 700; font-size: 0.92rem; text-decoration: none; }
-        .site-footer-copy { font-size: 0.82rem; color: var(--p-muted); }
-
-        /* MOBILANPASSNING */
-        @media (max-width: 650px) {
-            .tpl-tech-hero { flex-direction: column; text-align: center; }
-            .tpl-tech-hero-avatar { order: -1 !important; margin-bottom: 12px; }
-            .tpl-bento-grid { grid-template-columns: 1fr; }
-            .tpl-bento-hero { grid-column: span 1; flex-direction: column; text-align: center; }
-            .tpl-bento-avatar { order: -1 !important; margin-bottom: 12px; }
-            .site-footer-links { flex-direction: column; gap: 10px; }
-        }
-    </style>
-</head>
-<body>
-    ${previewHTML}
-</body>
-</html>`;
+            const exportedDocument = new DOMParser().parseFromString(renderedPortfolioHTML, 'text/html').documentElement;
+            exportedDocument.querySelector('title').textContent = `${state.data.name} – Portfolio`;
+            exportedDocument.querySelectorAll('script').forEach(script => script.remove());
+            const fileContent = `<!DOCTYPE html>\n${exportedDocument.outerHTML}`;
 
             const blob = new Blob([fileContent], { type: 'text/html' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = 'index.html';
+            a.download = 'portfolio.html';
             a.click();
+            setTimeout(() => URL.revokeObjectURL(a.href), 1000);
         }
 
-        // Initiera appen
         renderEditorExperiences();
         updatePreview();
     </script>
