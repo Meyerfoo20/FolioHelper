@@ -986,8 +986,8 @@
                     </div>
                     <div class="template-info">
                         <div>
-                            <h3>Tech & Specialist Grid</h3>
-                            <p>Anpassad för utvecklare, IT-konsulter och ingenjörer. Modern struktur med framhävda erfarenhetsblock och kompetens-badges.</p>
+                            <h3>Strukturerad profil</h3>
+                            <p>En tydlig gridlayout som lyfter fram presentation, erfarenhet, utbildning och kompetenser.</p>
                         </div>
                         <button class="btn btn-secondary" style="width:100%;" onclick="event.stopPropagation(); selectTemplate('tech_dev', this.closest('.template-card')); goToStep(2);">Välj denna mall</button>
                     </div>
@@ -1036,8 +1036,8 @@
                     </div>
                     <div class="template-info">
                         <div>
-                            <h3>Editorial Executive Leader</h3>
-                            <p>För rådgivare, chefer och ledare. Exklusiv, ren layout med Playfair Display, eleganta linjer och centrerat profilfokus.</p>
+                            <h3>Redaktionell profil</h3>
+                            <p>En stilren, centrerad layout med tydlig typografi och gott om plats för profil och meriter.</p>
                         </div>
                         <button class="btn btn-secondary" style="width:100%;" onclick="event.stopPropagation(); selectTemplate('executive', this.closest('.template-card')); goToStep(2);">Välj denna mall</button>
                     </div>
@@ -1098,8 +1098,8 @@
                     </div>
                     <div class="template-info">
                         <div>
-                            <h3>Editorial Portfolio</h3>
-                            <p>En redaktionell portfolio med fokus på profil, erfarenheter, utbildning och kompetenser.</p>
+                            <h3>Redaktionell portfolio</h3>
+                            <p>En luftig layout med sektioner för presentation, uppdrag, utbildning och kompetenser.</p>
                         </div>
                         <button class="btn btn-secondary" style="width:100%;" onclick="event.stopPropagation(); selectTemplate('creative', this.closest('.template-card')); goToStep(2);">Välj denna mall</button>
                     </div>
@@ -1148,7 +1148,7 @@
                     </div>
                     <div class="form-group">
                         <label>Yrkesroll / Rubrik</label>
-                        <input type="text" id="input-title" class="form-control" value="Senior Systemarkitekt & IT-Konsult" oninput="updatePreview()">
+                        <input type="text" id="input-title" class="form-control" value="Yrkesroll eller titel" oninput="updatePreview()">
                     </div>
                     <div class="form-group">
                         <label>Plats / Ort</label>
@@ -1173,7 +1173,7 @@
                         </label>
                     </div>
                     <div class="form-group">
-                        <textarea id="input-bio" class="form-control" oninput="updatePreview()">Med över 8 års erfarenhet hjälper jag ledande företag att bygga skalbara webbsystem, optimera infrastruktur och driva digitala förändringsresor.</textarea>
+                        <textarea id="input-bio" class="form-control" oninput="updatePreview()">Beskriv kort din erfarenhet, vad du arbetar med och hur du bidrar i olika uppdrag och samarbeten.</textarea>
                     </div>
 
                     <!-- Yrkeserfarenheter -->
@@ -1195,11 +1195,11 @@
                     </div>
                     <div class="form-group">
                         <label>Utbildning / Examen</label>
-                        <input type="text" id="input-edu1" class="form-control" value="Civilingenjör Datateknik – KTH (2014-2019)" oninput="updatePreview()">
+                        <input type="text" id="input-edu1" class="form-control" value="Utbildning eller examen" oninput="updatePreview()">
                     </div>
                     <div class="form-group">
-                        <label>Certifieringar</label>
-                        <input type="text" id="input-edu2" class="form-control" value="AWS Certified Solutions Architect & Certified Scrum Master" oninput="updatePreview()">
+                        <label>Kurser, certifikat eller behörigheter</label>
+                        <input type="text" id="input-edu2" class="form-control" value="Kurser, certifikat eller behörigheter" oninput="updatePreview()">
                     </div>
 
                     <!-- Kompetenser -->
@@ -1211,18 +1211,18 @@
                     </div>
                     <div class="form-group">
                         <label>Kompetenser (Separera med kommatecken)</label>
-                        <input type="text" id="input-skills" class="form-control" value="JavaScript, TypeScript, React, Node.js, Cloud Architecture, Systemdesign" oninput="updatePreview()">
+                        <input type="text" id="input-skills" class="form-control" value="Kommunikation, Planering, Analys, Samarbete, Projektledning, Dokumentation" oninput="updatePreview()">
                     </div>
 
                     <!-- Kontaktuppgifter -->
                     <div class="form-section-title">6. Kontaktuppgifter & Footer</div>
                     <div class="form-group">
-                        <label>LinkedIn Profil URL</label>
-                        <input type="text" id="input-linkedin" class="form-control" value="https://linkedin.com/in/alex-lindqvist" oninput="updatePreview()">
+                        <label>Profil- eller webbplatslänk</label>
+                        <input type="text" id="input-linkedin" class="form-control" value="https://example.com/profil" oninput="updatePreview()">
                     </div>
                     <div class="form-group">
                         <label>E-postadress</label>
-                        <input type="email" id="input-email" class="form-control" value="alex@lindqvist-consulting.se" oninput="updatePreview()">
+                        <input type="email" id="input-email" class="form-control" value="namn@example.com" oninput="updatePreview()">
                     </div>
                     <div class="form-group">
                         <label>Telefonnummer</label>
@@ -1304,7 +1304,7 @@
                         </div>
                         <div class="form-group">
                             <label>E-postadress för faktura *</label>
-                            <input type="email" id="cust-email" class="form-control" value="alex@lindqvist-consulting.se" required>
+                            <input type="email" id="cust-email" class="form-control" value="namn@example.com" required>
                         </div>
                         <div class="form-group">
                             <label>Gatuadress *</label>
@@ -1408,30 +1408,30 @@
             },
             data: {
                 name: 'Alex Lindqvist',
-                title: 'Senior Systemarkitekt & IT-Konsult',
+                title: 'Yrkesroll eller titel',
                 location: 'Stockholm, Sverige',
-                bio: 'Med över 8 års erfarenhet hjälper jag ledande företag att bygga skalbara webbsystem, optimera infrastruktur och driva digitala förändringsresor.',
+                bio: 'Beskriv kort din erfarenhet, vad du arbetar med och hur du bidrar i olika uppdrag och samarbeten.',
                 avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
-                edu1: 'Civilingenjör Datateknik – KTH (2014-2019)',
-                edu2: 'AWS Certified Solutions Architect & Certified Scrum Master',
-                skills: 'JavaScript, TypeScript, React, Node.js, Cloud Architecture, Systemdesign',
-                linkedin: 'https://linkedin.com/in/alex-lindqvist',
-                email: 'alex@lindqvist-consulting.se',
+                edu1: 'Utbildning eller examen',
+                edu2: 'Kurser, certifikat eller behörigheter',
+                skills: 'Kommunikation, Planering, Analys, Samarbete, Projektledning, Dokumentation',
+                linkedin: 'https://example.com/profil',
+                email: 'namn@example.com',
                 phone: '070-123 45 67',
                 experiences: [
                     {
                         id: 1,
-                        role: 'Lead Systemarkitekt',
-                        company: 'Nordic Enterprise Solutions AB',
+                        role: 'Ansvarig för uppdrag',
+                        company: 'Organisation',
                         period: '2022 – Nuvarande',
-                        desc: 'Ansvarar för teknisk arkitektur och infrastruktur. Ledde migrering av molnsystem vilket reducerade laddtider med 45%.'
+                        desc: 'Planerade och genomförde arbetsuppgifter samt följde upp resultat tillsammans med berörda personer.'
                     },
                     {
                         id: 2,
-                        role: 'Senior Fullstackutvecklare',
-                        company: 'Tech Consultancy Group',
+                        role: 'Medarbetare',
+                        company: 'Organisation',
                         period: '2019 – 2022',
-                        desc: 'Utvecklade skräddarsydda webbapplikationer för storkunder i finanssektorn. Integration av betallösningar och API:er.'
+                        desc: 'Bidrog i det dagliga arbetet, samarbetade med kollegor och hjälpte till att nå gemensamma mål.'
                     }
                 ]
             }
@@ -1698,9 +1698,9 @@
 
         function updateSummary() {
             const tplNames = {
-                'tech_dev': 'Tech & Specialist Grid',
-                'executive': 'Editorial Executive Leader',
-                'creative': 'Editorial Portfolio'
+                'tech_dev': 'Strukturerad profil',
+                'executive': 'Redaktionell profil',
+                'creative': 'Redaktionell portfolio'
             };
             document.getElementById('summary-template').innerText = tplNames[state.template];
             document.getElementById('summary-theme').innerText = THEME_NAMES[state.theme];
