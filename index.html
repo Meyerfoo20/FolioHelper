@@ -103,7 +103,7 @@
             background-color: var(--bg-main);
             color: var(--text-main);
             line-height: 1.5;
-            padding-bottom: 60px;
+            padding-bottom: 40px;
         }
 
         /* Header */
@@ -118,7 +118,7 @@
         }
 
         .header-container {
-            max-width: 1380px;
+            max-width: 1440px;
             margin: 0 auto;
             display: flex;
             align-items: center;
@@ -136,21 +136,11 @@
             font-family: 'Bricolage Grotesque', sans-serif;
         }
 
-        .price-tag {
-            background: var(--accent-light);
-            color: var(--accent-main);
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-size: 0.92rem;
-            font-weight: 700;
-            border: 1px solid var(--border-color);
-        }
-
-        /* STARTSIDA / HERO SEKTION */
+        /* HERO SEKTION */
         .hero-landing {
             background: linear-gradient(180deg, var(--bg-alt) 0%, var(--bg-main) 100%);
             border-bottom: 1px solid var(--border-color);
-            padding: 60px 24px 50px 24px;
+            padding: 50px 24px 40px 24px;
             text-align: center;
         }
 
@@ -160,7 +150,7 @@
         }
 
         .hero-landing h1 {
-            font-size: 3rem;
+            font-size: 2.8rem;
             font-family: 'Bricolage Grotesque', sans-serif;
             font-weight: 800;
             line-height: 1.15;
@@ -169,9 +159,9 @@
         }
 
         .hero-landing p {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             color: var(--text-muted);
-            margin-bottom: 28px;
+            margin-bottom: 24px;
             max-width: 680px;
             margin-left: auto;
             margin-right: auto;
@@ -182,7 +172,7 @@
             justify-content: center;
             gap: 24px;
             flex-wrap: wrap;
-            margin-top: 24px;
+            margin-top: 20px;
         }
 
         .hero-feature-item {
@@ -197,7 +187,7 @@
         /* Stegindikator */
         .stepper {
             max-width: 900px;
-            margin: 36px auto 10px auto;
+            margin: 30px auto 10px auto;
             padding: 0 20px;
             display: flex;
             justify-content: space-between;
@@ -267,7 +257,7 @@
         }
 
         .container {
-            max-width: 1380px;
+            max-width: 1440px;
             margin: 24px auto;
             padding: 0 24px;
         }
@@ -288,19 +278,19 @@
 
         .section-title {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
 
         .section-title h2 {
-            font-size: 2.2rem;
+            font-size: 2.1rem;
             color: var(--text-main);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-family: 'Bricolage Grotesque', sans-serif;
         }
 
         .section-title p {
             color: var(--text-muted);
-            font-size: 1.05rem;
+            font-size: 1.02rem;
         }
 
         /* Mallval Grid */
@@ -335,7 +325,7 @@
         .template-preview-banner {
             height: 200px;
             background: var(--bg-alt);
-            padding: 24px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -377,118 +367,125 @@
             margin-bottom: 18px;
         }
 
-        /* Fullskärms Redigerare Layout med Slide-in Varukorgs-panel */
-        .editor-layout {
-            position: relative;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
+        /* ==========================================================================
+           DEL 2: DASHBOARD SPLIT-SCREEN LAYOUT MED MAXIMUM HÖJD TILL BOTTEN
+           ========================================================================== */
+        
+        .editor-split-grid {
+            display: grid;
+            grid-template-columns: 460px 1fr;
+            gap: 24px;
+            align-items: start;
+            transition: grid-template-columns 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .editor-panel-drawer {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 480px;
-            max-width: 90vw;
-            height: 100vh;
+        .editor-split-grid.preview-expanded {
+            grid-template-columns: 0px 1fr;
+            gap: 0;
+        }
+
+        .editor-split-grid.preview-expanded .editor-sidebar {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-30px);
+            overflow: hidden;
+            padding: 0;
+            border: none;
+        }
+
+        @media (max-width: 1080px) {
+            .editor-split-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Vänsterredigerarpanel - Utökad till botten */
+        .editor-sidebar {
             background: var(--bg-card);
-            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
-            padding: 24px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-elevated);
+            padding: 20px;
+            max-height: calc(100vh - 120px);
             overflow-y: auto;
-            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            transform: translateX(100%);
-            border-left: 1px solid var(--border-color);
+            position: sticky;
+            top: 80px;
+            transition: all 0.3s ease;
         }
 
-        .editor-panel-drawer.open {
-            transform: translateX(0);
+        /* Dragspelsmeny för sektioner */
+        .accordion-item {
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            margin-bottom: 14px;
+            overflow: hidden;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .drawer-header {
+        .accordion-item.open {
+            border-color: var(--accent-main);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            background: var(--bg-card);
+        }
+
+        .accordion-header {
+            padding: 14px 16px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding-bottom: 16px;
-            margin-bottom: 20px;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+            background: var(--bg-main);
+            transition: background 0.2s;
+        }
+
+        .accordion-item.open .accordion-header {
+            background: var(--accent-light);
             border-bottom: 1px solid var(--border-color);
         }
 
-        .drawer-close-btn {
-            background: var(--bg-alt);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            width: 34px;
-            height: 34px;
+        .accordion-title-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        .accordion-title-group .icon-box {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: var(--bg-card);
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--text-main);
-            transition: all 0.2s ease;
-        }
-
-        .drawer-close-btn:hover {
-            background: #fee2e2;
-            color: var(--danger-color);
-            border-color: #fca5a5;
-        }
-
-        .drawer-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(15, 35, 56, 0.4);
-            backdrop-filter: blur(2px);
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .drawer-backdrop.open {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .open-drawer-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--accent-main);
-            color: #ffffff;
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-size: 0.88rem;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(18, 50, 80, 0.2);
-            transition: all 0.2s ease;
-        }
-
-        .open-drawer-btn:hover {
-            background: var(--accent-hover);
-            transform: translateY(-1px);
-        }
-
-        .form-section-title {
-            font-family: 'Bricolage Grotesque', sans-serif;
-            font-size: 1.15rem;
-            margin: 24px 0 12px 0;
             color: var(--accent-main);
-            border-bottom: 2px solid var(--accent-light);
-            padding-bottom: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            border: 1px solid var(--border-color);
         }
 
+        .accordion-chevron {
+            transition: transform 0.3s ease;
+            color: var(--text-muted);
+        }
+
+        .accordion-item.open .accordion-chevron {
+            transform: rotate(180deg);
+            color: var(--accent-main);
+        }
+
+        .accordion-body {
+            padding: 18px 16px;
+            display: none;
+        }
+
+        .accordion-item.open .accordion-body {
+            display: block;
+        }
+
+        /* Formulärkomponenter */
         .form-group {
             margin-bottom: 16px;
         }
@@ -496,7 +493,7 @@
         .form-group label {
             display: block;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.84rem;
             margin-bottom: 6px;
             color: var(--text-main);
         }
@@ -509,27 +506,145 @@
             background: var(--bg-main);
             color: var(--text-main);
             font-size: 0.92rem;
-            transition: border 0.2s;
+            transition: all 0.2s;
         }
 
         .form-control:focus {
             outline: none;
             border-color: var(--accent-main);
             background: #ffffff;
+            box-shadow: 0 0 0 3px var(--accent-light);
         }
 
         textarea.form-control {
             resize: vertical;
-            min-height: 80px;
+            min-height: 90px;
         }
 
+        .toggle-switch-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: var(--bg-main);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            margin-bottom: 14px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #cbd5e1;
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent-main);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Färgpaletter */
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .theme-card-option {
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+            background: var(--bg-main);
+        }
+
+        .theme-card-option:hover {
+            border-color: var(--accent-main);
+        }
+
+        .theme-card-option.active {
+            border-color: var(--accent-main);
+            background: var(--accent-light);
+        }
+
+        .theme-circle-preview {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid rgba(0,0,0,0.1);
+        }
+
+        /* Uppladdningszon för Profilbild */
+        .avatar-upload-box {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px;
+            background: var(--bg-main);
+            border: 1px dashed var(--border-color);
+            border-radius: var(--radius-sm);
+        }
+
+        .avatar-preview-img {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-main);
+        }
+
+        /* Erfarenhetselement */
         .editor-item-box {
             background: var(--bg-main);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 16px;
-            margin-bottom: 14px;
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            margin-bottom: 12px;
             position: relative;
+        }
+
+        .editor-item-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px dashed var(--border-color);
         }
 
         .delete-item-btn {
@@ -541,10 +656,10 @@
             font-size: 0.78rem;
             font-weight: 700;
             cursor: pointer;
-            float: right;
             display: inline-flex;
             align-items: center;
             gap: 4px;
+            transition: all 0.2s;
         }
 
         .delete-item-btn:hover {
@@ -552,35 +667,7 @@
             color: #ffffff;
         }
 
-        .toggle-switch {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .editor-theme-selector {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .mini-theme-btn {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            border: 2px solid var(--border-color);
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .mini-theme-btn:hover {
-            transform: scale(1.15);
-        }
-
-        /* Preview Frame & Toolbar */
+        /* Preview Wrapper - Utökad till botten */
         .preview-wrapper {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -589,10 +676,11 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            height: 82vh;
+            height: calc(100vh - 120px);
             min-height: 680px;
             width: 100%;
-            transition: all 0.3s ease;
+            position: sticky;
+            top: 80px;
         }
 
         .preview-toolbar {
@@ -620,19 +708,52 @@
         .preview-dot:nth-child(2) { background: #ffbd2e; }
         .preview-dot:nth-child(3) { background: #27c93f; }
 
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #15803d;
+            background: #dcfce7;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid #bbf7d0;
+        }
+
+        .live-dot-pulse {
+            width: 7px;
+            height: 7px;
+            background: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            animation: pulse 1.6s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
         .device-selector {
             display: flex;
+            align-items: center;
             gap: 8px;
         }
 
         .device-btn {
-            background: transparent;
+            background: var(--bg-main);
             border: 1px solid var(--border-color);
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 6px;
-            font-size: 0.78rem;
+            font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
         }
 
         .device-btn.active {
@@ -641,32 +762,65 @@
             border-color: var(--accent-main);
         }
 
+        .expand-toggle-btn {
+            background: var(--accent-light);
+            color: var(--accent-main);
+            border: 1px solid var(--border-color);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .expand-toggle-btn:hover {
+            background: var(--accent-main);
+            color: #ffffff;
+        }
+
         .preview-frame {
             flex-grow: 1;
-            overflow-y: auto;
+            overflow: hidden;
             background-color: var(--p-bg);
             color: var(--p-text);
-            transition: all 0.3s ease;
-        }
-
-        .preview-frame.device-tablet {
-            width: min(100%, 768px);
-            margin-inline: auto;
-            border-inline: 1px solid var(--border-color);
-        }
-
-        .preview-frame.device-mobile {
-            width: min(100%, 414px);
-            margin-inline: auto;
-            border-inline: 1px solid var(--border-color);
-        }
-
-        .preview-frame iframe {
-            display: block;
+            position: relative;
             width: 100%;
             height: 100%;
+        }
+
+        /* Datorskalning: renderar iframe i 1280px och skalar ned med CSS transform */
+        .preview-frame.device-desktop iframe {
+            display: block;
             border: 0;
             background: #ffffff;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: top left;
+        }
+
+        /* Mobilvy: centrerad mobilram */
+        .preview-frame.device-mobile {
+            display: flex;
+            justify-content: center;
+            background: #e2e8f0;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        .preview-frame.device-mobile iframe {
+            display: block;
+            width: 390px;
+            height: 780px;
+            max-height: 100%;
+            border: 8px solid #1e293b;
+            border-radius: 32px;
+            background: #ffffff;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
         }
 
         /* Domänsökare */
@@ -855,6 +1009,23 @@
             flex-shrink: 0;
         }
 
+        /* Växlingsknappar för mobilvy i Steg 2 */
+        .mobile-view-tabs {
+            display: none;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 1080px) {
+            .mobile-view-tabs {
+                display: flex;
+            }
+            .editor-sidebar.mobile-hidden,
+            .preview-wrapper.mobile-hidden {
+                display: none !important;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -866,7 +1037,7 @@
                 FormFolio
             </a>
             <div style="display:flex; align-items:center; gap:16px;">
-                <div>
+                <div style="font-size:0.9rem;">
                     Årsplan: <strong>979 kr/år</strong> (Faktura)
                 </div>
             </div>
@@ -935,47 +1106,35 @@
                     <div class="template-preview-banner">
                         <span class="template-badge">Populärast</span>
                         <svg width="260" height="130" viewBox="0 0 260 130" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto; margin-top: 10px;">
-                            <!-- Beige webbläsarram -->
                             <rect x="2" y="2" width="256" height="126" rx="8" fill="#f8f6f0" stroke="#ded8cb" stroke-width="1.5"/>
-                            <!-- Header med fönsterknappar -->
                             <path d="M2 10C2 5.58172 5.58172 2 10 2H250C254.418 2 258 5.58172 258 10V20H2V10Z" fill="#eee8dc"/>
                             <circle cx="12" cy="11" r="3" fill="#ef4444"/>
                             <circle cx="22" cy="11" r="3" fill="#f59e0b"/>
                             <circle cx="32" cy="11" r="3" fill="#10b981"/>
-                            <!-- Navigering & Logotyp i mörkblå -->
                             <rect x="12" y="23" width="34" height="4" rx="2" fill="#123250"/>
                             <rect x="175" y="24" width="16" height="2.5" rx="1" fill="#56615a"/>
                             <rect x="195" y="24" width="16" height="2.5" rx="1" fill="#56615a"/>
                             <rect x="215" y="24" width="16" height="2.5" rx="1" fill="#56615a"/>
                             <circle cx="242" cy="25" r="3" fill="#123250" opacity="0.3" stroke="#123250" stroke-width="0.8"/>
-                            <!-- Hero Sektion -->
-                            <!-- Status & Plats -->
                             <circle cx="14" cy="35" r="2" fill="#123250"/>
                             <rect x="19" y="33.5" width="48" height="3" rx="1.5" fill="#123250"/>
-                            <!-- Rubrik (Namn) -->
                             <rect x="12" y="40" width="88" height="7" rx="2" fill="#123250"/>
-                            <!-- Subtitle i blå accent -->
                             <rect x="12" y="50" width="108" height="4.5" rx="2" fill="#1d4872"/>
-                            <!-- Bio text rader -->
                             <rect x="12" y="58" width="118" height="2.5" rx="1" fill="#56615a" opacity="0.6"/>
                             <rect x="12" y="63" width="98" height="2.5" rx="1" fill="#56615a" opacity="0.6"/>
-                            <!-- Knappar -->
                             <rect x="12" y="70" width="38" height="10" rx="3" fill="#123250"/>
                             <rect x="54" y="70" width="34" height="10" rx="3" fill="none" stroke="#123250" stroke-width="1"/>
                             <rect x="60" y="73.5" width="22" height="3" rx="1.5" fill="#123250"/>
-                            <!-- Sidopanel med Profilbild (Mörkblå ram) -->
                             <rect x="172" y="34" width="38" height="38" rx="8" fill="#ffffff" stroke="#123250" stroke-width="1.5"/>
                             <circle cx="191" cy="48" r="7" fill="#123250" opacity="0.85"/>
                             <path d="M181 57 C181 53, 201 53, 201 57" fill="#123250" opacity="0.85"/>
                             <rect x="172" y="76" width="38" height="3" rx="1.5" fill="#123250" opacity="0.8"/>
-                            <!-- Nedre sektion: Vita kort med mörkblå detaljer -->
                             <rect x="12" y="86" width="110" height="36" rx="5" fill="#ffffff" stroke="#ded8cb"/>
                             <rect x="18" y="92" width="30" height="3.5" rx="1.5" fill="#123250"/>
                             <rect x="18" y="100" width="22" height="5" rx="2.5" fill="#123250" opacity="0.3"/>
                             <rect x="44" y="100" width="26" height="5" rx="2.5" fill="#dbe8f5" stroke="#123250" stroke-width="0.5"/>
                             <rect x="74" y="100" width="20" height="5" rx="2.5" fill="#eee8dc"/>
                             <rect x="18" y="110" width="92" height="2.5" rx="1" fill="#56615a" opacity="0.5"/>
-
                             <rect x="130" y="86" width="118" height="36" rx="5" fill="#ffffff" stroke="#ded8cb"/>
                             <rect x="136" y="92" width="42" height="3.5" rx="1.5" fill="#123250"/>
                             <rect x="136" y="100" width="20" height="5" rx="2" fill="#123250" opacity="0.2"/>
@@ -997,35 +1156,24 @@
                 <div class="template-card" onclick="selectTemplate('executive', this)">
                     <div class="template-preview-banner">
                         <svg width="260" height="130" viewBox="0 0 260 130" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto;">
-                            <!-- Beige webbläsarram -->
                             <rect x="2" y="2" width="256" height="126" rx="8" fill="#f8f6f0" stroke="#ded8cb" stroke-width="1.5"/>
-                            <!-- Header med fönsterknappar -->
                             <path d="M2 10C2 5.58172 5.58172 2 10 2H250C254.418 2 258 5.58172 258 10V20H2V10Z" fill="#eee8dc"/>
                             <circle cx="12" cy="11" r="3" fill="#ef4444"/>
                             <circle cx="22" cy="11" r="3" fill="#f59e0b"/>
                             <circle cx="32" cy="11" r="3" fill="#10b981"/>
-                            <!-- Centrerat kort 1: Hero -->
                             <rect x="30" y="22" width="200" height="68" rx="8" fill="#ffffff" stroke="#ded8cb" stroke-width="1"/>
-                            <!-- Centrerad cirkulär avatar med mörkblå detalj -->
                             <circle cx="130" cy="35" r="10" fill="#f8f6f0" stroke="#123250" stroke-width="1.5"/>
                             <circle cx="130" cy="32" r="3.5" fill="#123250"/>
                             <path d="M123 41 C123 38, 137 38, 137 41" fill="#123250"/>
-                            <!-- Centrerat Namn -->
                             <rect x="85" y="48" width="90" height="5" rx="2" fill="#123250"/>
-                            <!-- Subtitle i mörkblå accent -->
                             <rect x="95" y="55" width="70" height="3" rx="1.5" fill="#1d4872"/>
-                            <!-- Plats -->
                             <rect x="105" y="60" width="50" height="2" rx="1" fill="#56615a" opacity="0.7"/>
-                            <!-- Bio lead -->
                             <rect x="65" y="64" width="130" height="2.5" rx="1" fill="#56615a" opacity="0.6"/>
-                            <!-- Boka Möte Knapp (mörkblå pill) -->
                             <rect x="100" y="69" width="60" height="8" rx="4" fill="#123250"/>
                             <rect x="110" y="71.5" width="40" height="3" rx="1" fill="#ffffff"/>
-                            <!-- Centrerat kort 2: Erfarenhet -->
                             <rect x="30" y="94" width="200" height="32" rx="6" fill="#ffffff" stroke="#ded8cb" stroke-width="1"/>
                             <rect x="38" y="98" width="75" height="3.5" rx="1.5" fill="#123250"/>
                             <line x1="38" y1="103" x2="222" y2="103" stroke="#ded8cb" stroke-width="0.8"/>
-                            <!-- Erfarenhetsrader -->
                             <rect x="38" y="106" width="55" height="3" rx="1" fill="#123250"/>
                             <rect x="38" y="110" width="45" height="2" rx="1" fill="#1d4872"/>
                             <rect x="38" y="113" width="120" height="2" rx="1" fill="#56615a" opacity="0.5"/>
@@ -1047,20 +1195,16 @@
                 <div class="template-card" onclick="selectTemplate('creative', this)">
                     <div class="template-preview-banner">
                         <svg width="260" height="130" viewBox="0 0 260 130" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto;">
-                            <!-- Nordiskt ljust läge webbläsarram -->
                             <rect x="2" y="2" width="256" height="126" rx="8" fill="#f8f6f0" stroke="#ded8cb" stroke-width="1.5"/>
-                            <!-- Header med fönsterknappar -->
                             <path d="M2 10C2 5.58172 5.58172 2 10 2H250C254.418 2 258 5.58172 258 10V20H2V10Z" fill="#eee8dc"/>
                             <circle cx="12" cy="11" r="3" fill="#ef4444"/>
                             <circle cx="22" cy="11" r="3" fill="#f59e0b"/>
                             <circle cx="32" cy="11" r="3" fill="#10b981"/>
-                            <!-- Sticky Navbar med logotyp & navlänkar -->
                             <rect x="12" y="23" width="38" height="4" rx="2" fill="#123250"/>
                             <rect x="180" y="24" width="16" height="2.5" rx="1" fill="#56615a"/>
                             <rect x="202" y="24" width="16" height="2.5" rx="1" fill="#56615a"/>
                             <rect x="224" y="24" width="16" height="2.5" rx="1" fill="#56615a"/>
                             <line x1="2" y1="29" x2="258" y2="29" stroke="#ded8cb" stroke-width="0.8"/>
-                            <!-- Hero Sektion (2-kolumns grid) -->
                             <rect x="12" y="33" width="65" height="2.5" rx="1" fill="#56615a"/>
                             <rect x="12" y="38" width="80" height="6" rx="1.5" fill="#123250"/>
                             <rect x="95" y="38" width="30" height="6" rx="1.5" fill="#1d4872"/>
@@ -1071,23 +1215,18 @@
                             <rect x="18" y="68.5" width="28" height="2" fill="#ffffff"/>
                             <rect x="56" y="65" width="36" height="9" rx="2" fill="none" stroke="#123250" stroke-width="0.8"/>
                             <rect x="62" y="68.5" width="24" height="2" fill="#123250"/>
-                            <!-- Höger: Stående Porträttbild -->
                             <rect x="178" y="31" width="38" height="46" rx="2" fill="#eee8dc" stroke="#ded8cb" stroke-width="1"/>
                             <circle cx="197" cy="47" r="8" fill="#123250" opacity="0.8"/>
                             <path d="M187 66 C187 58, 207 58, 207 66" fill="#123250" opacity="0.8"/>
-                            <!-- Sektionsavdelare -->
                             <line x1="12" y1="81" x2="248" y2="81" stroke="#ded8cb" stroke-width="0.8"/>
-                            <!-- Forskning / Erfarenhet med mörkblå vänsterlinje -->
                             <rect x="12" y="84" width="50" height="2.5" rx="1" fill="#56615a"/>
                             <rect x="12" y="88" width="40" height="4" rx="1.5" fill="#123250"/>
-                            <!-- Block 1 -->
                             <line x1="12" y1="96" x2="12" y2="123" stroke="#123250" stroke-width="2.5"/>
                             <rect x="18" y="96" width="35" height="2" rx="1" fill="#56615a"/>
                             <rect x="18" y="100" width="110" height="4" rx="1" fill="#123250"/>
                             <rect x="18" y="106" width="60" height="2" rx="1" fill="#1d4872"/>
                             <rect x="18" y="110" width="115" height="2" rx="1" fill="#56615a" opacity="0.8"/>
                             <rect x="18" y="114" width="95" height="2" rx="1" fill="#56615a" opacity="0.8"/>
-                            <!-- Block 2 -->
                             <line x1="145" y1="96" x2="145" y2="123" stroke="#123250" stroke-width="2.5"/>
                             <rect x="151" y="96" width="30" height="2" rx="1" fill="#56615a"/>
                             <rect x="151" y="100" width="90" height="4" rx="1" fill="#123250"/>
@@ -1112,152 +1251,274 @@
             </div>
         </section>
 
-        <!-- STEG 2: REDIGERA INNEHÅLL (FULLSKÄRM MED SLIDE-IN VARUKORGS-PANEL) -->
+        <!-- STEG 2: REDIGERA INNEHÅLL (FULL HÖJD TILL BOTTEN) -->
         <section id="step-2" class="step-content">
             <div class="section-title">
-                <h2>Redigera ditt innehåll</h2>
-                <p>Din hemsida visas i fullskärm. Klicka på "Redigera innehåll" för att öppna den utskjutande redigeringspanelen.</p>
+                <h2>Redigera ditt innehåll & stil</h2>
+                <p>Alla ändringar du gör i fälten uppdateras direkt i din förhandsvisning till höger.</p>
             </div>
 
-            <!-- Backdrop overlay för slide-in panelen -->
-            <div id="drawer-backdrop" class="drawer-backdrop" onclick="closeEditorDrawer()"></div>
+            <!-- Växlingsknappar för mindre skärmar (Mobil) -->
+            <div class="mobile-view-tabs">
+                <button id="tab-btn-editor" class="btn btn-primary" style="flex:1;" onclick="switchMobileTab('editor')">Redigera Text</button>
+                <button id="tab-btn-preview" class="btn btn-secondary" style="flex:1;" onclick="switchMobileTab('preview')">Visa Förhandsvisning</button>
+            </div>
 
-            <div class="editor-layout">
-                <!-- Redigeringspanel -->
-                <div id="editor-panel" class="editor-panel-drawer">
-                    <div class="drawer-header">
-                        <h3 style="font-family:'Bricolage Grotesque'; font-size:1.25rem;">Redigera innehåll</h3>
-                        <button class="drawer-close-btn" onclick="closeEditorDrawer()" title="Stäng panelen">&times;</button>
-                    </div>
+            <div class="editor-split-grid" id="editor-split-grid">
+                
+                <!-- Vänster spalt: Strukturerade Dragspelssektioner -->
+                <div id="editor-sidebar-panel" class="editor-sidebar">
                     
-                    <div style="background:var(--bg-main); padding:12px; border-radius:10px; border:1px solid var(--border-color); margin-bottom:18px;">
-                        <label style="font-weight:700; font-size:0.85rem; display:block; margin-bottom:4px;">Växla Färgtema direkt:</label>
-                        <div class="editor-theme-selector">
-                            <div class="mini-theme-btn" style="background:#123250;" title="Marinblå" onclick="setEditorTheme('theme-nordic')"></div>
-                            <div class="mini-theme-btn" style="background:#1b3b2b;" title="Skogsgrön" onclick="setEditorTheme('theme-dark')"></div>
-                            <div class="mini-theme-btn" style="background:#421a4f;" title="Plommon" onclick="setEditorTheme('theme-warm')"></div>
-                            <div class="mini-theme-btn" style="background:#4a111c;" title="Rubinröd" onclick="setEditorTheme('theme-ocean')"></div>
+                    <!-- Sektion 0: Färgtema -->
+                    <div class="accordion-item open" id="acc-item-theme">
+                        <div class="accordion-header" onclick="toggleAccordion('theme')">
+                            <div class="accordion-title-group">
+                                <div class="icon-box">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a7 7 0 0 0 7 7c0 2-2 3-4 3h-1a2 2 0 0 1-2-2V8a3 3 0 0 0-3-3z"></path></svg>
+                                </div>
+                                <span>Färgtema & Visuell stil</span>
+                            </div>
+                            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="accordion-body">
+                            <label style="font-size:0.82rem; color:var(--text-muted); display:block; margin-bottom:10px;">
+                                Välj det färgtema som passar din profil bäst:
+                            </label>
+                            <div class="theme-grid">
+                                <div class="theme-card-option active" id="theme-opt-nordic" onclick="setEditorTheme('theme-nordic')">
+                                    <div class="theme-circle-preview" style="background:#123250;"></div>
+                                    <span style="font-size:0.85rem; font-weight:700;">Marinblå</span>
+                                </div>
+                                <div class="theme-card-option" id="theme-opt-dark" onclick="setEditorTheme('theme-dark')">
+                                    <div class="theme-circle-preview" style="background:#1b3b2b;"></div>
+                                    <span style="font-size:0.85rem; font-weight:700;">Skogsgrön</span>
+                                </div>
+                                <div class="theme-card-option" id="theme-opt-warm" onclick="setEditorTheme('theme-warm')">
+                                    <div class="theme-circle-preview" style="background:#421a4f;"></div>
+                                    <span style="font-size:0.85rem; font-weight:700;">Plommon</span>
+                                </div>
+                                <div class="theme-card-option" id="theme-opt-ocean" onclick="setEditorTheme('theme-ocean')">
+                                    <div class="theme-circle-preview" style="background:#4a111c;"></div>
+                                    <span style="font-size:0.85rem; font-weight:700;">Rubinröd</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Profil & Headline -->
-                    <div class="form-section-title">1. Profil & Personuppgifter</div>
-                    <div class="form-group">
-                        <label>Fullständigt Namn</label>
-                        <input type="text" id="input-name" class="form-control" value="Alex Lindqvist" oninput="updatePreview()">
-                    </div>
-                    <div class="form-group">
-                        <label>Yrkesroll / Rubrik</label>
-                        <input type="text" id="input-title" class="form-control" value="Yrkesroll eller titel" oninput="updatePreview()">
-                    </div>
-                    <div class="form-group">
-                        <label>Plats / Ort</label>
-                        <input type="text" id="input-location" class="form-control" value="Stockholm, Sverige" oninput="updatePreview()">
-                    </div>
-                    
-                    <!-- Profilbild -->
-                    <div class="form-group">
-                        <label>Profilbild (Hämta från Galleri / Dator)</label>
-                        <input type="file" id="input-avatar-file" accept="image/*" class="form-control" onchange="handleAvatarUpload(event)">
-                        <div style="display:flex; align-items:center; gap:10px; margin-top:8px;">
-                            <img id="avatar-preview-thumb" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" style="width:40px; height:40px; border-radius:50%; object-fit:cover; border:1px solid var(--border-color);">
-                            <span style="font-size:0.8rem; color:var(--text-muted);">Aktuell profilbild</span>
+                    <!-- Sektion 1: Profil & Personuppgifter -->
+                    <div class="accordion-item open" id="acc-item-profile">
+                        <div class="accordion-header" onclick="toggleAccordion('profile')">
+                            <div class="accordion-title-group">
+                                <div class="icon-box">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                </div>
+                                <span>1. Profil & Personuppgifter</span>
+                            </div>
+                            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="form-group">
+                                <label>Fullständigt Namn</label>
+                                <input type="text" id="input-name" class="form-control" value="Alex Lindqvist" oninput="updatePreview()">
+                            </div>
+                            <div class="form-group">
+                                <label>Yrkesroll / Huvudrubrik</label>
+                                <input type="text" id="input-title" class="form-control" value="Seniorkonsult & Projektledare" oninput="updatePreview()">
+                            </div>
+                            <div class="form-group">
+                                <label>Plats / Ort</label>
+                                <input type="text" id="input-location" class="form-control" value="Stockholm, Sverige" oninput="updatePreview()">
+                            </div>
+
+                            <!-- Profilbild -->
+                            <div class="form-group">
+                                <label>Profilbild</label>
+                                <div class="avatar-upload-box">
+                                    <img id="avatar-preview-thumb" class="avatar-preview-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" alt="Profilbild">
+                                    <div style="flex:1;">
+                                        <input type="file" id="input-avatar-file" accept="image/*" class="form-control" style="font-size:0.8rem; padding:6px 10px;" onchange="handleAvatarUpload(event)">
+                                        <span style="font-size:0.75rem; color:var(--text-muted); margin-top:4px; display:block;">Ladda upp en egen bild från datorn</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Om mig Sektion -->
-                    <div class="form-section-title">
-                        <span>2. Om mig (Sammanfattning)</span>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="toggle-sec-about" checked onchange="toggleSection('about')"> Visa
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="input-bio" class="form-control" oninput="updatePreview()">Beskriv kort din erfarenhet, vad du arbetar med och hur du bidrar i olika uppdrag och samarbeten.</textarea>
-                    </div>
-
-                    <!-- Yrkeserfarenheter -->
-                    <div class="form-section-title">
-                        <span>3. Yrkeserfarenheter</span>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="toggle-sec-experience" checked onchange="toggleSection('experience')"> Visa
-                        </label>
-                    </div>
-                    <div id="experience-list-container"></div>
-                    <button class="btn btn-secondary" style="width:100%; margin-bottom:18px;" onclick="addExperienceItem()">+ Lägg till Ny Erfarenhet</button>
-
-                    <!-- Utbildning Sektion -->
-                    <div class="form-section-title">
-                        <span>4. Utbildning & Certifikat</span>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="toggle-sec-education" checked onchange="toggleSection('education')"> Visa
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label>Utbildning / Examen</label>
-                        <input type="text" id="input-edu1" class="form-control" value="Utbildning eller examen" oninput="updatePreview()">
-                    </div>
-                    <div class="form-group">
-                        <label>Kurser, certifikat eller behörigheter</label>
-                        <input type="text" id="input-edu2" class="form-control" value="Kurser, certifikat eller behörigheter" oninput="updatePreview()">
+                    <!-- Sektion 2: Om mig -->
+                    <div class="accordion-item" id="acc-item-about">
+                        <div class="accordion-header" onclick="toggleAccordion('about')">
+                            <div class="accordion-title-group">
+                                <div class="icon-box">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                                </div>
+                                <span>2. Om mig (Sammanfattning)</span>
+                            </div>
+                            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="toggle-switch-wrapper">
+                                <span style="font-size:0.85rem; font-weight:700;">Visa sektionen "Om mig"</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="toggle-sec-about" checked onchange="toggleSection('about')">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>Presentations- och biotext</label>
+                                <textarea id="input-bio" class="form-control" oninput="updatePreview()">Erfaren projektledare och strategisk rådgivare med över 8 års erfarenhet av digital transformation, verksamhetsutveckling och förändringsledning.</textarea>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Kompetenser -->
-                    <div class="form-section-title">
-                        <span>5. Kompetenser & Färdigheter</span>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="toggle-sec-skills" checked onchange="toggleSection('skills')"> Visa
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label>Kompetenser (Separera med kommatecken)</label>
-                        <input type="text" id="input-skills" class="form-control" value="Kommunikation, Planering, Analys, Samarbete, Projektledning, Dokumentation" oninput="updatePreview()">
+                    <!-- Sektion 3: Yrkeserfarenheter -->
+                    <div class="accordion-item" id="acc-item-experience">
+                        <div class="accordion-header" onclick="toggleAccordion('experience')">
+                            <div class="accordion-title-group">
+                                <div class="icon-box">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                                </div>
+                                <span>3. Yrkeserfarenheter</span>
+                            </div>
+                            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="toggle-switch-wrapper">
+                                <span style="font-size:0.85rem; font-weight:700;">Visa sektionen "Erfarenhet"</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="toggle-sec-experience" checked onchange="toggleSection('experience')">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div id="experience-list-container"></div>
+                            
+                            <button class="btn btn-secondary" style="width:100%; border-style:dashed;" onclick="addExperienceItem()">
+                                + Lägg till erfarenhet
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- Kontaktuppgifter -->
-                    <div class="form-section-title">6. Kontaktuppgifter & Footer</div>
-                    <div class="form-group">
-                        <label>Profil- eller webbplatslänk</label>
-                        <input type="text" id="input-linkedin" class="form-control" value="https://example.com/profil" oninput="updatePreview()">
+                    <!-- Sektion 4: Utbildning -->
+                    <div class="accordion-item" id="acc-item-education">
+                        <div class="accordion-header" onclick="toggleAccordion('education')">
+                            <div class="accordion-title-group">
+                                <div class="icon-box">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+                                </div>
+                                <span>4. Utbildning & Certifikat</span>
+                            </div>
+                            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="toggle-switch-wrapper">
+                                <span style="font-size:0.85rem; font-weight:700;">Visa sektionen "Utbildning"</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="toggle-sec-education" checked onchange="toggleSection('education')">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>Utbildning / Examen</label>
+                                <input type="text" id="input-edu1" class="form-control" value="Civilekonomexamen, Stockholms Universitet" oninput="updatePreview()">
+                            </div>
+                            <div class="form-group">
+                                <label>Certifikat & Behörigheter</label>
+                                <input type="text" id="input-edu2" class="form-control" value="Certifierad Scrum Master (PSM I), PRINCE2 Practitioner" oninput="updatePreview()">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>E-postadress</label>
-                        <input type="email" id="input-email" class="form-control" value="namn@example.com" oninput="updatePreview()">
+
+                    <!-- Sektion 5: Kompetenser -->
+                    <div class="accordion-item" id="acc-item-skills">
+                        <div class="accordion-header" onclick="toggleAccordion('skills')">
+                            <div class="accordion-title-group">
+                                <div class="icon-box">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                </div>
+                                <span>5. Kompetenser & Färdigheter</span>
+                            </div>
+                            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="toggle-switch-wrapper">
+                                <span style="font-size:0.85rem; font-weight:700;">Visa sektionen "Kompetenser"</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="toggle-sec-skills" checked onchange="toggleSection('skills')">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>Kompetenser (Separera med kommatecken)</label>
+                                <input type="text" id="input-skills" class="form-control" value="Projektledning, Agile, Kravhantering, Förändringsledning, Processoptimering, Kommunikation" oninput="updatePreview()">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Telefonnummer</label>
-                        <input type="text" id="input-phone" class="form-control" value="070-123 45 67" oninput="updatePreview()">
+
+                    <!-- Sektion 6: Kontaktuppgifter -->
+                    <div class="accordion-item" id="acc-item-contact">
+                        <div class="accordion-header" onclick="toggleAccordion('contact')">
+                            <div class="accordion-title-group">
+                                <div class="icon-box">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                </div>
+                                <span>6. Kontaktuppgifter & Länkar</span>
+                            </div>
+                            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="form-group">
+                                <label>Profil- eller Webbplatslänk</label>
+                                <input type="text" id="input-linkedin" class="form-control" value="https://linkedin.com/in/alexlindqvist" oninput="updatePreview()">
+                            </div>
+                            <div class="form-group">
+                                <label>E-postadress</label>
+                                <input type="email" id="input-email" class="form-control" value="alex.lindqvist@example.com" oninput="updatePreview()">
+                            </div>
+                            <div class="form-group">
+                                <label>Telefonnummer</label>
+                                <input type="text" id="input-phone" class="form-control" value="070-123 45 67" oninput="updatePreview()">
+                            </div>
+                        </div>
                     </div>
 
                 </div>
 
-                <!-- Fullskärms Live Preview -->
-                <div class="preview-wrapper">
+                <!-- Höger spalt: Live Preview Dashboard -->
+                <div id="editor-preview-panel" class="preview-wrapper">
                     <div class="preview-toolbar">
-                        <div style="display:flex; align-items:center; gap:14px;">
+                        <div style="display:flex; align-items:center; gap:12px;">
                             <div class="preview-dots">
                                 <div class="preview-dot"></div>
                                 <div class="preview-dot"></div>
                                 <div class="preview-dot"></div>
                             </div>
-                            <button class="open-drawer-btn" onclick="openEditorDrawer()">
-                                <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                                Redigera Innehåll
+                            <div class="live-badge">
+                                <div class="live-dot-pulse"></div>
+                                Live Förhandsvisning
+                            </div>
+                        </div>
+
+                        <!-- Skärmstorleksväljare & Expandering -->
+                        <div class="device-selector">
+                            <button class="device-btn active" id="btn-device-desktop" data-device="desktop" onclick="setDevice('desktop', this)">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                                Dator
+                            </button>
+                            <button class="device-btn" id="btn-device-mobile" data-device="mobile" onclick="setDevice('mobile', this)">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                                Mobil
+                            </button>
+                            
+                            <button class="expand-toggle-btn" id="btn-expand-preview" onclick="toggleFullPreview()">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                                <span id="expand-btn-text">Fullskärm</span>
                             </button>
                         </div>
-                        <div class="device-selector">
-                            <button class="device-btn active" data-device="desktop" onclick="setDevice('desktop', this)">Dator</button>
-                            <button class="device-btn" data-device="tablet" onclick="setDevice('tablet', this)">Surfplatta</button>
-                            <button class="device-btn" data-device="mobile" onclick="setDevice('mobile', this)">Mobil</button>
-                        </div>
                     </div>
-                    <div id="preview-frame" class="preview-frame theme-nordic"></div>
+                    
+                    <div id="preview-frame" class="preview-frame theme-nordic device-desktop"></div>
                 </div>
-            </div>
 
-            <div class="nav-buttons">
-                <button class="btn btn-secondary" onclick="goToStep(1)">&larr; Tillbaka</button>
-                <button class="btn btn-primary" onclick="goToStep(3)">Välj domännamn &rarr;</button>
             </div>
         </section>
 
@@ -1304,7 +1565,7 @@
                         </div>
                         <div class="form-group">
                             <label>E-postadress för faktura *</label>
-                            <input type="email" id="cust-email" class="form-control" value="namn@example.com" required>
+                            <input type="email" id="cust-email" class="form-control" value="alex.lindqvist@example.com" required>
                         </div>
                         <div class="form-group">
                             <label>Gatuadress *</label>
@@ -1398,6 +1659,7 @@
             template: 'tech_dev',
             theme: 'theme-nordic',
             device: 'desktop',
+            isExpanded: false,
             domain: 'alexlindqvist.se',
             domainAvailable: true,
             sections: {
@@ -1408,30 +1670,30 @@
             },
             data: {
                 name: 'Alex Lindqvist',
-                title: 'Yrkesroll eller titel',
+                title: 'Seniorkonsult & Projektledare',
                 location: 'Stockholm, Sverige',
-                bio: 'Beskriv kort din erfarenhet, vad du arbetar med och hur du bidrar i olika uppdrag och samarbeten.',
+                bio: 'Erfaren projektledare och strategisk rådgivare med över 8 års erfarenhet av digital transformation, verksamhetsutveckling och förändringsledning.',
                 avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
-                edu1: 'Utbildning eller examen',
-                edu2: 'Kurser, certifikat eller behörigheter',
-                skills: 'Kommunikation, Planering, Analys, Samarbete, Projektledning, Dokumentation',
-                linkedin: 'https://example.com/profil',
-                email: 'namn@example.com',
+                edu1: 'Civilekonomexamen, Stockholms Universitet',
+                edu2: 'Certifierad Scrum Master (PSM I), PRINCE2 Practitioner',
+                skills: 'Projektledning, Agile, Kravhantering, Förändringsledning, Processoptimering, Kommunikation',
+                linkedin: 'https://linkedin.com/in/alexlindqvist',
+                email: 'alex.lindqvist@example.com',
                 phone: '070-123 45 67',
                 experiences: [
                     {
                         id: 1,
-                        role: 'Ansvarig för uppdrag',
-                        company: 'Organisation',
-                        period: '2022 – Nuvarande',
-                        desc: 'Planerade och genomförde arbetsuppgifter samt följde upp resultat tillsammans med berörda personer.'
+                        role: 'Senior Projektledare',
+                        company: 'Nordic Growth Consulting',
+                        period: '2021 – Nuvarande',
+                        desc: 'Leder storskaliga digitaliseringsprojekt för offentliga och privata aktörer med fokus på effektivitet och användarnytta.'
                     },
                     {
                         id: 2,
-                        role: 'Medarbetare',
-                        company: 'Organisation',
-                        period: '2019 – 2022',
-                        desc: 'Bidrog i det dagliga arbetet, samarbetade med kollegor och hjälpte till att nå gemensamma mål.'
+                        role: 'Verksamhetskonsult',
+                        company: 'Innovate Advisory',
+                        period: '2018 – 2021',
+                        desc: 'Arbetade med kravanalys, processkartläggning och förändringsledning i komplexa IT-projekt.'
                     }
                 ]
             }
@@ -1446,14 +1708,71 @@
             document.getElementById('builder-start').scrollIntoView({ behavior: 'smooth' });
         }
 
-        function openEditorDrawer() {
-            document.getElementById('editor-panel').classList.add('open');
-            document.getElementById('drawer-backdrop').classList.add('open');
+        /* Dragspelsfunktion för Steg 2 */
+        function toggleAccordion(accId) {
+            const item = document.getElementById(`acc-item-${accId}`);
+            if (item) {
+                item.classList.toggle('open');
+            }
         }
 
-        function closeEditorDrawer() {
-            document.getElementById('editor-panel').classList.remove('open');
-            document.getElementById('drawer-backdrop').classList.remove('open');
+        /* Växla fullskärmsläge på förhandsgranskningen */
+        function toggleFullPreview() {
+            state.isExpanded = !state.isExpanded;
+            const grid = document.getElementById('editor-split-grid');
+            const btnText = document.getElementById('expand-btn-text');
+            
+            if (state.isExpanded) {
+                grid.classList.add('preview-expanded');
+                btnText.innerText = 'Visa Redigerare';
+            } else {
+                grid.classList.remove('preview-expanded');
+                btnText.innerText = 'Fullskärm';
+            }
+
+            setTimeout(updateDesktopScale, 300);
+        }
+
+        /* Beräkna och skala dator-iframen mjukt så att en full skärm (1280px) alltid visas */
+        function updateDesktopScale() {
+            if (state.device !== 'desktop') return;
+
+            const container = document.getElementById('preview-frame');
+            const iframe = document.getElementById('portfolio-preview-frame');
+            if (!container || !iframe) return;
+
+            const containerWidth = container.offsetWidth;
+            const containerHeight = container.offsetHeight;
+            const targetDesktopWidth = 1280;
+
+            const scale = Math.min(1, containerWidth / targetDesktopWidth);
+
+            iframe.style.width = `${targetDesktopWidth}px`;
+            iframe.style.height = `${containerHeight / scale}px`;
+            iframe.style.transform = `scale(${scale})`;
+        }
+
+        window.addEventListener('resize', updateDesktopScale);
+
+        /* Växla vy på mobila enheter */
+        function switchMobileTab(tab) {
+            const sidebar = document.getElementById('editor-sidebar-panel');
+            const preview = document.getElementById('editor-preview-panel');
+            const btnEd = document.getElementById('tab-btn-editor');
+            const btnPrev = document.getElementById('tab-btn-preview');
+
+            if (tab === 'editor') {
+                sidebar.classList.remove('mobile-hidden');
+                preview.classList.add('mobile-hidden');
+                btnEd.className = 'btn btn-primary';
+                btnPrev.className = 'btn btn-secondary';
+            } else {
+                sidebar.classList.add('mobile-hidden');
+                preview.classList.remove('mobile-hidden');
+                btnEd.className = 'btn btn-secondary';
+                btnPrev.className = 'btn btn-primary';
+                setTimeout(updateDesktopScale, 100);
+            }
         }
 
         function goToStep(stepNum) {
@@ -1472,9 +1791,7 @@
             if (stepNum === 2) {
                 renderEditorExperiences();
                 updatePreview();
-                openEditorDrawer();
-            } else {
-                closeEditorDrawer();
+                setTimeout(updateDesktopScale, 100);
             }
             if (stepNum === 3) checkDomain();
             if (stepNum === 4) updateSummary();
@@ -1521,6 +1838,19 @@
 
         function setEditorTheme(themeClass) {
             state.theme = themeClass;
+            document.querySelectorAll('.theme-card-option').forEach(el => el.classList.remove('active'));
+            
+            const activeOpt = {
+                'theme-nordic': 'theme-opt-nordic',
+                'theme-dark': 'theme-opt-dark',
+                'theme-warm': 'theme-opt-warm',
+                'theme-ocean': 'theme-opt-ocean'
+            }[themeClass];
+
+            if (activeOpt && document.getElementById(activeOpt)) {
+                document.getElementById(activeOpt).classList.add('active');
+            }
+
             updatePreview();
         }
 
@@ -1532,6 +1862,18 @@
 
             const frame = document.getElementById('preview-frame');
             frame.className = `preview-frame ${state.theme} device-${deviceType}`;
+
+            const iframe = document.getElementById('portfolio-preview-frame');
+            if (iframe) {
+                if (deviceType === 'mobile') {
+                    iframe.style.width = '100%';
+                    iframe.style.height = '100%';
+                    iframe.style.transform = 'none';
+                } else {
+                    updateDesktopScale();
+                }
+            }
+
             updatePreview();
         }
 
@@ -1562,25 +1904,27 @@
                 const box = document.createElement('div');
                 box.className = 'editor-item-box';
                 box.innerHTML = `
-                    <button class="delete-item-btn" onclick="removeExperienceItem(${exp.id})">
-                        ${SVG_ICONS.cross} Ta bort
-                    </button>
-                    <strong style="font-size:0.85rem; color:var(--accent-main); display:block; margin-bottom:8px;">Erfarenhet #${index + 1}</strong>
+                    <div class="editor-item-box-header">
+                        <strong style="font-size:0.85rem; color:var(--accent-main);">Erfarenhet #${index + 1}</strong>
+                        <button class="delete-item-btn" onclick="removeExperienceItem(${exp.id})">
+                            ${SVG_ICONS.cross} Ta bort
+                        </button>
+                    </div>
                     <div class="form-group">
                         <label>Roll / Befattning</label>
                         <input type="text" class="form-control" value="${exp.role}" oninput="updateExperienceField(${exp.id}, 'role', this.value)">
                     </div>
                     <div class="form-group">
-                        <label>Företag</label>
+                        <label>Företag / Organisation</label>
                         <input type="text" class="form-control" value="${exp.company}" oninput="updateExperienceField(${exp.id}, 'company', this.value)">
                     </div>
                     <div class="form-group">
                         <label>Period</label>
                         <input type="text" class="form-control" value="${exp.period}" oninput="updateExperienceField(${exp.id}, 'period', this.value)">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="margin-bottom:0;">
                         <label>Beskrivning</label>
-                        <textarea class="form-control" oninput="updateExperienceField(${exp.id}, 'desc', this.value)">${exp.desc}</textarea>
+                        <textarea class="form-control" style="min-height:70px;" oninput="updateExperienceField(${exp.id}, 'desc', this.value)">${exp.desc}</textarea>
                     </div>
                 `;
                 container.appendChild(box);
@@ -1594,7 +1938,7 @@
                 role: 'Ny Befattning',
                 company: 'Företagsnamn',
                 period: '2023 – Nuvarande',
-                desc: 'Beskriv dina huvudsakliga arbetsuppgifter här.'
+                desc: 'Beskriv dina huvudsakliga arbetsuppgifter och resultat här.'
             });
             renderEditorExperiences();
             updatePreview();
@@ -1628,6 +1972,7 @@
 
             const frame = document.getElementById('preview-frame');
             frame.className = `preview-frame ${state.theme} device-${state.device}`;
+
             [
                 { container: frame, id: 'portfolio-preview-frame', title: 'Portfolioförhandsvisning' }
             ].forEach(({ container, id, title }) => {
@@ -1639,6 +1984,7 @@
                     portfolioFrame.title = title;
                     portfolioFrame.addEventListener('load', () => {
                         sendPortfolioData(portfolioFrame);
+                        if (state.device === 'desktop') updateDesktopScale();
                     });
                     container.appendChild(portfolioFrame);
                 }
@@ -1651,6 +1997,10 @@
                     sendPortfolioData(portfolioFrame);
                 }
             });
+
+            if (state.device === 'desktop') {
+                updateDesktopScale();
+            }
         }
 
         function checkDomain() {
