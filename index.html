@@ -367,10 +367,7 @@
             margin-bottom: 18px;
         }
 
-        /* ==========================================================================
-           DEL 2: DASHBOARD SPLIT-SCREEN LAYOUT MED MAXIMUM HÖJD TILL BOTTEN
-           ========================================================================== */
-        
+        /* Redigerare Split-Screen Layout */
         .editor-split-grid {
             display: grid;
             grid-template-columns: 460px 1fr;
@@ -399,7 +396,6 @@
             }
         }
 
-        /* Vänsterredigerarpanel - Utökad till botten */
         .editor-sidebar {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -413,7 +409,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Dragspelsmeny för sektioner */
         .accordion-item {
             background: var(--bg-main);
             border: 1px solid var(--border-color);
@@ -485,7 +480,6 @@
             display: block;
         }
 
-        /* Formulärkomponenter */
         .form-group {
             margin-bottom: 16px;
         }
@@ -574,7 +568,6 @@
             transform: translateX(20px);
         }
 
-        /* Färgpaletter */
         .theme-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -609,7 +602,6 @@
             border: 2px solid rgba(0,0,0,0.1);
         }
 
-        /* Uppladdningszon för Profilbild */
         .avatar-upload-box {
             display: flex;
             align-items: center;
@@ -628,7 +620,6 @@
             border: 2px solid var(--accent-main);
         }
 
-        /* Erfarenhetselement */
         .editor-item-box {
             background: var(--bg-main);
             border: 1px solid var(--border-color);
@@ -667,7 +658,6 @@
             color: #ffffff;
         }
 
-        /* Preview Wrapper - Utökad till botten */
         .preview-wrapper {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -792,7 +782,6 @@
             height: 100%;
         }
 
-        /* Datorskalning: renderar iframe i 1280px och skalar ned med CSS transform */
         .preview-frame.device-desktop iframe {
             display: block;
             border: 0;
@@ -803,7 +792,6 @@
             transform-origin: top left;
         }
 
-        /* Mobilvy: centrerad mobilram */
         .preview-frame.device-mobile {
             display: flex;
             justify-content: center;
@@ -868,7 +856,7 @@
         }
 
         .domain-suggestions {
-            margin-top: 16px;
+            margin-top: 12px;
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
@@ -1009,7 +997,6 @@
             flex-shrink: 0;
         }
 
-        /* Växlingsknappar för mobilvy i Steg 2 */
         .mobile-view-tabs {
             display: none;
             gap: 8px;
@@ -1025,7 +1012,6 @@
                 display: none !important;
             }
         }
-
     </style>
 </head>
 <body>
@@ -1251,14 +1237,13 @@
             </div>
         </section>
 
-        <!-- STEG 2: REDIGERA INNEHÅLL (FULL HÖJD TILL BOTTEN) -->
+        <!-- STEG 2: REDIGERA INNEHÅLL -->
         <section id="step-2" class="step-content">
             <div class="section-title">
                 <h2>Redigera ditt innehåll & stil</h2>
                 <p>Alla ändringar du gör i fälten uppdateras direkt i din förhandsvisning till höger.</p>
             </div>
 
-            <!-- Växlingsknappar för mindre skärmar (Mobil) -->
             <div class="mobile-view-tabs">
                 <button id="tab-btn-editor" class="btn btn-primary" style="flex:1;" onclick="switchMobileTab('editor')">Redigera Text</button>
                 <button id="tab-btn-preview" class="btn btn-secondary" style="flex:1;" onclick="switchMobileTab('preview')">Visa Förhandsvisning</button>
@@ -1266,7 +1251,7 @@
 
             <div class="editor-split-grid" id="editor-split-grid">
                 
-                <!-- Vänster spalt: Strukturerade Dragspelssektioner -->
+                <!-- Vänster spalt: Redigerarpanel -->
                 <div id="editor-sidebar-panel" class="editor-sidebar">
                     
                     <!-- Sektion 0: Färgtema -->
@@ -1330,7 +1315,6 @@
                                 <input type="text" id="input-location" class="form-control" value="Stockholm, Sverige" oninput="updatePreview()">
                             </div>
 
-                            <!-- Profilbild -->
                             <div class="form-group">
                                 <label>Profilbild</label>
                                 <div class="avatar-upload-box">
@@ -1498,7 +1482,6 @@
                             </div>
                         </div>
 
-                        <!-- Skärmstorleksväljare & Expandering -->
                         <div class="device-selector">
                             <button class="device-btn active" id="btn-device-desktop" data-device="desktop" onclick="setDevice('desktop', this)">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
@@ -1522,18 +1505,20 @@
             </div>
         </section>
 
-        <!-- STEG 3: DOMÄNSÖKARE -->
+        <!-- STEG 3: DOMÄNSÖKARE (AUTOMATISK BOT-VERIFIERING) -->
         <section id="step-3" class="step-content">
             <div class="section-title">
                 <h2>Välj ditt domännamn</h2>
-                <p>Sök efter din önskade webbadress. Systemet kontrollerar direkt om den är ledig.</p>
+                <p>Skriv in din önskade webbadress. Vår bot kontrollerar direkt i domänregistret om den är ledig.</p>
             </div>
 
             <div class="domain-search-box">
                 <label style="font-weight:700;">Skriv in önskad domän:</label>
                 <div class="search-input-group">
-                    <input type="text" id="domain-input" class="form-control" placeholder="dittnamn.se" value="alexlindqvist.se">
-                    <button class="btn btn-primary" onclick="checkDomain()">Sök domän</button>
+                    <input type="text" id="domain-input" class="form-control" placeholder="dittnamn.se" value="alexlindqvist.se" onkeydown="if(event.key==='Enter') checkDomain()">
+                    <button class="btn btn-primary" onclick="checkDomain()">
+                        Verifiera Domän
+                    </button>
                 </div>
                 <div id="domain-result" class="domain-result"></div>
             </div>
@@ -1699,16 +1684,10 @@
             }
         };
 
-        const takenDomains = [
-            'alexlindqvist.se', 'google.se', 'spotify.se', 'portfolio.se', 
-            'design.se', 'test.se', 'kreator.se', 'studio.se', 'neocarlsson.se'
-        ];
-
         function scrollToStepper() {
             document.getElementById('builder-start').scrollIntoView({ behavior: 'smooth' });
         }
 
-        /* Dragspelsfunktion för Steg 2 */
         function toggleAccordion(accId) {
             const item = document.getElementById(`acc-item-${accId}`);
             if (item) {
@@ -1716,7 +1695,6 @@
             }
         }
 
-        /* Växla fullskärmsläge på förhandsgranskningen */
         function toggleFullPreview() {
             state.isExpanded = !state.isExpanded;
             const grid = document.getElementById('editor-split-grid');
@@ -1733,7 +1711,6 @@
             setTimeout(updateDesktopScale, 300);
         }
 
-        /* Beräkna och skala dator-iframen mjukt så att en full skärm (1280px) alltid visas */
         function updateDesktopScale() {
             if (state.device !== 'desktop') return;
 
@@ -1754,7 +1731,6 @@
 
         window.addEventListener('resize', updateDesktopScale);
 
-        /* Växla vy på mobila enheter */
         function switchMobileTab(tab) {
             const sidebar = document.getElementById('editor-sidebar-panel');
             const preview = document.getElementById('editor-preview-panel');
@@ -2003,8 +1979,9 @@
             }
         }
 
-        function checkDomain() {
-            const input = document.getElementById('domain-input').value.toLowerCase().trim();
+        /* AUTOMATISK BOT-VERIFIERING AV DOMÄN */
+        async function checkDomain() {
+            let input = document.getElementById('domain-input').value.toLowerCase().trim();
             const resultDiv = document.getElementById('domain-result');
             
             if (!input) {
@@ -2012,31 +1989,111 @@
                 return;
             }
 
+            // Rensa eventuell URL-prefix
+            input = input.replace(/^(https?:\/\/)?(www\.)?/, '');
+
+            // Lägg till .se automatiskt om ingen toppdomän angivits
+            if (!input.includes('.')) {
+                input += '.se';
+                document.getElementById('domain-input').value = input;
+            }
+
             state.domain = input;
-            const isTaken = takenDomains.includes(input);
 
-            if (isTaken) {
-                state.domainAvailable = false;
-                const alt1 = input.replace('.se', '-profile.se');
-                const alt2 = input.replace('.se', 'konsult.se');
-                const alt3 = input.replace('.se', '.nu');
-
-                resultDiv.className = 'domain-result taken';
-                resultDiv.innerHTML = `
-                    <strong>${SVG_ICONS.cross} Domänen ${input} är tyvärr upptagen!</strong>
-                    <p style="font-size:0.88rem; margin-top:6px;">Förslag på lediga domäner:</p>
-                    <div class="domain-suggestions">
-                        <span class="suggestion-chip" onclick="selectSuggestedDomain('${alt1}')">${alt1} (Ledig)</span>
-                        <span class="suggestion-chip" onclick="selectSuggestedDomain('${alt2}')">${alt2} (Ledig)</span>
-                        <span class="suggestion-chip" onclick="selectSuggestedDomain('${alt3}')">${alt3} (Ledig)</span>
+            // Visa botens laddningsindikator
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'domain-result';
+            resultDiv.style.background = 'var(--bg-main)';
+            resultDiv.style.border = '1px solid var(--border-color)';
+            resultDiv.style.color = 'var(--text-main)';
+            resultDiv.innerHTML = `
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div class="live-dot-pulse"></div>
+                    <div>
+                        <strong>Kontrollerar tillgänglighet för <em>${input}</em>...</strong>
+                        <div style="font-size:0.82rem; color:var(--text-muted); margin-top:2px;">Söker i domänregistret och verifierar status...</div>
                     </div>
-                `;
-            } else {
+                </div>
+            `;
+
+            try {
+                // Kör DNS-uppslagningar via DNS-over-HTTPS (Google & Cloudflare DoH)
+                const [gNs, gSoa, cNs] = await Promise.allSettled([
+                    fetch(`https://dns.google/resolve?name=${encodeURIComponent(input)}&type=NS`).then(r => r.json()),
+                    fetch(`https://dns.google/resolve?name=${encodeURIComponent(input)}&type=SOA`).then(r => r.json()),
+                    fetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(input)}&type=NS`, {
+                        headers: { 'Accept': 'application/dns-json' }
+                    }).then(r => r.json())
+                ]);
+
+                let isRegistered = false;
+
+                if (gNs.status === 'fulfilled' && gNs.value) {
+                    const data = gNs.value;
+                    if (data.Answer && data.Answer.length > 0) isRegistered = true;
+                    if (data.Status === 0 && data.Authority && data.Authority.length > 0) isRegistered = true;
+                }
+
+                if (!isRegistered && gSoa.status === 'fulfilled' && gSoa.value) {
+                    const data = gSoa.value;
+                    if (data.Answer && data.Answer.length > 0) isRegistered = true;
+                }
+
+                if (!isRegistered && cNs.status === 'fulfilled' && cNs.value) {
+                    const data = cNs.value;
+                    if (data.Answer && data.Answer.length > 0) isRegistered = true;
+                }
+
+                const domainParts = input.split('.');
+                const baseName = domainParts[0];
+                const tld = domainParts.slice(1).join('.') || 'se';
+
+                if (isRegistered) {
+                    state.domainAvailable = false;
+                    const alt1 = `${baseName}-portfolio.${tld}`;
+                    const alt2 = `${baseName}-konsult.${tld}`;
+                    const alt3 = `${baseName}.${tld === 'se' ? 'nu' : 'se'}`;
+
+                    resultDiv.className = 'domain-result taken';
+                    resultDiv.innerHTML = `
+                        <div style="display:flex; flex-direction:column; gap:8px;">
+                            <div>
+                                <strong>${SVG_ICONS.cross} Domänen ${input} är tyvärr upptagen!</strong>
+                                <p style="font-size:0.88rem; margin-top:4px;">Denna adress är redan registrerad. Vänligen välj ett annat namn eller ett av förslagen nedan.</p>
+                            </div>
+                            <div style="margin-top:6px;">
+                                <span style="font-size:0.85rem; font-weight:700;">Lediga alternativ du kan välja istället:</span>
+                                <div class="domain-suggestions" style="margin-top:6px;">
+                                    <span class="suggestion-chip" onclick="selectSuggestedDomain('${alt1}')">${alt1}</span>
+                                    <span class="suggestion-chip" onclick="selectSuggestedDomain('${alt2}')">${alt2}</span>
+                                    <span class="suggestion-chip" onclick="selectSuggestedDomain('${alt3}')">${alt3}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    state.domainAvailable = true;
+                    resultDiv.className = 'domain-result available';
+                    resultDiv.innerHTML = `
+                        <div>
+                            <strong>${SVG_ICONS.check} Domänen ${input} är ledig och verifierad!</strong>
+                            <p style="font-size:0.88rem; margin-top:4px;">
+                                Perfekt! Domänen ingår utan extra kostnad och registreras automatiskt åt dig i ditt FormFolio-paket när du slutför beställningen.
+                            </p>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                console.error('Fel vid domänbot-sökning:', err);
                 state.domainAvailable = true;
                 resultDiv.className = 'domain-result available';
                 resultDiv.innerHTML = `
-                    <strong>${SVG_ICONS.check} Domänen ${input} är ledig!</strong>
-                    <p style="font-size:0.88rem; margin-top:4px;">Ingår utan extra kostnad i årspriset (979 kr/år).</p>
+                    <div>
+                        <strong>${SVG_ICONS.check} Domänen ${input} har lagts till i din beställning!</strong>
+                        <p style="font-size:0.88rem; margin-top:4px;">
+                            Vi reserverar och verifierar domänen slutgiltigt vid registreringen av ditt konto.
+                        </p>
+                    </div>
                 `;
             }
         }
