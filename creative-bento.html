@@ -549,14 +549,13 @@
         );
         setText("footer .wrap span:last-child", data.title);
 
-        document.getElementById("research").hidden =
-          data.sections?.experience === false;
-        document.querySelector(".cv").hidden =
-          data.sections?.education === false;
-        document.querySelector(".tags").hidden =
-          data.sections?.skills === false;
-        document.getElementById("about").hidden =
-          data.sections?.about === false;
+        const setHidden = (element, hidden) => {
+          if (element) element.hidden = hidden;
+        };
+        setHidden(document.getElementById("research"), data.sections?.experience === false);
+        setHidden(document.querySelector(".cv"), data.sections?.education === false);
+        setHidden(document.querySelector(".tags"), data.sections?.skills === false);
+        setHidden(document.getElementById("about"), data.sections?.about === false);
 
         if (window.parent !== window) {
           window.parent.postMessage(

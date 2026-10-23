@@ -10,8 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
-    <!-- jsPDF för Fakturagenerering -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- EmailJS för orderbekräftelser -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js"></script>
 
     <style>
         :root {
@@ -1034,7 +1034,7 @@
     <section class="hero-landing">
         <div class="hero-landing-content">
             <h1>Skapa din egna portfolio hemsida på endast <span style="color: var(--accent-hover);">5 minuter</span></h1>
-            <p>Välj bland tre skräddarsydda designmodeller. Anpassa innehåll, färger och egen domän i vår kodfria redigerare och få faktura direkt.</p>
+            <p>Välj bland tre skräddarsydda designmodeller. Anpassa innehåll, färger och egen domän i vår kodfria redigerare – vi publicerar sidan åt dig.</p>
             
             <button class="btn btn-primary" style="padding: 16px 36px; font-size:1.1rem; border-radius:30px;" onclick="scrollToStepper()">
                 Bygg Din Portfolio Nu
@@ -1073,7 +1073,7 @@
         </div>
         <div class="step-item" onclick="goToStep(4)">
             <div class="step-circle">4</div>
-            <span class="step-label">Faktura & Kod</span>
+            <span class="step-label">Kassa</span>
         </div>
     </div>
 
@@ -1533,8 +1533,8 @@
         <section id="step-4" class="step-content">
             <div id="checkout-form-container">
                 <div class="section-title">
-                    <h2>Slutför beställning & Faktura</h2>
-                    <p>Fyll i dina fakturauppgifter. Din PDF-faktura och responsiva HTML-filer skapas direkt.</p>
+                    <h2>Slutför beställning</h2>
+                    <p>Fyll i dina fakturauppgifter. Vi publicerar din hemsida och skickar fakturan när den är online.</p>
                 </div>
 
                 <div class="checkout-grid">
@@ -1591,12 +1591,13 @@
                             <span>979 kr / år</span>
                         </div>
                         <p style="font-size:0.82rem; color:var(--text-muted); margin-top:12px;">
-                            Betalning via faktura (30 dagars betaltid). Inga dolda avgifter.
+                            Betalning via faktura (30 dagars betaltid) som skickas när din hemsida är online. Inga dolda avgifter.
                         </p>
 
-                        <button class="btn btn-success" style="width:100%; margin-top:24px; padding:16px;" onclick="processOrder()">
-                            Slutför & Generera Faktura (PDF)
+                        <button id="order-submit-btn" class="btn btn-success" style="width:100%; margin-top:24px; padding:16px;" onclick="processOrder()">
+                            Slutför beställning
                         </button>
+                        <p id="order-error" role="alert" style="display:none; margin-top:12px; font-size:0.88rem; color:#b91c1c; white-space:pre-line; word-break:break-word;"></p>
                     </div>
                 </div>
 
@@ -1610,20 +1611,13 @@
                     <svg class="svg-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
                 <h2 style="font-family:'Bricolage Grotesque';">Tack för din beställning!</h2>
-                <p style="color:var(--text-muted); margin: 10px 0 24px 0;">
-                    Din nya hemsida har skapats och fakturan är redo för nedladdning.
+                <p style="color:var(--text-muted); margin: 10px 0 8px 0;">
+                    Din order är genomförd. En bekräftelse har skickats till <strong id="success-email"></strong>.
                 </p>
-
-                <div style="display:flex; flex-direction:column; gap:12px; max-width:440px; margin:0 auto;">
-                    <button class="btn btn-primary" onclick="downloadInvoicePDF()">
-                        <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-                        Ladda ner Faktura (PDF)
-                    </button>
-                    <button class="btn btn-success" onclick="downloadPortfolioCode()">
-                        <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-                        Ladda ner din Hemsida (portfolio.html)
-                    </button>
-                </div>
+                <p style="color:var(--text-muted); margin: 0 0 8px 0;">
+                    Vi sätter nu upp din hemsida på <strong id="success-domain" style="color:var(--accent-main);"></strong>. Fakturan skickas till dig när hemsidan är online.
+                </p>
+                <p style="color:var(--text-muted); font-size:0.85rem;">Ordernummer: <strong id="success-order-id"></strong></p>
             </div>
         </section>
 
@@ -1863,9 +1857,11 @@
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    state.data.avatar = e.target.result;
-                    document.getElementById('avatar-preview-thumb').src = e.target.result;
+                reader.onload = async function(e) {
+                    // Krymp bilden så att HTML-filen som mejlas inte blir för stor
+                    const avatar = await compressImage(e.target.result, 300, 0.7);
+                    state.data.avatar = avatar;
+                    document.getElementById('avatar-preview-thumb').src = avatar;
                     updatePreview();
                 };
                 reader.readAsDataURL(file);
@@ -2114,91 +2110,148 @@
             document.getElementById('summary-domain').innerText = state.domain || 'Ej vald';
         }
 
-        function processOrder() {
-            const name = document.getElementById('cust-name').value;
-            const email = document.getElementById('cust-email').value;
+        /* ==========================================================================
+           EMAILJS – fyll i dina egna värden från emailjs.com
+           ========================================================================== */
+        const EMAILJS_CONFIG = {
+            publicKey: 'M8hlcCoiJItfe70PT',              // Account → General → Public Key
+            serviceId: 'service_9zpq6nl',             // Email Services → t.ex. service_xxxxxx
+            customerTemplateId: 'template_w8cothh', // Orderbekräftelse till kunden
+            adminTemplateId: 'template_umux0d9',    // Order + HTML-kod till dig
+            adminEmail: 'carlssonneo20@gmail.com'
+        };
+        const ORDER_PRICE = '979 kr / år';
 
-            if (!name || !email) {
-                alert('Vänligen fyll i alla obligatoriska fakturauppgifter.');
+        if (window.emailjs) emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey });
+
+        function compressImage(dataUrl, maxSize, quality) {
+            return new Promise(resolve => {
+                const img = new Image();
+                img.onload = () => {
+                    const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
+                    const canvas = document.createElement('canvas');
+                    canvas.width = Math.round(img.width * scale);
+                    canvas.height = Math.round(img.height * scale);
+                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                    resolve(canvas.toDataURL('image/jpeg', quality));
+                };
+                img.onerror = () => resolve(dataUrl);
+                img.src = dataUrl;
+            });
+        }
+
+        function buildPortfolioHTML() {
+            if (!renderedPortfolioHTML) return '';
+            const exportedDocument = new DOMParser().parseFromString(renderedPortfolioHTML, 'text/html').documentElement;
+            const titleEl = exportedDocument.querySelector('title');
+            if (titleEl) titleEl.textContent = `${state.data.name} – Portfolio`;
+            exportedDocument.querySelectorAll('script').forEach(script => script.remove());
+            return `<!DOCTYPE html>\n${exportedDocument.outerHTML}`;
+        }
+
+        function showOrderError(message) {
+            const errorEl = document.getElementById('order-error');
+            errorEl.textContent = message;
+            errorEl.style.display = message ? 'block' : 'none';
+        }
+
+        async function processOrder() {
+            const customer = {
+                name: document.getElementById('cust-name').value.trim(),
+                id: document.getElementById('cust-id').value.trim(),
+                email: document.getElementById('cust-email').value.trim(),
+                address: document.getElementById('cust-address').value.trim(),
+                zip: document.getElementById('cust-zip').value.trim(),
+                city: document.getElementById('cust-city').value.trim()
+            };
+
+            showOrderError('');
+            if (Object.values(customer).some(v => !v)) {
+                showOrderError('Vänligen fyll i alla obligatoriska fakturauppgifter.');
+                return;
+            }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) {
+                showOrderError('Ange en giltig e-postadress.');
+                return;
+            }
+            if (!state.domain) {
+                showOrderError('Välj ett domännamn i steg 3 innan du slutför.');
                 return;
             }
 
+            const portfolioHTML = buildPortfolioHTML();
+            if (!portfolioHTML) {
+                showOrderError('Förhandsvisningen har inte laddats klart ännu. Vänta några sekunder och försök igen.');
+                return;
+            }
+            // EmailJS gratisplan tillåter max 50 kB per utskick
+            if (new Blob([portfolioHTML]).size > 45 * 1024) {
+                showOrderError('Din hemsida blev för stor för att skickas. Prova en mindre profilbild eller kortare texter.');
+                return;
+            }
+            if (!window.emailjs) {
+                showOrderError('Beställningstjänsten kunde inte laddas. Kontrollera din anslutning och försök igen.');
+                return;
+            }
+
+            const submitBtn = document.getElementById('order-submit-btn');
+            const originalLabel = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Skickar beställning...';
+
+            const orderId = 'FF-' + Math.floor(100000 + Math.random() * 900000);
+            const templateNames = { tech_dev: 'Strukturerad profil', executive: 'Redaktionell profil', creative: 'Redaktionell portfolio' };
+            const common = {
+                order_id: orderId,
+                order_date: new Date().toLocaleString('sv-SE'),
+                domain: state.domain,
+                template_name: templateNames[state.template] || state.template,
+                theme_name: THEME_NAMES[state.theme] || state.theme,
+                price: ORDER_PRICE,
+                customer_name: customer.name,
+                customer_email: customer.email
+            };
+
+            let failedStep = 'mejlet till FormFolio (' + EMAILJS_CONFIG.adminTemplateId + ')';
+            try {
+                // 1. Order + HTML-kod till dig
+                await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.adminTemplateId, {
+                    ...common,
+                    to_email: EMAILJS_CONFIG.adminEmail,
+                    reply_to: customer.email,
+                    customer_id: customer.id,
+                    customer_street: customer.address,
+                    customer_zip: customer.zip,
+                    customer_city: customer.city,
+                    portfolio_size: `${Math.round(new Blob([portfolioHTML]).size / 1024)} kB`,
+                    portfolio_code: portfolioHTML
+                });
+
+                // 2. Orderbekräftelse till kunden
+                failedStep = 'bekräftelsen till kunden (' + EMAILJS_CONFIG.customerTemplateId + ')';
+                await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.customerTemplateId, {
+                    ...common,
+                    to_email: customer.email,
+                    to_name: customer.name,
+                    reply_to: EMAILJS_CONFIG.adminEmail
+                });
+            } catch (err) {
+                console.error('EmailJS-fel:', err);
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalLabel;
+                const detail = err && (err.status || err.text)
+                    ? `Felkod ${err.status}: ${err.text}`
+                    : (err && err.message) || String(err);
+                showOrderError('Beställningen kunde inte skickas just nu. Försök igen om en stund eller kontakta oss på ' + EMAILJS_CONFIG.adminEmail + '.\n\nTekniskt fel vid ' + failedStep + ' – ' + detail);
+                return;
+            }
+
+            document.getElementById('success-email').textContent = customer.email;
+            document.getElementById('success-domain').textContent = state.domain;
+            document.getElementById('success-order-id').textContent = orderId;
             document.getElementById('checkout-form-container').style.display = 'none';
             document.getElementById('order-success-container').style.display = 'block';
-        }
-
-        function downloadInvoicePDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            const custName = document.getElementById('cust-name').value;
-            const custId = document.getElementById('cust-id').value;
-            const custAddress = document.getElementById('cust-address').value;
-            const custCity = document.getElementById('cust-city').value;
-            const invoiceNum = 'FF-' + Math.floor(100000 + Math.random() * 900000);
-            const today = new Date().toISOString().slice(0, 10);
-
-            doc.setFontSize(22);
-            doc.setTextColor(34, 51, 29);
-            doc.text("FAKTURA - FormFolio.se", 20, 25);
-
-            doc.setFontSize(10);
-            doc.setTextColor(100);
-            doc.text(`Fakturanummer: ${invoiceNum}`, 20, 35);
-            doc.text(`Fakturadatum: ${today}`, 20, 41);
-            doc.text(`Betalningsvillkor: 30 dagar nettos`, 20, 47);
-
-            doc.setFontSize(12);
-            doc.setTextColor(0);
-            doc.text("Faktureras till:", 120, 35);
-            doc.setFontSize(10);
-            doc.text(custName, 120, 42);
-            doc.text(`Org/Personnr: ${custId}`, 120, 48);
-            doc.text(custAddress, 120, 54);
-            doc.text(custCity, 120, 60);
-
-            doc.setFillColor(228, 235, 217);
-            doc.rect(20, 75, 170, 8, 'F');
-            doc.setFont("helvetica", "bold");
-            doc.text("Beskrivning", 25, 80);
-            doc.text("Period", 110, 80);
-            doc.text("Belopp (SEK)", 160, 80);
-
-            doc.setFont("helvetica", "normal");
-            doc.text(`FormFolio Årslicens (${state.domain})`, 25, 92);
-            doc.text("1 År", 110, 92);
-            doc.text("783,20 kr", 160, 92);
-
-            doc.text("Moms (25%)", 25, 100);
-            doc.text("195,80 kr", 160, 100);
-
-            doc.line(20, 110, 190, 110);
-
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(12);
-            doc.text("Totalt att betala:", 110, 120);
-            doc.text("979,00 kr", 160, 120);
-
-            doc.save(`Faktura_${invoiceNum}.pdf`);
-        }
-
-        function downloadPortfolioCode() {
-            if (!renderedPortfolioHTML) {
-                alert('Förhandsvisningen har inte laddats ännu. Försök igen om en stund.');
-                return;
-            }
-
-            const exportedDocument = new DOMParser().parseFromString(renderedPortfolioHTML, 'text/html').documentElement;
-            exportedDocument.querySelector('title').textContent = `${state.data.name} – Portfolio`;
-            exportedDocument.querySelectorAll('script').forEach(script => script.remove());
-            const fileContent = `<!DOCTYPE html>\n${exportedDocument.outerHTML}`;
-
-            const blob = new Blob([fileContent], { type: 'text/html' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'portfolio.html';
-            a.click();
-            setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+            document.querySelectorAll('.step-item').forEach(el => { el.style.pointerEvents = 'none'; });
         }
 
         renderEditorExperiences();
