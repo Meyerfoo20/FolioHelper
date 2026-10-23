@@ -2128,6 +2128,31 @@
         };
         const ORDER_PRICE = '979 kr / år';
 
+        // ImgBB – profilbilden laddas upp hit och länkas i mejlet till dig
+        // Skaffa nyckel: https://api.imgbb.com → "Get API key"
+        const IMGBB_API_KEY = 'b1cdd08cbf369706d81bbd731dcc56c7';
+        const AVATAR_FILENAME = 'profilbild.jpg';
+
+        // Laddar upp profilbilden (max 1200 px, bra kvalitet). Returnerar länk eller null.
+        async function uploadAvatarToImgBB(orderId) {
+            const source = state.avatarOriginal || state.data.avatar;
+            if (!source || !source.startsWith('data:') || !IMGBB_API_KEY || IMGBB_API_KEY.startsWith('DIN_')) return null;
+            try {
+                const image = await compressImage(source, 1200, 0.9);
+                if (!image) return null;
+                const form = new FormData();
+                form.append('image', image.split(',')[1]);
+                form.append('name', `${orderId}-${state.domain}-profilbild`);
+                const res = await fetch(`https://api.imgbb.com/1/upload?key=${encodeURIComponent(IMGBB_API_KEY)}`, { method: 'POST', body: form });
+                const json = await res.json();
+                if (!res.ok || !json.success) throw new Error(json?.error?.message || `HTTP ${res.status}`);
+                return { url: json.data.url, viewer: json.data.url_viewer };
+            } catch (err) {
+                console.error('ImgBB-fel:', err);
+                return null;
+            }
+        }
+
         if (window.emailjs) emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey });
 
         function compressImage(dataUrl, maxSize, quality) {
@@ -2263,7 +2288,30 @@
                 template_id: EMAILJS_CONFIG.adminTemplateId,
                 user_id: EMAILJS_CONFIG.publicKey
             };
-            const { html: portfolioHTML, fits } = await buildPortfolioThatFits(adminParams);
+            // Profilbild: egen uppladdad bild → ImgBB-länk i mejlet, koden pekar på profilbild.jpg
+            const hasCustomAvatar = !!(state.data.avatar && state.data.avatar.startsWith('data:'));
+            const uploadedAvatar = hasCustomAvatar ? await uploadAvatarToImgBB(orderId) : null;
+            if (uploadedAvatar) {
+                adminParams.avatar_url = uploadedAvatar.url;
+                adminParams.avatar_viewer = uploadedAvatar.viewer;
+                adminParams.avatar_note = `Ladda ned bilden, döp den till ${AVATAR_FILENAME} och lägg den i samma mapp som index.html.`;
+            } else if (hasCustomAvatar) {
+                adminParams.avatar_url = '';
+                adminParams.avatar_viewer = '';
+                adminParams.avatar_note = 'Bilden kunde inte laddas upp till ImgBB – den finns istället inbäddad i HTML-koden nedan.';
+            } else {
+                adminParams.avatar_url = state.data.avatar;
+                adminParams.avatar_viewer = state.data.avatar;
+                adminParams.avatar_note = 'Kunden laddade inte upp någon egen bild – standardbilden används (länkad i koden).';
+            }
+
+            let portfolioHTML, fits;
+            if (uploadedAvatar) {
+                portfolioHTML = buildPortfolioHTML(AVATAR_FILENAME);
+                fits = payloadBytes({ ...adminParams, portfolio_code: portfolioHTML }) <= EMAILJS_MAX_BYTES;
+            } else {
+                ({ html: portfolioHTML, fits } = await buildPortfolioThatFits(adminParams));
+            }
             delete adminParams.service_id; delete adminParams.template_id; delete adminParams.user_id;
             if (!fits) {
                 submitBtn.disabled = false;
