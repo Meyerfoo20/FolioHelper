@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FormFolio</title>
+    <title>FormFolio.se – Din Profil som Professionell Hemsida</title>
     
     <!-- Google Fonts för Premium Typografi -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1320,7 +1320,7 @@
                                 <div class="avatar-upload-box">
                                     <img id="avatar-preview-thumb" class="avatar-preview-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" alt="Profilbild">
                                     <div style="flex:1;">
-                                        <input type="file" id="input-avatar-file" accept="image/*" class="form-control" style="font-size:0.8rem; padding:6px 10px;" onchange="handleAvatarUpload(event)">
+                                        <input type="file" id="input-avatar-file" accept="image/jpeg,image/png,image/webp,image/gif" class="form-control" style="font-size:0.8rem; padding:6px 10px;" onchange="handleAvatarUpload(event)">
                                         <span style="font-size:0.75rem; color:var(--text-muted); margin-top:4px; display:block;">Ladda upp en egen bild från datorn</span>
                                     </div>
                                 </div>
@@ -1858,8 +1858,14 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = async function(e) {
-                    // Krymp bilden så att HTML-filen som mejlas inte blir för stor
+                    // Krymp bilden så att HTML-koden som mejlas inte blir för stor
                     const avatar = await compressImage(e.target.result, 300, 0.7);
+                    if (!avatar) {
+                        alert('Bilden kunde inte läsas. Välj en bild i JPG- eller PNG-format (t.ex. inte HEIC från iPhone).');
+                        event.target.value = '';
+                        return;
+                    }
+                    state.avatarOriginal = e.target.result;
                     state.data.avatar = avatar;
                     document.getElementById('avatar-preview-thumb').src = avatar;
                     updatePreview();
@@ -2132,21 +2138,59 @@
                     const canvas = document.createElement('canvas');
                     canvas.width = Math.round(img.width * scale);
                     canvas.height = Math.round(img.height * scale);
-                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = '#ffffff'; // vit bakgrund för genomskinliga PNG
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                     resolve(canvas.toDataURL('image/jpeg', quality));
                 };
-                img.onerror = () => resolve(dataUrl);
+                img.onerror = () => resolve(null);
                 img.src = dataUrl;
             });
         }
 
-        function buildPortfolioHTML() {
+        function minifyHTML(html) {
+            return html
+                .replace(/<!--[\s\S]*?-->/g, '')
+                .replace(/\/\*[\s\S]*?\*\//g, '')
+                .replace(/\n[ \t]+/g, '\n')
+                .replace(/\n{2,}/g, '\n');
+        }
+
+        function buildPortfolioHTML(avatarOverride) {
             if (!renderedPortfolioHTML) return '';
             const exportedDocument = new DOMParser().parseFromString(renderedPortfolioHTML, 'text/html').documentElement;
             const titleEl = exportedDocument.querySelector('title');
             if (titleEl) titleEl.textContent = `${state.data.name} – Portfolio`;
             exportedDocument.querySelectorAll('script').forEach(script => script.remove());
-            return `<!DOCTYPE html>\n${exportedDocument.outerHTML}`;
+            if (avatarOverride) {
+                exportedDocument.querySelectorAll('img').forEach(img => {
+                    if (img.getAttribute('src') === state.data.avatar) img.setAttribute('src', avatarOverride);
+                });
+            }
+            return minifyHTML(`<!DOCTYPE html>\n${exportedDocument.outerHTML}`);
+        }
+
+        // EmailJS gratisplan: max 50 kB per anrop. Marginal för id:n m.m.
+        const EMAILJS_MAX_BYTES = 46000;
+        const payloadBytes = params => new Blob([JSON.stringify(params)]).size;
+
+        // Bygger koden och krymper profilbilden stegvis tills hela mejlet ryms
+        async function buildPortfolioThatFits(baseParams) {
+            let html = buildPortfolioHTML();
+            if (!html) return { html: '', fits: false };
+            if (payloadBytes({ ...baseParams, portfolio_code: html }) <= EMAILJS_MAX_BYTES) return { html, fits: true };
+
+            const source = state.data.avatar && state.data.avatar.startsWith('data:') ? (state.avatarOriginal || state.data.avatar) : null;
+            if (source) {
+                for (const [size, quality] of [[240, 0.65], [200, 0.6], [160, 0.55], [130, 0.5], [100, 0.45]]) {
+                    const smaller = await compressImage(source, size, quality);
+                    if (!smaller) break;
+                    html = buildPortfolioHTML(smaller);
+                    if (payloadBytes({ ...baseParams, portfolio_code: html }) <= EMAILJS_MAX_BYTES) return { html, fits: true };
+                }
+            }
+            return { html, fits: false };
         }
 
         function showOrderError(message) {
@@ -2179,14 +2223,8 @@
                 return;
             }
 
-            const portfolioHTML = buildPortfolioHTML();
-            if (!portfolioHTML) {
+            if (!renderedPortfolioHTML) {
                 showOrderError('Förhandsvisningen har inte laddats klart ännu. Vänta några sekunder och försök igen.');
-                return;
-            }
-            // EmailJS gratisplan tillåter max 50 kB per utskick
-            if (new Blob([portfolioHTML]).size > 45 * 1024) {
-                showOrderError('Din hemsida blev för stor för att skickas. Prova en mindre profilbild eller kortare texter.');
                 return;
             }
             if (!window.emailjs) {
@@ -2212,20 +2250,34 @@
                 customer_email: customer.email
             };
 
+            const adminParams = {
+                ...common,
+                to_email: EMAILJS_CONFIG.adminEmail,
+                reply_to: customer.email,
+                customer_id: customer.id,
+                customer_street: customer.address,
+                customer_zip: customer.zip,
+                customer_city: customer.city,
+                portfolio_size: '00 kB',
+                service_id: EMAILJS_CONFIG.serviceId,
+                template_id: EMAILJS_CONFIG.adminTemplateId,
+                user_id: EMAILJS_CONFIG.publicKey
+            };
+            const { html: portfolioHTML, fits } = await buildPortfolioThatFits(adminParams);
+            delete adminParams.service_id; delete adminParams.template_id; delete adminParams.user_id;
+            if (!fits) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalLabel;
+                showOrderError('Din hemsida blev för stor för att skickas. Prova kortare texter eller färre erfarenheter.');
+                return;
+            }
+            adminParams.portfolio_size = `${Math.round(new Blob([portfolioHTML]).size / 1024)} kB`;
+            adminParams.portfolio_code = portfolioHTML;
+
             let failedStep = 'mejlet till FormFolio (' + EMAILJS_CONFIG.adminTemplateId + ')';
             try {
                 // 1. Order + HTML-kod till dig
-                await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.adminTemplateId, {
-                    ...common,
-                    to_email: EMAILJS_CONFIG.adminEmail,
-                    reply_to: customer.email,
-                    customer_id: customer.id,
-                    customer_street: customer.address,
-                    customer_zip: customer.zip,
-                    customer_city: customer.city,
-                    portfolio_size: `${Math.round(new Blob([portfolioHTML]).size / 1024)} kB`,
-                    portfolio_code: portfolioHTML
-                });
+                await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.adminTemplateId, adminParams);
 
                 // 2. Orderbekräftelse till kunden
                 failedStep = 'bekräftelsen till kunden (' + EMAILJS_CONFIG.customerTemplateId + ')';
