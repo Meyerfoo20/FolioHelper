@@ -6,118 +6,340 @@
     <title>Redaktionell profil</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --p-accent: #10b981;
-            --p-bg: #fafafa;
+            --p-bg: #f8f6f0;
+            --p-bg-alt: #eee8dc;
             --p-card: #ffffff;
-            --p-border: #e2e8f0;
-            --p-text: #0f172a;
-            --p-muted: #64748b;
+            --p-text: #181c19;
+            --p-muted: #56615a;
+            --p-border: #ded8cb;
+            --p-accent: #123250;
+            --p-accent-hover: #1d4872;
+            --p-accent-light: #dbe8f5;
+            --p-footer: #0f2338;
+            --p-btn-text: #ffffff;
+            --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+            --sans: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            --shell: 1120px;
+            --gutter: clamp(20px, 5vw, 48px);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: var(--p-bg); color: var(--p-text); font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.7; padding: 60px 20px; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        [hidden] { display: none !important; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+        body { background: var(--p-bg); color: var(--p-text); font-family: var(--sans); font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+        a { color: inherit; }
+        img { display: block; max-width: 100%; }
+        .shell { max-width: var(--shell); margin: 0 auto; padding: 0 var(--gutter); }
 
-        .wrapper { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+        /* Toppfält */
+        .topbar { position: sticky; top: 0; z-index: 10; background: var(--p-bg); background: color-mix(in srgb, var(--p-bg) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--p-border); }
+        .topbar-in { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 68px; }
+        .mark { display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 700; letter-spacing: -0.01em; min-width: 0; }
+        .mark-badge { flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--p-accent); color: var(--p-btn-text); display: grid; place-items: center; font-family: var(--serif); font-size: 0.95rem; font-weight: 600; letter-spacing: 0.02em; }
+        .mark-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .topnav { display: flex; align-items: center; gap: 28px; font-size: 0.9rem; font-weight: 600; }
+        .topnav a { text-decoration: none; color: var(--p-muted); transition: color .2s; }
+        .topnav a:hover { color: var(--p-text); }
+        .topnav .topnav-cta { color: var(--p-btn-text); background: var(--p-accent); padding: 9px 18px; border-radius: 999px; }
+        .topnav .topnav-cta:hover { color: var(--p-btn-text); background: var(--p-accent-hover); }
 
-        .editorial-hero {
-            text-align: center; background: var(--p-card); border: 1px solid var(--p-border);
-            border-radius: 24px; padding: 60px 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        /* Hero */
+        .hero { padding: clamp(48px, 9vw, 112px) 0 0; }
+        .hero-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
+        .eyebrow { display: flex; align-items: center; gap: 14px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--p-accent); margin-bottom: 22px; }
+        .eyebrow::before { content: ''; flex: none; width: 36px; height: 1px; background: currentColor; }
+        h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.6rem, 6.4vw, 5rem); line-height: 1.02; letter-spacing: -0.025em; margin-bottom: 28px; overflow-wrap: break-word; }
+        .lead { font-size: clamp(1.05rem, 1.6vw, 1.2rem); color: var(--p-muted); max-width: 36em; margin-bottom: 36px; }
+        .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 26px; border-radius: 999px; font-weight: 700; font-size: 0.95rem; text-decoration: none; border: 1px solid transparent; transition: background .2s, border-color .2s, color .2s; }
+        .btn-primary { background: var(--p-accent); color: var(--p-btn-text); }
+        .btn-primary:hover { background: var(--p-accent-hover); }
+        .btn-ghost { border-color: var(--p-border); background: var(--p-card); }
+        .btn-ghost:hover { border-color: var(--p-accent); color: var(--p-accent); }
+        .btn svg { width: 16px; height: 16px; }
+
+        .portrait { position: relative; justify-self: end; width: 100%; max-width: 400px; }
+        .portrait::before { content: ''; position: absolute; inset: 22px -22px -22px 22px; background: var(--p-accent-light); border-radius: 6px; z-index: 0; }
+        .portrait img { position: relative; z-index: 1; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 6px; background: var(--p-bg-alt); box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.35); }
+
+        .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-top: clamp(56px, 8vw, 96px); border-top: 1px solid var(--p-border); border-bottom: 1px solid var(--p-border); }
+        .facts > div { padding: 22px 24px 22px 0; min-width: 0; }
+        .facts > div + div { padding-left: 24px; border-left: 1px solid var(--p-border); }
+        .facts dt { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--p-muted); margin-bottom: 4px; }
+        .facts dd { font-weight: 600; overflow-wrap: anywhere; }
+        .facts a { text-decoration: none; }
+        .facts a:hover { color: var(--p-accent); }
+
+        /* Sektioner */
+        main.shell { counter-reset: block; padding-bottom: clamp(64px, 9vw, 120px); }
+        .block { counter-increment: block; display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); padding: clamp(56px, 8vw, 96px) 0 0; scroll-margin-top: 80px; }
+        .block-head { align-self: start; position: sticky; top: 100px; }
+        .block-head::before { content: counter(block, decimal-leading-zero); display: block; font-family: var(--serif); font-style: italic; color: var(--p-accent); font-size: 1rem; margin-bottom: 10px; }
+        .block-head h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(1.8rem, 3vw, 2.3rem); line-height: 1.1; letter-spacing: -0.015em; }
+        .block-head p { color: var(--p-muted); font-size: 0.92rem; margin-top: 10px; }
+
+        .timeline { list-style: none; border-top: 1px solid var(--p-border); }
+        .role { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 24px; padding: 30px 0; border-bottom: 1px solid var(--p-border); }
+        .role-period { font-size: 0.85rem; font-weight: 600; color: var(--p-muted); padding-top: 4px; font-variant-numeric: tabular-nums; }
+        .role h3 { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; line-height: 1.25; letter-spacing: -0.01em; }
+        .role-org { color: var(--p-accent); font-weight: 700; font-size: 0.92rem; margin: 6px 0 10px; }
+        .role-desc { color: var(--p-muted); }
+
+        .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+        .edu-card { background: var(--p-card); border: 1px solid var(--p-border); border-radius: 6px; padding: 28px; }
+        .edu-card span { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--p-accent); margin-bottom: 12px; }
+        .edu-card p { font-family: var(--serif); font-size: 1.2rem; line-height: 1.4; }
+
+        .skills { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); border-top: 1px solid var(--p-border); }
+        .skills li { display: flex; align-items: center; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--p-border); font-weight: 600; }
+        .skills li::before { content: ''; flex: none; width: 7px; height: 7px; background: var(--p-accent); transform: rotate(45deg); }
+
+        /* Kontakt */
+        .contact { background: var(--p-footer); color: #fff; padding: clamp(64px, 9vw, 112px) 0 32px; }
+        .contact .eyebrow { color: rgba(255, 255, 255, 0.7); }
+        .contact h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.2rem, 5.4vw, 4rem); line-height: 1.05; letter-spacing: -0.02em; max-width: 14em; margin-bottom: 36px; }
+        .contact-mail { display: inline-block; font-family: var(--serif); font-style: italic; font-size: clamp(1.3rem, 3.2vw, 2rem); text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.35); padding-bottom: 4px; overflow-wrap: anywhere; transition: border-color .2s; }
+        .contact-mail:hover { border-color: #fff; }
+        .contact-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+        .contact-links a { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 20px; border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.92rem; transition: background .2s; }
+        .contact-links a:hover { background: rgba(255, 255, 255, 0.1); }
+        .contact-links svg { width: 16px; height: 16px; }
+        .contact-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; margin-top: clamp(56px, 8vw, 96px); padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.15); font-size: 0.85rem; color: rgba(255, 255, 255, 0.6); }
+
+        /* Surfplatta */
+        @media (max-width: 900px) {
+            .topnav a:not(.topnav-cta) { display: none; }
+            .hero-grid { grid-template-columns: 1fr; }
+            .portrait { order: -1; justify-self: start; max-width: 300px; }
+            .block { grid-template-columns: 1fr; gap: 28px; }
+            .block-head { position: static; }
         }
 
-        .avatar-circle {
-            width: 150px; height: 150px; border-radius: 50%; object-fit: cover;
-            margin-bottom: 24px; border: 4px solid var(--p-bg); box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        /* Mobil */
+        @media (max-width: 600px) {
+            .topbar-in { height: 60px; }
+            .mark-badge { width: 32px; height: 32px; font-size: 0.85rem; }
+            .topnav .topnav-cta { padding: 8px 16px; }
+            .hero { padding-top: 36px; }
+            .portrait { max-width: 168px; }
+            .portrait::before { inset: 12px -12px -12px 12px; }
+            .eyebrow { margin-bottom: 16px; }
+            h1 { margin-bottom: 20px; }
+            .lead { margin-bottom: 28px; }
+            .actions .btn { flex: 1 1 100%; }
+            .facts { grid-template-columns: 1fr; }
+            .facts > div, .facts > div + div { padding: 16px 0; border-left: none; }
+            .facts > div + div { border-top: 1px solid var(--p-border); }
+            .role { grid-template-columns: 1fr; gap: 6px; padding: 24px 0; }
+            .role-period { padding-top: 0; }
+            .edu-card { padding: 22px; }
+            .skills { grid-template-columns: 1fr; }
+            .skills li { padding: 14px 0; }
+            .contact-links a { flex: 1 1 100%; justify-content: center; }
         }
-
-        h1 { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; margin-bottom: 8px; }
-        .executive-subtitle { font-size: 1.05rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--p-accent); font-weight: 700; margin-bottom: 20px; }
-
-        .bio-lead { font-size: 1.15rem; color: var(--p-muted); max-width: 700px; margin: 0 auto 28px auto; font-family: 'Playfair Display', serif; font-style: italic; }
-
-        .section-box { background: var(--p-card); border: 1px solid var(--p-border); border-radius: 20px; padding: 40px; }
-        .section-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; border-bottom: 2px solid var(--p-border); padding-bottom: 12px; margin-bottom: 24px; }
-
-        .exp-row { border-bottom: 1px solid var(--p-border); padding-bottom: 20px; margin-bottom: 20px; }
-        .exp-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-
-        .btn-dark { background: var(--p-accent); color: var(--p-btn-text, #fff); padding: 12px 28px; border-radius: 30px; font-weight: 700; text-decoration: none; display: inline-block; }
     </style>
 </head>
 <body>
 
-    <div class="wrapper">
-        <section class="editorial-hero">
-            <img id="img-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" class="avatar-circle" alt="Profil">
-            <h1 id="txt-name">Alex Lindqvist</h1>
-            <div id="txt-title" class="executive-subtitle">Yrkesroll eller titel</div>
-            <p id="txt-location" style="color:var(--p-muted); margin-bottom:16px;">Stockholm, Sverige</p>
-            <p id="txt-bio" class="bio-lead" data-section="about">Här kan du beskriva din erfarenhet, vad du arbetar med och hur du bidrar i olika uppdrag och samarbeten.</p>
-            <a id="btn-email" href="mailto:alex@lindqvist.se" class="btn-dark">Kontakta mig</a>
+    <header class="topbar">
+        <div class="shell topbar-in">
+            <a class="mark" href="#top">
+                <span id="nav-initials" class="mark-badge">AL</span>
+                <span id="nav-name" class="mark-name">Alex Lindqvist</span>
+            </a>
+            <nav class="topnav" aria-label="Huvudmeny">
+                <a id="nav-experience" href="#section-experience">Erfarenhet</a>
+                <a id="nav-education" href="#section-education">Utbildning</a>
+                <a id="nav-skills" href="#section-skills">Kompetens</a>
+                <a class="topnav-cta" href="#kontakt">Kontakt</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="top">
+        <div class="shell hero-grid">
+            <div>
+                <p id="txt-title" class="eyebrow">Yrkesroll eller titel</p>
+                <h1 id="txt-name">Alex Lindqvist</h1>
+                <p id="txt-bio" class="lead">Här kan du beskriva din erfarenhet, vad du arbetar med och hur du bidrar i olika uppdrag och samarbeten.</p>
+                <div class="actions">
+                    <a id="btn-email" class="btn btn-primary" href="mailto:alex@lindqvist.se">Kontakta mig</a>
+                    <a id="btn-linkedin" class="btn btn-ghost" href="#" target="_blank" rel="noopener">Profil &amp; länkar
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+                    </a>
+                </div>
+            </div>
+            <figure class="portrait">
+                <img id="img-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80" alt="Profilbild">
+            </figure>
+        </div>
+        <div class="shell">
+            <dl class="facts">
+                <div id="fact-location"><dt>Ort</dt><dd id="txt-location">Stockholm, Sverige</dd></div>
+                <div id="fact-email"><dt>E-post</dt><dd><a id="link-email" href="mailto:alex@lindqvist.se">alex@lindqvist.se</a></dd></div>
+                <div id="fact-phone"><dt>Telefon</dt><dd><a id="link-phone" href="tel:0701234567">070-123 45 67</a></dd></div>
+            </dl>
+        </div>
+    </section>
+
+    <main class="shell">
+        <section class="block" id="section-experience">
+            <div class="block-head">
+                <h2>Erfarenhet</h2>
+                <p>Roller och uppdrag</p>
+            </div>
+            <ol id="exp-list" class="timeline"></ol>
         </section>
 
-        <section class="section-box" id="section-experience">
-            <h2 class="section-title">Erfarenhet & uppdrag</h2>
-            <div id="exp-list"></div>
+        <section class="block" id="section-education">
+            <div class="block-head">
+                <h2>Utbildning</h2>
+                <p>Examen och certifieringar</p>
+            </div>
+            <div class="edu-grid">
+                <div id="card-edu1" class="edu-card"><span>Utbildning</span><p id="txt-edu1"></p></div>
+                <div id="card-edu2" class="edu-card"><span>Certifikat</span><p id="txt-edu2"></p></div>
+            </div>
         </section>
 
-        <section class="section-box" id="section-education">
-            <h2 class="section-title">Utbildning & certifikat</h2>
-            <p id="txt-edu1"></p>
-            <p id="txt-edu2" style="color:var(--p-accent); margin-top:6px;"></p>
+        <section class="block" id="section-skills">
+            <div class="block-head">
+                <h2>Kompetens</h2>
+                <p>Områden jag arbetar inom</p>
+            </div>
+            <ul id="skills-list" class="skills"></ul>
         </section>
+    </main>
 
-        <section class="section-box" id="section-skills">
-            <h2 class="section-title">Kompetensområden</h2>
-            <div id="skills-list" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
-        </section>
-    </div>
+    <footer class="contact" id="kontakt">
+        <div class="shell">
+            <p class="eyebrow">Kontakt</p>
+            <h2>Låt oss ta ett samtal om nästa uppdrag.</h2>
+            <a id="contact-email" class="contact-mail" href="mailto:alex@lindqvist.se">alex@lindqvist.se</a>
+            <div class="contact-links">
+                <a id="contact-phone" href="tel:0701234567">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>
+                    <span id="contact-phone-text">070-123 45 67</span>
+                </a>
+                <a id="contact-linkedin" href="#" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
+                    Profil &amp; länkar
+                </a>
+            </div>
+            <div class="contact-foot">
+                <span id="foot-copy">© Alex Lindqvist</span>
+                <span id="foot-location">Stockholm, Sverige</span>
+            </div>
+        </div>
+    </footer>
 
     <script>
         const portfolioThemes = {
-            'theme-nordic': { '--p-bg': '#f8f6f0', '--p-bg-alt': '#eee8dc', '--p-card': '#ffffff', '--p-glass': 'rgba(248, 246, 240, 0.82)', '--p-text': '#181c19', '--p-muted': '#56615a', '--p-border': '#ded8cb', '--p-shadow': '0 12px 32px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.02)', '--p-btn-text': '#ffffff', '--p-footer': '#0f2338', '--p-accent': '#123250', '--p-accent-hover': '#1d4872', '--p-accent-light': '#dbe8f5', '--p-pop': '#38bdf8' },
-            'theme-dark': { '--p-bg': '#f8f6f0', '--p-bg-alt': '#eee8dc', '--p-card': '#ffffff', '--p-glass': 'rgba(248, 246, 240, 0.82)', '--p-text': '#181c19', '--p-muted': '#56615a', '--p-border': '#ded8cb', '--p-shadow': '0 12px 32px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.02)', '--p-btn-text': '#ffffff', '--p-footer': '#152c20', '--p-accent': '#1b3b2b', '--p-accent-hover': '#29543e', '--p-accent-light': '#e3ebd9', '--p-pop': '#34d399' },
-            'theme-warm': { '--p-bg': '#f8f6f0', '--p-bg-alt': '#eee8dc', '--p-card': '#ffffff', '--p-glass': 'rgba(248, 246, 240, 0.82)', '--p-text': '#181c19', '--p-muted': '#56615a', '--p-border': '#ded8cb', '--p-shadow': '0 12px 32px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.02)', '--p-btn-text': '#ffffff', '--p-footer': '#24122b', '--p-accent': '#421a4f', '--p-accent-hover': '#5e2770', '--p-accent-light': '#f1e4f5', '--p-pop': '#c084fc' },
-            'theme-ocean': { '--p-bg': '#f8f6f0', '--p-bg-alt': '#eee8dc', '--p-card': '#ffffff', '--p-glass': 'rgba(248, 246, 240, 0.82)', '--p-text': '#181c19', '--p-muted': '#56615a', '--p-border': '#ded8cb', '--p-shadow': '0 12px 32px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.02)', '--p-btn-text': '#ffffff', '--p-footer': '#2b0910', '--p-accent': '#4a111c', '--p-accent-hover': '#691a29', '--p-accent-light': '#f5e4e7', '--p-pop': '#f43f5e' }
+            'theme-nordic': { '--p-bg': '#f8f6f0', '--p-bg-alt': '#eee8dc', '--p-card': '#ffffff', '--p-text': '#181c19', '--p-muted': '#56615a', '--p-border': '#ded8cb', '--p-btn-text': '#ffffff', '--p-footer': '#0f2338', '--p-accent': '#123250', '--p-accent-hover': '#1d4872', '--p-accent-light': '#dbe8f5' },
+            'theme-dark': { '--p-bg': '#f8f6f0', '--p-bg-alt': '#eee8dc', '--p-card': '#ffffff', '--p-text': '#181c19', '--p-muted': '#56615a', '--p-border': '#ded8cb', '--p-btn-text': '#ffffff', '--p-footer': '#152c20', '--p-accent': '#1b3b2b', '--p-accent-hover': '#29543e', '--p-accent-light': '#e3ebd9' },
+            'theme-warm': { '--p-bg': '#f8f6f0', '--p-bg-alt': '#eee8dc', '--p-card': '#ffffff', '--p-text': '#181c19', '--p-muted': '#56615a', '--p-border': '#ded8cb', '--p-btn-text': '#ffffff', '--p-footer': '#24122b', '--p-accent': '#421a4f', '--p-accent-hover': '#5e2770', '--p-accent-light': '#f1e4f5' },
+            'theme-ocean': { '--p-bg': '#f8f6f0', '--p-bg-alt': '#eee8dc', '--p-card': '#ffffff', '--p-text': '#181c19', '--p-muted': '#56615a', '--p-border': '#ded8cb', '--p-btn-text': '#ffffff', '--p-footer': '#2b0910', '--p-accent': '#4a111c', '--p-accent-hover': '#691a29', '--p-accent-light': '#f5e4e7' }
         };
+
+        const $ = id => document.getElementById(id);
+        const setText = (id, value) => { $(id).textContent = value || ''; };
 
         window.applyPortfolioData = function (d) {
             const values = portfolioThemes[d.theme] || portfolioThemes['theme-nordic'];
             Object.entries(values).forEach(([name, value]) => document.documentElement.style.setProperty(name, value));
-            document.getElementById('txt-name').textContent = d.name;
-            document.getElementById('txt-title').textContent = d.title;
-            document.getElementById('txt-location').textContent = d.location;
-            document.getElementById('txt-bio').textContent = d.bio;
-            document.getElementById('txt-bio').hidden = d.sections?.about === false;
-            document.getElementById('txt-edu1').textContent = d.edu1 || '';
-            document.getElementById('txt-edu2').textContent = d.edu2 || '';
-            document.getElementById('img-avatar').src = d.avatar;
-            document.getElementById('btn-email').href = `mailto:${d.email}`;
-            document.getElementById('skills-list').replaceChildren(...d.skills.split(',').filter(skill => skill.trim()).map(skill => {
-                const tag = document.createElement('span');
-                tag.className = 'skill-tag';
-                tag.textContent = skill.trim();
-                return tag;
+
+            const name = (d.name || '').trim();
+            const initials = name.split(/\s+/).filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+            setText('txt-name', name);
+            setText('nav-name', name);
+            setText('nav-initials', initials);
+            setText('foot-copy', `© ${new Date().getFullYear()} ${name}`);
+
+            setText('txt-title', d.title);
+            $('txt-title').hidden = !d.title;
+
+            setText('txt-bio', d.bio);
+            $('txt-bio').hidden = d.sections?.about === false || !d.bio;
+
+            setText('txt-location', d.location);
+            setText('foot-location', d.location);
+            $('fact-location').hidden = !d.location;
+            $('foot-location').hidden = !d.location;
+
+            const email = (d.email || '').trim();
+            const mailto = `mailto:${email}`;
+            ['btn-email', 'link-email', 'contact-email'].forEach(id => { $(id).href = mailto; });
+            setText('link-email', email);
+            setText('contact-email', email);
+            $('fact-email').hidden = !email;
+            $('contact-email').hidden = !email;
+            $('btn-email').hidden = !email;
+
+            const phone = (d.phone || '').trim();
+            const tel = `tel:${phone.replace(/[^\d+]/g, '')}`;
+            $('link-phone').href = tel;
+            $('contact-phone').href = tel;
+            setText('link-phone', phone);
+            setText('contact-phone-text', phone);
+            $('fact-phone').hidden = !phone;
+            $('contact-phone').hidden = !phone;
+
+            const link = (d.linkedin || '').trim();
+            $('btn-linkedin').href = link || '#';
+            $('contact-linkedin').href = link || '#';
+            $('btn-linkedin').hidden = !link;
+            $('contact-linkedin').hidden = !link;
+
+            if (d.avatar) $('img-avatar').src = d.avatar;
+            $('img-avatar').alt = name ? `Porträtt av ${name}` : 'Profilbild';
+
+            setText('txt-edu1', d.edu1);
+            setText('txt-edu2', d.edu2);
+            $('card-edu1').hidden = !d.edu1;
+            $('card-edu2').hidden = !d.edu2;
+
+            $('skills-list').replaceChildren(...(d.skills || '').split(',').map(s => s.trim()).filter(Boolean).map(skill => {
+                const li = document.createElement('li');
+                li.textContent = skill;
+                return li;
             }));
-            document.getElementById('exp-list').replaceChildren(...d.experiences.map(experience => {
-                const item = document.createElement('div');
-                item.className = 'exp-row';
+
+            $('exp-list').replaceChildren(...(d.experiences || []).map(exp => {
+                const li = document.createElement('li');
+                li.className = 'role';
+                const period = document.createElement('div');
+                period.className = 'role-period';
+                period.textContent = exp.period || '';
+                const body = document.createElement('div');
                 const role = document.createElement('h3');
-                role.textContent = experience.role;
-                const company = document.createElement('div');
-                company.style.cssText = 'color:var(--p-accent);font-weight:700;font-size:0.88rem;margin:4px 0;';
-                company.textContent = `${experience.company} | ${experience.period}`;
-                const description = document.createElement('p');
-                description.style.color = 'var(--p-muted)';
-                description.textContent = experience.desc;
-                item.append(role, company, description);
-                return item;
+                role.textContent = exp.role || '';
+                const org = document.createElement('p');
+                org.className = 'role-org';
+                org.textContent = exp.company || '';
+                org.hidden = !exp.company;
+                const desc = document.createElement('p');
+                desc.className = 'role-desc';
+                desc.textContent = exp.desc || '';
+                desc.hidden = !exp.desc;
+                body.append(role, org, desc);
+                li.append(period, body);
+                return li;
             }));
+
+            const hasContent = {
+                experience: (d.experiences || []).length > 0,
+                education: !!(d.edu1 || d.edu2),
+                skills: $('skills-list').children.length > 0
+            };
             ['experience', 'education', 'skills'].forEach(section => {
-                document.getElementById(`section-${section}`).hidden = d.sections?.[section] === false;
+                const hide = d.sections?.[section] === false || !hasContent[section];
+                $(`section-${section}`).hidden = hide;
+                $(`nav-${section}`).hidden = hide;
             });
+
             if (window.parent !== window) {
                 window.parent.postMessage({ type: 'PORTFOLIO_RENDERED', html: document.documentElement.outerHTML }, '*');
             }

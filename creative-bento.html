@@ -257,6 +257,69 @@
           font-size: 1.2rem;
         }
       }
+
+      /* ===== Färgdetaljer i temats huvudfärg ===== */
+      ::selection {
+        background: var(--primary);
+        color: #fff;
+      }
+      header {
+        border-top: 3px solid var(--primary);
+      }
+      .logo {
+        color: var(--primary);
+      }
+      nav a:hover {
+        color: var(--primary);
+      }
+      .eyebrow {
+        color: var(--primary);
+      }
+      .btn:not(.primary) {
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+      .btn:not(.primary):hover {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.04);
+        background: color-mix(in srgb, var(--primary) 8%, transparent);
+      }
+      .hero img {
+        box-shadow: 14px 14px 0 rgba(0, 0, 0, 0.06);
+        box-shadow: 14px 14px 0 color-mix(in srgb, var(--primary) 16%, transparent);
+      }
+      h2::after {
+        content: "";
+        display: block;
+        width: 48px;
+        height: 3px;
+        margin-top: 18px;
+        background: var(--primary);
+      }
+      .paper .eyebrow {
+        font-weight: 500;
+      }
+      .venue {
+        color: var(--primary);
+        opacity: 0.85;
+      }
+      .tags span {
+        color: var(--primary);
+        border-color: var(--primary);
+        border-color: color-mix(in srgb, var(--primary) 30%, transparent);
+        background: color-mix(in srgb, var(--primary) 7%, transparent);
+      }
+      #contact {
+        background: color-mix(in srgb, var(--primary) 5%, var(--bg));
+      }
+      .contact {
+        border-top-color: var(--primary);
+        border-top-color: color-mix(in srgb, var(--primary) 35%, var(--border));
+      }
+      footer {
+        background: var(--primary);
+        color: rgba(255, 255, 255, 0.78);
+      }
     </style>
   </head>
   <body>

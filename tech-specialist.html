@@ -628,6 +628,175 @@
         text-align: center;
       }
     }
+
+    /* ==========================================================================
+       8. MOBILANPASSNING (fungerar även utan JavaScript)
+       ========================================================================== */
+    :root { --bg-glass: rgba(248, 246, 240, 0.88); }
+    [data-theme="dark"] { --bg-glass: rgba(9, 13, 17, 0.88); }
+    [hidden] { display: none !important; }
+    img { max-width: 100%; }
+    h1, h2, h3, p, a, span { overflow-wrap: break-word; }
+    section { scroll-margin-top: 80px; }
+    .mobile-toggle { display: none !important; }
+
+    .nav-toggle {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .nav-burger {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-alt);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+    .nav-burger .burger-close { display: none; }
+    @media (min-width: 641px) {
+      .nav-toggle, .nav-backdrop { display: none !important; }
+    }
+    .nav-backdrop {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      height: 100vh;
+      height: 100dvh;
+      z-index: 0;
+      background: rgba(0, 0, 0, 0.28);
+    }
+
+    @media (hover: none) {
+      .avatar-tooltip { display: none; }
+    }
+
+    @media (max-width: 960px) {
+      /* Menyn visas alltid som en rad – ingen knapp som kräver JavaScript */
+      .nav-links {
+        position: static;
+        width: auto;
+        flex-direction: row;
+        background: none;
+        border: 0;
+        padding: 0;
+        gap: 1.4rem;
+        transform: none;
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .nav-controls { display: none; }
+      #hero { min-height: auto; padding-top: 7.5rem; }
+    }
+
+    @media (max-width: 640px) {
+      .nav-container { padding: 0.75rem 1.1rem; }
+      .logo { font-size: 1.2rem; }
+      .nav-burger { display: flex; }
+
+      .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        padding: 0.4rem 1.1rem 1rem;
+        background: var(--bg-main);
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 18px 30px var(--shadow-color);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-8px);
+        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+        z-index: 1;
+      }
+      .nav-links .nav-start { display: list-item; }
+      .nav-links li + li { border-top: 1px solid var(--border-color); }
+      .nav-links a {
+        display: flex;
+        align-items: center;
+        min-height: 52px;
+        font-size: 1.05rem;
+        color: var(--text-main);
+      }
+      .nav-links a:hover { transform: none; }
+
+      .nav-toggle:checked ~ .nav-links {
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+      }
+      .nav-toggle:checked ~ .nav-backdrop { display: block; }
+      .nav-toggle:checked ~ .nav-burger .burger-open { display: none; }
+      .nav-toggle:checked ~ .nav-burger .burger-close { display: block; }
+      .nav-toggle:checked ~ .nav-burger {
+        background: var(--accent-green-light);
+        color: var(--accent-green);
+        border-color: var(--accent-green);
+      }
+      .nav-toggle:focus-visible ~ .nav-burger { outline: 2px solid var(--accent-green); outline-offset: 2px; }
+      body:has(.nav-toggle:checked) { overflow: hidden; }
+
+      section { scroll-margin-top: 72px; }
+
+      #hero { padding: 6.4rem 1.1rem 3rem; }
+      .hero-grid { gap: 2rem; }
+      .location-tag { font-size: 0.72rem; margin-bottom: 0.9rem; }
+      .hero-main h1 { font-size: clamp(2rem, 9.5vw, 2.5rem); }
+      .hero-italic { font-size: clamp(1.25rem, 5.6vw, 1.5rem); margin-bottom: 1.2rem; }
+      .hero-bio { font-size: 0.86rem; margin-bottom: 1.6rem; }
+      .hero-buttons { flex-direction: column; gap: 0.7rem; }
+      .hero-buttons a { width: 100%; padding: 0.95rem 1.2rem; }
+
+      /* Profilkort: bild till vänster, länkar och fakta till höger */
+      .hero-sidebar {
+        display: grid;
+        grid-template-columns: 112px minmax(0, 1fr);
+        column-gap: 1.2rem;
+        row-gap: 0.9rem;
+        align-items: center;
+        text-align: left;
+        padding-top: 1.8rem;
+      }
+      .avatar-wrapper { grid-row: span 2; align-self: start; }
+      .sidebar-avatar { width: 112px; height: 112px; border-radius: 18px; }
+      .sidebar-socials { gap: 0.45rem; }
+      .sidebar-socials a { font-size: 0.85rem; }
+      .sidebar-meta { gap: 0.7rem; padding-top: 0; }
+      .meta-val { font-size: 0.9rem; }
+
+      section { padding: 3.5rem 1.1rem; }
+      .section-title { font-size: 1.6rem; gap: 10px; margin-bottom: 1.4rem; }
+      .section-title svg { width: 20px; height: 20px; }
+      .card { padding: 1.5rem 1.2rem; border-radius: 16px; }
+      .skills-grid { gap: 0.55rem; }
+      .skill-tag { font-size: 0.8rem; padding: 0.45rem 0.85rem; }
+      .timeline-item { padding-left: 16px; margin-left: 5px; margin-bottom: 20px; }
+      .timeline-item:last-child { margin-bottom: 0; }
+      .timeline-item h3 { font-size: 1.1rem; }
+
+      footer { padding: 3.5rem 1.1rem 2rem; }
+      .footer-container { gap: 2rem; }
+      .footer-links { gap: 1.5rem; }
+      .copyright { font-size: 0.8rem; padding-top: 1.4rem; }
+    }
+
+    @media (max-width: 360px) {
+      .hero-sidebar { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+      .avatar-wrapper { grid-row: auto; }
+      .sidebar-socials a { justify-content: center; }
+    }
   </style>
 </head>
 <body>
@@ -635,22 +804,22 @@
   <!-- Header & Navigering -->
   <header>
     <div class="nav-container">
+      <!-- Mobilmeny: öppnas/stängs med CSS, fungerar även utan JavaScript -->
+      <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Öppna meny">
       <a href="#" class="logo" id="nav-logo">Alex Lindqvist.</a>
-      
+
       <ul class="nav-links" id="nav-links">
-        <li><a href="#hero">Start</a></li>
-        <li><a href="#section-skills">Kompetenser</a></li>
-        <li><a href="#section-experience">Erfarenhet</a></li>
-        <li><a href="#footer">Kontakt</a></li>
+        <li class="nav-start"><a href="#hero" onclick="document.getElementById('nav-toggle').checked=false">Start</a></li>
+        <li><a href="#section-skills" onclick="document.getElementById('nav-toggle').checked=false">Kompetenser</a></li>
+        <li><a href="#section-experience" onclick="document.getElementById('nav-toggle').checked=false">Erfarenhet</a></li>
+        <li><a href="#footer" onclick="document.getElementById('nav-toggle').checked=false">Kontakt</a></li>
       </ul>
 
-      <div class="nav-controls">
-        <!-- Mobilmeny Knapp -->
-        <button id="mobile-menu-toggle" class="icon-btn mobile-toggle" aria-label="Öppna meny">
-          <svg class="menu-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-          <svg class="close-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
+      <label for="nav-toggle" class="nav-burger" aria-hidden="true">
+        <svg class="burger-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        <svg class="burger-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      </label>
+      <label for="nav-toggle" class="nav-backdrop" aria-hidden="true"></label>
     </div>
   </header>
 
@@ -684,7 +853,7 @@
       <div class="hero-sidebar">
         <div class="avatar-wrapper">
           <div class="avatar-tooltip">
-            <span id="tooltip-text"></span>
+            <span id="tooltip-text">Tillgänglig för nya uppdrag och samarbeten.</span>
           </div>
           <img id="img-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" alt="Profilbild" class="sidebar-avatar" />
         </div>
@@ -995,7 +1164,10 @@
 
       ['about', 'skills', 'experience', 'education'].forEach(section => {
         const el = document.getElementById(`section-${section}`);
-        if (el) el.hidden = d.sections?.[section] === false;
+        const hide = d.sections?.[section] === false;
+        if (el) el.hidden = hide;
+        const navLink = document.querySelector(`.nav-links a[href="#section-${section}"]`);
+        if (navLink) navLink.parentElement.hidden = hide;
       });
 
       if (window.parent !== window) {
