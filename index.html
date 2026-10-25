@@ -78,6 +78,12 @@
             --p-footer: #24122b;
         }
 
+        .theme-yellow,
+        .theme-custom {
+            --p-bg: #f8f6f0;
+            --p-text: #181c19;
+        }
+
         .theme-ocean {
             --p-bg: #f8f6f0;
             --p-bg-alt: #eee8dc;
@@ -134,6 +140,150 @@
             gap: 10px;
             text-decoration: none;
             font-family: 'Bricolage Grotesque', sans-serif;
+        }
+
+        /* Kodfält i menyraden */
+        .header-container {
+            gap: 16px;
+        }
+
+        .access-code {
+            position: relative;
+            flex: 0 1 280px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 auto;
+            padding: 4px 4px 4px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .access-code:focus-within {
+            border-color: var(--accent-main);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .access-code-icon {
+            flex: none;
+            color: var(--text-muted);
+        }
+
+        .access-code input {
+            flex: 1;
+            min-width: 0;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            font: inherit;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            padding: 6px 0;
+        }
+
+        .access-code-btn {
+            flex: none;
+            width: 32px;
+            height: 32px;
+            border: 0;
+            border-radius: 50%;
+            background: var(--accent-main);
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .access-code-msg {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 999px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .access-code-msg.show {
+            opacity: 1;
+        }
+
+        .access-code-msg.error {
+            background: #fde8e8;
+            color: #9b1c1c;
+        }
+
+        .access-code-msg.ok {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .access-code.shake {
+            animation: code-shake 0.4s;
+            border-color: #f87171;
+        }
+
+        .access-code.unlocked {
+            border-color: #22c55e;
+        }
+
+        .access-code.unlocked .access-code-icon {
+            color: #16a34a;
+        }
+
+        @keyframes code-shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        @media (max-width: 600px) {
+            .header-price {
+                display: none;
+            }
+            .access-code {
+                flex: 1 1 auto;
+                max-width: 220px;
+                margin-right: 0;
+            }
+        }
+
+        /* Exklusiv mall (låses upp med kod) */
+        .template-card.exclusive .template-badge {
+            background: #222222;
+            color: #f9dd16;
+        }
+
+        .template-card.exclusive .template-preview-banner {
+            background: #f4f4f4;
+        }
+
+        .locked-note {
+            display: none;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+            border-radius: var(--radius-sm);
+            background: #fffbe0;
+            border: 1px solid #f3dc4d;
+            font-size: 0.85rem;
+            color: #4a3f00;
+        }
+
+        body.tpl-locked-colors .locked-note {
+            display: block;
+        }
+
+        body.tpl-locked-colors #acc-item-theme .theme-grid,
+        body.tpl-locked-colors #acc-item-theme .custom-color-panel,
+        body.tpl-locked-colors #acc-item-theme .accordion-body > label {
+            display: none !important;
         }
 
         /* HERO SEKTION */
@@ -600,6 +750,112 @@
             height: 24px;
             border-radius: 50%;
             border: 2px solid rgba(0,0,0,0.1);
+        }
+
+        .theme-circle-wheel {
+            position: relative;
+            background: conic-gradient(#ff3b3b, #ffd23b, #5ee35e, #3bd6ff, #3b5bff, #d43bff, #ff3b3b);
+        }
+
+        .theme-circle-wheel::after {
+            content: '';
+            position: absolute;
+            inset: 5px;
+            border-radius: 50%;
+            background: var(--custom-dot, #ffffff);
+            border: 2px solid #ffffff;
+        }
+
+        .custom-color-panel {
+            margin-top: 12px;
+            padding: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            display: grid;
+            grid-template-columns: 168px minmax(0, 1fr);
+            gap: 16px;
+            align-items: center;
+        }
+
+        .custom-color-panel[hidden] {
+            display: none;
+        }
+
+        .wheel-wrap {
+            position: relative;
+            width: 168px;
+            height: 168px;
+            touch-action: none;
+        }
+
+        .wheel-wrap canvas {
+            width: 168px;
+            height: 168px;
+            border-radius: 50%;
+            display: block;
+            cursor: crosshair;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .wheel-marker {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            margin: -9px 0 0 -9px;
+            border-radius: 50%;
+            border: 3px solid #ffffff;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+        }
+
+        .custom-color-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .custom-color-controls label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .custom-color-controls input[type="range"] {
+            width: 100%;
+            accent-color: var(--accent-main);
+        }
+
+        .hex-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hex-row .form-control {
+            font-family: ui-monospace, Menlo, Consolas, monospace;
+            text-transform: uppercase;
+            padding: 8px 10px;
+            min-width: 0;
+        }
+
+        .custom-swatch {
+            flex: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 420px) {
+            .custom-color-panel {
+                grid-template-columns: 1fr;
+                justify-items: center;
+            }
+            .custom-color-controls {
+                width: 100%;
+            }
         }
 
         .avatar-upload-box {
@@ -1253,6 +1509,12 @@
             <a href="#" class="logo">
                 FormFolio
             </a>
+            <form class="access-code" id="access-code-form" onsubmit="event.preventDefault(); submitAccessCode();" autocomplete="off">
+                <svg class="access-code-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+                <input type="text" id="access-code-input" placeholder="Har du en kod?" aria-label="Kod för exklusiv mall" spellcheck="false" autocapitalize="off">
+                <button type="submit" class="access-code-btn" aria-label="Lås upp">&rarr;</button>
+                <span id="access-code-msg" class="access-code-msg" role="status" aria-live="polite"></span>
+            </form>
             <div style="display:flex; align-items:center; gap:16px;">
                 <div class="header-price" style="font-size:0.9rem;">
                     Årsplan: <strong>från 479 kr/år</strong> (Faktura)
@@ -1501,6 +1763,7 @@
                             <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                         <div class="accordion-body">
+                            <div class="locked-note">Den här mallen har fasta färger i gult och svart, så färgtemat går inte att ändra.</div>
                             <label style="font-size:0.82rem; color:var(--text-muted); display:block; margin-bottom:10px;">
                                 Välj det färgtema som passar din profil bäst:
                             </label>
@@ -1520,6 +1783,30 @@
                                 <div class="theme-card-option" id="theme-opt-ocean" onclick="setEditorTheme('theme-ocean')">
                                     <div class="theme-circle-preview" style="background:#4a111c;"></div>
                                     <span style="font-size:0.85rem; font-weight:700;">Rubinröd</span>
+                                </div>
+                                <div class="theme-card-option" id="theme-opt-yellow" onclick="setEditorTheme('theme-yellow')">
+                                    <div class="theme-circle-preview" style="background:#facc15;"></div>
+                                    <span style="font-size:0.85rem; font-weight:700;">Gul</span>
+                                </div>
+                                <div class="theme-card-option" id="theme-opt-custom" onclick="setEditorTheme('theme-custom')">
+                                    <div class="theme-circle-preview theme-circle-wheel" id="custom-theme-dot"></div>
+                                    <span style="font-size:0.85rem; font-weight:700;">Egen färg</span>
+                                </div>
+                            </div>
+
+                            <div id="custom-color-panel" class="custom-color-panel" hidden>
+                                <div class="wheel-wrap" id="wheel-wrap">
+                                    <canvas id="color-wheel" width="336" height="336" aria-label="Färghjul – dra för att välja färg"></canvas>
+                                    <div id="wheel-marker" class="wheel-marker"></div>
+                                </div>
+                                <div class="custom-color-controls">
+                                    <label for="color-value">Ljusstyrka</label>
+                                    <input type="range" id="color-value" min="20" max="100" value="85">
+                                    <label for="color-hex">Färgkod</label>
+                                    <div class="hex-row">
+                                        <span id="custom-swatch" class="custom-swatch"></span>
+                                        <input type="text" id="color-hex" class="form-control" maxlength="7" spellcheck="false" autocomplete="off">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -2057,16 +2344,72 @@
             if (stepNum === 4) updateSummary();
         }
 
+        /* ==========================================================================
+           KOD FÖR EXKLUSIV MALL
+           Mallen visas inte i mallvalet – man når den bara genom att skriva in
+           koden i menyraden. Koden lagras som hash i stället för i klartext.
+           ========================================================================== */
+        const ACCESS_CODES = {
+            '6dd81566': { template: 'mvb', label: 'Byggprofil' }
+        };
+
+        function hashCode(text) {
+            let h = 0x811c9dc5;
+            for (const ch of text) {
+                h ^= ch.codePointAt(0);
+                h = Math.imul(h, 0x01000193) >>> 0;
+            }
+            return h.toString(16).padStart(8, '0');
+        }
+
+        function showCodeMessage(text, type) {
+            const msg = document.getElementById('access-code-msg');
+            msg.textContent = text;
+            msg.className = `access-code-msg show ${type}`;
+            clearTimeout(showCodeMessage.t);
+            showCodeMessage.t = setTimeout(() => msg.classList.remove('show'), 2600);
+        }
+
+        function submitAccessCode() {
+            const form = document.getElementById('access-code-form');
+            const input = document.getElementById('access-code-input');
+            const code = input.value.trim().toLowerCase();
+            if (!code) { input.focus(); return; }
+
+            const entry = ACCESS_CODES[hashCode(code)];
+            if (!entry) {
+                form.classList.remove('shake');
+                void form.offsetWidth;
+                form.classList.add('shake');
+                showCodeMessage('Fel kod – försök igen', 'error');
+                return;
+            }
+
+            form.classList.remove('shake');
+            form.classList.add('unlocked');
+            input.value = '';
+            input.blur();
+            showCodeMessage(`${entry.label} öppnad!`, 'ok');
+            selectTemplate(entry.template, null);
+            goToStep(2);
+            scrollToStepper();
+        }
+
         const TEMPLATE_FILES = {
             tech_dev: 'tech-specialist.html',
             executive: 'executive-leader.html',
-            creative: 'creative-bento.html'
+            creative: 'creative-bento.html',
+            mvb: 'mvb-profile.html'
         };
+        // Mallar med egna, fasta färger (färgtema döljs i redigeraren)
+        const LOCKED_COLOR_TEMPLATES = ['mvb'];
         const THEME_NAMES = {
             'theme-nordic': 'Marinblå',
             'theme-dark': 'Skogsgrön',
             'theme-warm': 'Plommon',
-            'theme-ocean': 'Rubinröd'
+            'theme-ocean': 'Rubinröd',
+            'theme-yellow': 'Gul',
+            'theme-custom': 'Egen färg'
         };
         let renderedPortfolioHTML = '';
 
@@ -2077,13 +2420,194 @@
             }
         });
 
+        /* ==========================================================================
+           FÄRGTEMAN: Gul + Egen färg (färghjul)
+           ========================================================================== */
+        const YELLOW_ACCENT = '#facc15';
+        const PAGE_BG = '#f8f6f0';
+        state.customColor = '#e4572e';
+
+        function hexToRgb(hex) {
+            const h = hex.replace('#', '');
+            return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16));
+        }
+        function rgbToHex(rgb) {
+            return '#' + rgb.map(v => Math.round(Math.max(0, Math.min(255, v))).toString(16).padStart(2, '0')).join('');
+        }
+        function mixHex(a, b, t) {
+            const x = hexToRgb(a), y = hexToRgb(b);
+            return rgbToHex(x.map((v, i) => v + (y[i] - v) * t));
+        }
+        function luminance(hex) {
+            const [r, g, b] = hexToRgb(hex).map(v => {
+                v /= 255;
+                return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+            });
+            return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        }
+        function contrastRatio(a, b) {
+            const [l1, l2] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+            return (l1 + 0.05) / (l2 + 0.05);
+        }
+
+        // Räknar fram en hel palett från en färg. "ink" är en läsbar variant för text
+        // på den ljusa bakgrunden, "onAccent" är svart/vit text på knappar i färgen.
+        function buildPalette(hex) {
+            let ink = hex;
+            for (let t = 0.05; contrastRatio(ink, PAGE_BG) < 4.6 && t <= 1; t += 0.05) ink = mixHex(hex, '#000000', t);
+            const onAccent = contrastRatio(hex, '#ffffff') >= contrastRatio(hex, '#181c19') ? '#ffffff' : '#181c19';
+            return {
+                accent: hex,
+                ink,
+                onAccent,
+                hover: luminance(hex) > 0.3 ? mixHex(hex, '#000000', 0.12) : mixHex(hex, '#ffffff', 0.14),
+                light: mixHex(hex, '#ffffff', 0.84),
+                pop: mixHex(hex, '#ffffff', 0.3),
+                footer: mixHex(hex, '#000000', 0.78)
+            };
+        }
+
+        function getThemePalette() {
+            if (state.theme === 'theme-yellow') return buildPalette(YELLOW_ACCENT);
+            if (state.theme === 'theme-custom') return buildPalette(state.customColor);
+            return null;
+        }
+
+        function themeLabel() {
+            const name = THEME_NAMES[state.theme] || state.theme;
+            return state.theme === 'theme-custom' ? `${name} (${state.customColor.toUpperCase()})` : name;
+        }
+
+        // --- Färghjul ---
+        const wheel = { ready: false, h: 0, s: 0, v: 0.85, raf: 0 };
+
+        function hsvToHex(h, s, v) {
+            const f = n => {
+                const k = (n + h / 60) % 6;
+                return v - v * s * Math.max(0, Math.min(k, 4 - k, 1));
+            };
+            return rgbToHex([f(5), f(3), f(1)].map(x => x * 255));
+        }
+        function hexToHsv(hex) {
+            const [r, g, b] = hexToRgb(hex).map(x => x / 255);
+            const max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min;
+            let h = 0;
+            if (d) {
+                if (max === r) h = ((g - b) / d) % 6;
+                else if (max === g) h = (b - r) / d + 2;
+                else h = (r - g) / d + 4;
+                h = (h * 60 + 360) % 360;
+            }
+            return { h, s: max ? d / max : 0, v: max };
+        }
+
+        function drawWheel() {
+            const canvas = document.getElementById('color-wheel');
+            const ctx = canvas.getContext('2d');
+            const size = canvas.width, r = size / 2;
+            const img = ctx.createImageData(size, size);
+            for (let y = 0; y < size; y++) {
+                for (let x = 0; x < size; x++) {
+                    const dx = x - r + 0.5, dy = y - r + 0.5, dist = Math.hypot(dx, dy);
+                    const i = (y * size + x) * 4;
+                    if (dist > r) { img.data[i + 3] = 0; continue; }
+                    const hue = (Math.atan2(dy, dx) * 180 / Math.PI + 360) % 360;
+                    const [cr, cg, cb] = hexToRgb(hsvToHex(hue, dist / r, wheel.v));
+                    img.data[i] = cr; img.data[i + 1] = cg; img.data[i + 2] = cb;
+                    img.data[i + 3] = dist > r - 1 ? Math.round(255 * (r - dist)) : 255;
+                }
+            }
+            ctx.putImageData(img, 0, 0);
+        }
+
+        function placeMarker() {
+            const marker = document.getElementById('wheel-marker');
+            const half = document.getElementById('wheel-wrap').offsetWidth / 2;
+            const a = wheel.h * Math.PI / 180;
+            marker.style.left = `${half + Math.cos(a) * wheel.s * half}px`;
+            marker.style.top = `${half + Math.sin(a) * wheel.s * half}px`;
+            marker.style.background = state.customColor;
+        }
+
+        function showCustomColor() {
+            const hex = state.customColor;
+            document.getElementById('custom-swatch').style.background = hex;
+            document.getElementById('custom-theme-dot').style.setProperty('--custom-dot', hex);
+            const hexInput = document.getElementById('color-hex');
+            if (document.activeElement !== hexInput) hexInput.value = hex.toUpperCase();
+            placeMarker();
+        }
+
+        function setCustomColor(hex, fromWheel) {
+            state.customColor = hex.toLowerCase();
+            if (!fromWheel) {
+                const hsv = hexToHsv(state.customColor);
+                wheel.h = hsv.h; wheel.s = hsv.s;
+                if (Math.abs(hsv.v - wheel.v) > 0.004) {
+                    wheel.v = hsv.v;
+                    document.getElementById('color-value').value = Math.round(hsv.v * 100);
+                    drawWheel();
+                }
+            }
+            showCustomColor();
+            // Uppdatera förhandsvisningen högst en gång per bildruta
+            cancelAnimationFrame(wheel.raf);
+            wheel.raf = requestAnimationFrame(() => { if (state.theme === 'theme-custom') updatePreview(); });
+        }
+
+        function initColorWheel() {
+            if (wheel.ready) { showCustomColor(); return; }
+            wheel.ready = true;
+            const hsv = hexToHsv(state.customColor);
+            Object.assign(wheel, { h: hsv.h, s: hsv.s, v: Math.max(0.2, hsv.v) });
+            document.getElementById('color-value').value = Math.round(wheel.v * 100);
+            drawWheel();
+            showCustomColor();
+
+            const wrap = document.getElementById('wheel-wrap');
+            const pick = e => {
+                const rect = wrap.getBoundingClientRect();
+                const half = rect.width / 2;
+                const dx = e.clientX - rect.left - half, dy = e.clientY - rect.top - half;
+                wheel.h = (Math.atan2(dy, dx) * 180 / Math.PI + 360) % 360;
+                wheel.s = Math.min(1, Math.hypot(dx, dy) / half);
+                setCustomColor(hsvToHex(wheel.h, wheel.s, wheel.v), true);
+            };
+            wrap.addEventListener('pointerdown', e => {
+                wrap.setPointerCapture(e.pointerId);
+                pick(e);
+                e.preventDefault();
+            });
+            wrap.addEventListener('pointermove', e => {
+                if (wrap.hasPointerCapture(e.pointerId)) pick(e);
+            });
+
+            document.getElementById('color-value').addEventListener('input', e => {
+                wheel.v = Number(e.target.value) / 100;
+                drawWheel();
+                setCustomColor(hsvToHex(wheel.h, wheel.s, wheel.v), true);
+            });
+
+            const hexInput = document.getElementById('color-hex');
+            hexInput.addEventListener('input', () => {
+                let v = hexInput.value.trim();
+                if (!v.startsWith('#')) v = '#' + v;
+                if (/^#[0-9a-f]{6}$/i.test(v)) setCustomColor(v, false);
+            });
+            hexInput.addEventListener('blur', () => { hexInput.value = state.customColor.toUpperCase(); });
+            window.addEventListener('resize', placeMarker);
+        }
+
+        document.getElementById('custom-theme-dot').style.setProperty('--custom-dot', state.customColor);
+
         function sendPortfolioData(portfolioFrame) {
             portfolioFrame.contentWindow.postMessage({
                 type: 'UPDATE_PORTFOLIO',
                 data: {
                     ...state.data,
                     sections: { ...state.sections },
-                    theme: state.theme
+                    theme: state.theme,
+                    palette: getThemePalette()
                 }
             }, '*');
         }
@@ -2093,6 +2617,7 @@
             state.template = tplName;
             document.querySelectorAll('.templates-grid .template-card').forEach(c => c.classList.remove('selected'));
             if (cardEl) cardEl.classList.add('selected');
+            document.body.classList.toggle('tpl-locked-colors', LOCKED_COLOR_TEMPLATES.includes(tplName));
             updatePreview();
         }
 
@@ -2104,12 +2629,17 @@
                 'theme-nordic': 'theme-opt-nordic',
                 'theme-dark': 'theme-opt-dark',
                 'theme-warm': 'theme-opt-warm',
-                'theme-ocean': 'theme-opt-ocean'
+                'theme-ocean': 'theme-opt-ocean',
+                'theme-yellow': 'theme-opt-yellow',
+                'theme-custom': 'theme-opt-custom'
             }[themeClass];
 
             if (activeOpt && document.getElementById(activeOpt)) {
                 document.getElementById(activeOpt).classList.add('active');
             }
+
+            document.getElementById('custom-color-panel').hidden = themeClass !== 'theme-custom';
+            if (themeClass === 'theme-custom') initColorWheel();
 
             updatePreview();
         }
@@ -2537,10 +3067,11 @@
             const tplNames = {
                 'tech_dev': 'Strukturerad profil',
                 'executive': 'Redaktionell profil',
-                'creative': 'Redaktionell portfolio'
+                'creative': 'Redaktionell portfolio',
+                'mvb': 'Byggprofil (exklusiv)'
             };
             document.getElementById('summary-template').innerText = tplNames[state.template];
-            document.getElementById('summary-theme').innerText = THEME_NAMES[state.theme];
+            document.getElementById('summary-theme').innerText = LOCKED_COLOR_TEMPLATES.includes(state.template) ? 'Mallens egna färger' : themeLabel();
             document.getElementById('summary-domain').innerText = state.domain || 'Ej vald';
             document.getElementById('summary-price').innerText = getOrderPrice();
         }
@@ -2642,8 +3173,9 @@
             return minifyHTML(`<!DOCTYPE html>\n${exportedDocument.outerHTML}`);
         }
 
-        // EmailJS gratisplan: max 50 kB per anrop. Marginal för id:n m.m.
-        const EMAILJS_MAX_BYTES = 46000;
+        // EmailJS gratisplan: max 50 kB per anrop. Vi stannar på 40 kB så att det
+        // alltid finns minst 10 kB (20 %) marginal, även när bilden bäddas in.
+        const EMAILJS_MAX_BYTES = 40000;
         const payloadBytes = params => new Blob([JSON.stringify(params)]).size;
 
         // Bygger koden och krymper profilbilden stegvis tills hela mejlet ryms
@@ -2710,13 +3242,13 @@
             submitBtn.textContent = 'Skickar beställning...';
 
             const orderId = 'FF-' + Math.floor(100000 + Math.random() * 900000);
-            const templateNames = { tech_dev: 'Strukturerad profil', executive: 'Redaktionell profil', creative: 'Redaktionell portfolio' };
+            const templateNames = { tech_dev: 'Strukturerad profil', executive: 'Redaktionell profil', creative: 'Redaktionell portfolio', mvb: 'Byggprofil (exklusiv)' };
             const common = {
                 order_id: orderId,
                 order_date: new Date().toLocaleString('sv-SE'),
                 domain: state.domain,
                 template_name: templateNames[state.template] || state.template,
-                theme_name: THEME_NAMES[state.theme] || state.theme,
+                theme_name: LOCKED_COLOR_TEMPLATES.includes(state.template) ? 'Mallens egna färger (gul/svart)' : themeLabel(),
                 price: getOrderPrice(),
                 domain_type: DOMAIN_PLANS[state.domainPlan].label,
                 customer_name: customer.name,

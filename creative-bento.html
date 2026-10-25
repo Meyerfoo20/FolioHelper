@@ -107,7 +107,7 @@
         margin-top: 20px;
       }
       .hero em {
-        color: var(--primary);
+        color: var(--primary-ink, var(--primary));
       }
       .lead {
         margin-top: 28px;
@@ -130,7 +130,7 @@
       }
       .btn.primary {
         background: var(--primary);
-        color: var(--card);
+        color: var(--on-primary, var(--card));
         border-color: var(--primary);
       }
       .btn:hover {
@@ -159,7 +159,7 @@
       }
       .stat .serif {
         font-size: 3rem;
-        color: var(--primary);
+        color: var(--primary-ink, var(--primary));
       }
       h2 {
         font-size: 3rem;
@@ -219,7 +219,7 @@
         margin-top: 40px;
       }
       .contact a {
-        color: var(--primary);
+        color: var(--primary-ink, var(--primary));
       }
       footer {
         padding: 30px 0;
@@ -261,23 +261,23 @@
       /* ===== Färgdetaljer i temats huvudfärg ===== */
       ::selection {
         background: var(--primary);
-        color: #fff;
+        color: var(--on-primary, #fff);
       }
       header {
         border-top: 3px solid var(--primary);
       }
       .logo {
-        color: var(--primary);
+        color: var(--primary-ink, var(--primary));
       }
       nav a:hover {
-        color: var(--primary);
+        color: var(--primary-ink, var(--primary));
       }
       .eyebrow {
-        color: var(--primary);
+        color: var(--primary-ink, var(--primary));
       }
       .btn:not(.primary) {
         border-color: var(--primary);
-        color: var(--primary);
+        color: var(--primary-ink, var(--primary));
       }
       .btn:not(.primary):hover {
         opacity: 1;
@@ -300,11 +300,11 @@
         font-weight: 500;
       }
       .venue {
-        color: var(--primary);
+        color: var(--primary-ink, var(--primary));
         opacity: 0.85;
       }
       .tags span {
-        color: var(--primary);
+        color: var(--primary-ink, var(--primary));
         border-color: var(--primary);
         border-color: color-mix(in srgb, var(--primary) 30%, transparent);
         background: color-mix(in srgb, var(--primary) 7%, transparent);
@@ -318,7 +318,7 @@
       }
       footer {
         background: var(--primary);
-        color: rgba(255, 255, 255, 0.78);
+        color: var(--on-primary-soft, rgba(255, 255, 255, 0.78));
       }
     </style>
   </head>
@@ -482,9 +482,20 @@
       };
 
       window.applyPortfolioData = function (data) {
-        const [background, foreground, card, primary, muted, border] =
-          portfolioThemes[data.theme] || portfolioThemes["theme-nordic"];
+        // Gul / Egen färg: redigeraren skickar en färdig palett baserad på Skogsgrön
+        const pal = data.palette;
+        const [background, foreground, card, basePrimary, muted, border] = pal
+          ? portfolioThemes["theme-dark"]
+          : portfolioThemes[data.theme] || portfolioThemes["theme-nordic"];
+        const primary = pal ? pal.accent : basePrimary;
+        const onPrimary = pal ? pal.onAccent : "#ffffff";
         const root = document.documentElement;
+        root.style.setProperty("--primary-ink", pal ? pal.ink : primary);
+        root.style.setProperty("--on-primary", onPrimary);
+        root.style.setProperty(
+          "--on-primary-soft",
+          onPrimary === "#ffffff" ? "rgba(255, 255, 255, 0.78)" : "rgba(24, 28, 25, 0.78)",
+        );
         root.style.setProperty("--bg", background);
         root.style.setProperty("--fg", foreground);
         root.style.setProperty("--card", card);

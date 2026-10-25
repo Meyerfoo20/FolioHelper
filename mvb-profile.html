@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Byggprofil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --yellow: #f9dd16;
+            --yellow-hover: #ffe94d;
+            --ink: #222222;
+            --text: #212121;
+            --muted: #5f666d;
+            --line: #e4e4e4;
+            --soft: #f4f4f4;
+            --black: #000000;
+            --footer-text: #adb5bd;
+            --font: 'Figtree', 'Proxima Nova', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            --shell: 1180px;
+            --gutter: clamp(20px, 5vw, 56px);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        [hidden] { display: none !important; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+        body { font-family: var(--font); font-weight: 300; font-size: 17px; line-height: 1.6; color: var(--text); background: #ffffff; -webkit-font-smoothing: antialiased; }
+        a { color: inherit; }
+        img { display: block; max-width: 100%; }
+        h1, h2, h3, p, a, span, li { overflow-wrap: break-word; }
+        ::selection { background: var(--yellow); color: var(--ink); }
+        .shell { max-width: var(--shell); margin: 0 auto; padding: 0 var(--gutter); }
+
+        /* Gul chevron – återkommande detalj */
+        .chev { display: inline-block; width: 0.5em; height: 0.5em; border-top: 0.16em solid var(--yellow); border-right: 0.16em solid var(--yellow); transform: rotate(45deg); flex: none; }
+        .diamond { display: inline-block; width: 12px; height: 12px; background: var(--yellow); transform: rotate(45deg); flex: none; }
+
+        /* ---------- Toppmeny ---------- */
+        .topbar { position: sticky; top: 0; z-index: 20; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 1px 0 var(--line); }
+        .topbar-in { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 76px; }
+        .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; min-width: 0; }
+        .brand-name { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .menu { display: flex; align-items: center; gap: 30px; list-style: none; }
+        .menu a { text-decoration: none; font-weight: 500; font-size: 0.98rem; color: var(--ink); padding: 6px 0; border-bottom: 3px solid transparent; transition: border-color .2s; }
+        .menu a:hover { border-color: var(--yellow); }
+        .menu .menu-cta a { background: var(--yellow); padding: 12px 22px; border: 0; font-weight: 600; transition: background .2s; }
+        .menu .menu-cta a:hover { background: var(--yellow-hover); }
+
+        .nav-toggle { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+        .burger { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; cursor: pointer; color: var(--ink); -webkit-tap-highlight-color: transparent; }
+        .burger .b-close { display: none; }
+
+        /* ---------- Hero ---------- */
+        .hero { position: relative; background: #ffffff; overflow: hidden; }
+        .hero-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); min-height: min(640px, 82vh); }
+        .hero-text { display: flex; flex-direction: column; justify-content: center; padding: clamp(48px, 7vw, 96px) clamp(24px, 5vw, 72px) clamp(48px, 7vw, 96px) max(var(--gutter), calc((100% - var(--shell)) / 2 + var(--gutter))); }
+        .eyebrow { display: flex; align-items: center; gap: 12px; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); margin-bottom: 22px; }
+        .eyebrow::before { content: ''; width: 36px; height: 4px; background: var(--yellow); flex: none; }
+        h1 { font-weight: 500; font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: 1.04; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 22px; }
+        .lead { font-size: clamp(1.05rem, 1.5vw, 1.2rem); color: var(--muted); max-width: 34em; margin-bottom: 34px; }
+        .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 52px; padding: 0 30px; background: var(--yellow); color: var(--ink); font-weight: 600; font-size: 1rem; text-decoration: none; transition: background .2s; }
+        .btn:hover { background: var(--yellow-hover); }
+        .btn-dark { background: var(--ink); color: #ffffff; }
+        .btn-dark:hover { background: #000000; }
+        .link-arrow { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; text-decoration: none; color: var(--ink); padding: 8px 0; }
+        .link-arrow:hover { text-decoration: underline; text-decoration-color: var(--yellow); text-decoration-thickness: 3px; text-underline-offset: 6px; }
+
+        .hero-photo { position: relative; min-height: 420px; background: var(--soft); }
+        .hero-photo img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+        .hero-photo::after { content: ''; position: absolute; left: 0; bottom: 0; width: 38%; height: 14px; background: var(--yellow); }
+        .hero-photo .tag { position: absolute; left: 0; top: 32px; z-index: 1; background: var(--ink); color: #ffffff; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 10px 16px; display: flex; align-items: center; gap: 10px; }
+        .hero-photo .tag .diamond { width: 9px; height: 9px; }
+
+        /* ---------- Faktaband ---------- */
+        .facts { background: var(--ink); color: #ffffff; }
+        .facts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+        .fact { padding: 28px 28px 28px 0; min-width: 0; }
+        .fact + .fact { padding-left: 28px; border-left: 1px solid rgba(255, 255, 255, 0.14); }
+        .fact dt { display: flex; align-items: center; gap: 10px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--footer-text); margin-bottom: 8px; }
+        .fact dt::before { content: ''; width: 8px; height: 8px; background: var(--yellow); transform: rotate(45deg); flex: none; }
+        .fact dd { font-weight: 600; font-size: clamp(1.05rem, 1.6vw, 1.2rem); line-height: 1.35; color: #ffffff; overflow-wrap: anywhere; }
+        .fact a { text-decoration: none; border-bottom: 2px solid transparent; transition: color .2s, border-color .2s; }
+        .fact a:hover { color: var(--yellow); border-color: var(--yellow); }
+
+        /* ---------- Sektioner ---------- */
+        .section { padding: clamp(64px, 9vw, 112px) 0; scroll-margin-top: 76px; }
+        .section.soft { background: var(--soft); }
+        .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: clamp(32px, 5vw, 52px); }
+        .kicker { font-size: 2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.01em; line-height: 1.1; color: var(--ink); }
+        .kicker::after { content: ''; display: block; width: 56px; height: 5px; background: var(--yellow); margin-top: 16px; }
+        .section-sub { color: var(--muted); max-width: 26em; font-size: 1rem; }
+
+        /* Erfarenhet */
+        .roles { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        .role { position: relative; background: #ffffff; padding: 30px 30px 32px; border-top: 5px solid var(--yellow); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06); }
+        .section:not(.soft) .role { background: var(--soft); box-shadow: none; }
+        .role-period { display: inline-block; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+        .role h3 { font-weight: 600; font-size: 1.4rem; line-height: 1.25; color: var(--ink); letter-spacing: -0.01em; }
+        .role-org { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.98rem; color: var(--ink); margin: 8px 0 14px; }
+        .role-desc { color: var(--muted); font-size: 1rem; }
+
+        /* Utbildning */
+        .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .edu { display: flex; gap: 22px; padding: 30px; background: #ffffff; border-left: 5px solid var(--yellow); }
+        .section:not(.soft) .edu { background: var(--soft); }
+        .edu-icon { flex: none; width: 48px; height: 48px; display: grid; place-items: center; background: var(--ink); color: var(--yellow); }
+        .edu-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+        .edu p { font-weight: 500; font-size: 1.15rem; line-height: 1.4; color: var(--ink); }
+
+        /* Kompetenser */
+        .skills { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0 36px; border-top: 1px solid var(--line); }
+        .skills li { display: flex; align-items: center; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); font-weight: 500; font-size: 1.05rem; color: var(--ink); }
+        .skills .chev { font-size: 1.1rem; margin-left: 2px; }
+
+        /* Kontakt – gult block */
+        .contact { background: var(--yellow); color: var(--ink); padding: clamp(64px, 9vw, 112px) 0; scroll-margin-top: 76px; }
+        .contact-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 80px); align-items: end; }
+        .contact h2 { font-weight: 500; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.06; letter-spacing: -0.02em; }
+        .contact .eyebrow::before { background: var(--ink); }
+        .contact-list { list-style: none; display: grid; gap: 12px; }
+        .contact-list a { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; background: var(--ink); color: #ffffff; text-decoration: none; font-weight: 500; transition: background .2s; }
+        .contact-list a:hover { background: #000000; }
+        .contact-list small { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--footer-text); margin-bottom: 2px; }
+        .contact-list span { overflow-wrap: anywhere; }
+
+        /* Sidfot */
+        footer { background: var(--black); color: var(--footer-text); padding: 44px 0 36px; font-size: 0.92rem; }
+        .foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px; }
+        .foot-brand { display: flex; align-items: center; gap: 12px; color: #ffffff; font-weight: 700; }
+        .foot-links { display: flex; flex-wrap: wrap; gap: 8px 26px; list-style: none; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+        .foot-links a { text-decoration: none; }
+        .foot-links a:hover { color: var(--yellow); }
+        .foot-copy { width: 100%; padding-top: 22px; margin-top: 4px; border-top: 1px solid rgba(255, 255, 255, 0.12); font-size: 0.85rem; }
+
+        /* ---------- Surfplatta ---------- */
+        @media (max-width: 960px) {
+            .hero-grid { grid-template-columns: 1fr; min-height: 0; }
+            .hero-photo { order: -1; min-height: 0; height: clamp(300px, 62vw, 520px); }
+            .hero-text { padding: 40px var(--gutter) 56px; }
+            .contact-grid { grid-template-columns: 1fr; align-items: start; }
+            .section-head { flex-direction: column; align-items: flex-start; }
+        }
+
+        /* ---------- Mobil ---------- */
+        @media (max-width: 720px) {
+            body { font-size: 16px; }
+            .topbar-in { height: 64px; }
+            .section, .contact { scroll-margin-top: 64px; }
+            .burger { display: flex; }
+            .menu {
+                position: absolute; top: 100%; left: 0; right: 0; z-index: 2;
+                flex-direction: column; align-items: stretch; gap: 0;
+                padding: 8px var(--gutter) 20px; background: #ffffff;
+                box-shadow: 0 16px 30px rgba(0, 0, 0, 0.12);
+                opacity: 0; visibility: hidden; transform: translateY(-8px);
+                transition: opacity .25s ease, transform .25s ease, visibility .25s;
+            }
+            .menu li + li { border-top: 1px solid var(--line); }
+            .menu a { display: flex; align-items: center; min-height: 54px; font-size: 1.1rem; border: 0; }
+            .menu .menu-cta { border-top: 0 !important; margin-top: 12px; }
+            .menu .menu-cta a { justify-content: center; }
+            .backdrop { display: none; position: absolute; top: 100%; left: 0; right: 0; height: 100vh; height: 100dvh; background: rgba(0, 0, 0, 0.35); z-index: 1; }
+            .nav-toggle:checked ~ .menu { opacity: 1; visibility: visible; transform: none; }
+            .nav-toggle:checked ~ .backdrop { display: block; }
+            .nav-toggle:checked ~ .burger .b-open { display: none; }
+            .nav-toggle:checked ~ .burger .b-close { display: block; }
+            .nav-toggle:focus-visible ~ .burger { outline: 3px solid var(--yellow); }
+            body:has(.nav-toggle:checked) { overflow: hidden; }
+
+            .hero-photo { height: 340px; }
+            .hero-photo .tag { top: 20px; }
+            .eyebrow { margin-bottom: 16px; }
+            .actions { flex-direction: column; align-items: stretch; gap: 10px; }
+            .actions .btn { width: 100%; }
+            .actions .link-arrow { justify-content: center; }
+            .facts-grid { grid-template-columns: 1fr; }
+            .fact, .fact + .fact { padding: 18px 0; border-left: 0; }
+            .fact + .fact { border-top: 1px solid rgba(255, 255, 255, 0.14); }
+            .kicker { font-size: 1.6rem; }
+            .roles { grid-template-columns: 1fr; gap: 14px; }
+            .role { padding: 24px 22px 26px; }
+            .role h3 { font-size: 1.22rem; }
+            .edu { padding: 22px; gap: 16px; }
+            .edu-icon { width: 40px; height: 40px; }
+            .skills { grid-template-columns: 1fr; }
+            .skills li { padding: 15px 0; }
+            .contact-list a { padding: 16px 18px; }
+            .foot { flex-direction: column; align-items: flex-start; }
+        }
+
+        @media (max-width: 360px) {
+            .brand-name { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="shell topbar-in">
+            <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Öppna meny">
+            <a class="brand" href="#top">
+                <span id="nav-name" class="brand-name">Alex Lindqvist</span>
+            </a>
+            <ul class="menu" id="menu">
+                <li id="nav-experience"><a href="#section-experience" onclick="document.getElementById('nav-toggle').checked=false">Erfarenhet</a></li>
+                <li id="nav-education"><a href="#section-education" onclick="document.getElementById('nav-toggle').checked=false">Utbildning</a></li>
+                <li id="nav-skills"><a href="#section-skills" onclick="document.getElementById('nav-toggle').checked=false">Kompetens</a></li>
+                <li class="menu-cta"><a href="#kontakt" onclick="document.getElementById('nav-toggle').checked=false">Kontakta mig</a></li>
+            </ul>
+            <label for="nav-toggle" class="burger" aria-hidden="true">
+                <svg class="b-open" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                <svg class="b-close" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+            </label>
+            <label for="nav-toggle" class="backdrop" aria-hidden="true"></label>
+        </div>
+    </header>
+
+    <section class="hero" id="top">
+        <div class="hero-grid">
+            <div class="hero-text">
+                <p id="txt-title" class="eyebrow">Yrkesroll eller titel</p>
+                <h1 id="txt-name">Alex Lindqvist</h1>
+                <p id="txt-bio" class="lead">Här kan du beskriva din erfarenhet, vad du arbetar med och hur du bidrar i olika projekt.</p>
+                <div class="actions">
+                    <a id="btn-email" class="btn" href="mailto:alex@example.com">Kontakta mig <span class="chev" style="border-color: var(--ink);"></span></a>
+                    <a id="btn-experience" class="link-arrow" href="#section-experience">Se min erfarenhet <span class="chev"></span></a>
+                </div>
+            </div>
+            <div class="hero-photo">
+                <span id="photo-tag" class="tag"><span class="diamond" aria-hidden="true"></span><span id="txt-location">Stockholm</span></span>
+                <img id="img-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=900&auto=format&fit=crop&q=80" alt="Profilbild">
+            </div>
+        </div>
+    </section>
+
+    <section class="facts" aria-label="Snabbfakta">
+        <dl class="shell facts-grid">
+            <div class="fact" id="fact-location-box"><dt>Ort</dt><dd id="fact-location">Stockholm, Sverige</dd></div>
+            <div class="fact" id="fact-email-box"><dt>E-post</dt><dd><a id="fact-email" href="mailto:alex.lindqvist@example.com">alex.lindqvist@example.com</a></dd></div>
+            <div class="fact" id="fact-phone-box"><dt>Telefon</dt><dd><a id="fact-phone" href="tel:0701234567">070-123 45 67</a></dd></div>
+        </dl>
+    </section>
+
+    <main>
+        <section class="section" id="section-experience">
+            <div class="shell">
+                <div class="section-head">
+                    <h2 class="kicker">Erfarenhet</h2>
+                    <p class="section-sub">Projekt och roller jag har drivit och bidragit i.</p>
+                </div>
+                <ol id="exp-list" class="roles"></ol>
+            </div>
+        </section>
+
+        <section class="section soft" id="section-education">
+            <div class="shell">
+                <div class="section-head">
+                    <h2 class="kicker">Utbildning</h2>
+                    <p class="section-sub">Examen, behörigheter och certifieringar.</p>
+                </div>
+                <div class="edu-grid">
+                    <div class="edu" id="card-edu1">
+                        <span class="edu-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 2.5 9 2.5 12 0v-5"/></svg></span>
+                        <div><div class="edu-label">Utbildning</div><p id="txt-edu1"></p></div>
+                    </div>
+                    <div class="edu" id="card-edu2">
+                        <span class="edu-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z"/><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8"/></svg></span>
+                        <div><div class="edu-label">Certifikat &amp; behörigheter</div><p id="txt-edu2"></p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="section-skills">
+            <div class="shell">
+                <div class="section-head">
+                    <h2 class="kicker">Kompetens</h2>
+                    <p class="section-sub">Områden där jag gör mest skillnad.</p>
+                </div>
+                <ul id="skills-list" class="skills"></ul>
+            </div>
+        </section>
+    </main>
+
+    <section class="contact" id="kontakt">
+        <div class="shell contact-grid">
+            <div>
+                <p class="eyebrow">Kontakt</p>
+                <h2>Ska vi ta nästa projekt tillsammans?</h2>
+            </div>
+            <ul class="contact-list">
+                <li id="row-email"><a id="link-email" href="mailto:alex@example.com"><span><small>E-post</small><span id="txt-email">alex@example.com</span></span><span class="chev"></span></a></li>
+                <li id="row-phone"><a id="link-phone" href="tel:0701234567"><span><small>Telefon</small><span id="txt-phone">070-123 45 67</span></span><span class="chev"></span></a></li>
+                <li id="row-link"><a id="link-profile" href="#" target="_blank" rel="noopener"><span><small>Profil &amp; länkar</small><span>Öppna profil</span></span><span class="chev"></span></a></li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        <div class="shell foot">
+            <div class="foot-brand"><span class="diamond" aria-hidden="true"></span><span id="foot-name">Alex Lindqvist</span></div>
+            <ul class="foot-links">
+                <li id="foot-experience"><a href="#section-experience">Erfarenhet</a></li>
+                <li id="foot-education"><a href="#section-education">Utbildning</a></li>
+                <li id="foot-skills"><a href="#section-skills">Kompetens</a></li>
+                <li><a href="#kontakt">Kontakt</a></li>
+            </ul>
+            <p id="foot-copy" class="foot-copy">© Alex Lindqvist</p>
+        </div>
+    </footer>
+
+    <script>
+        const $ = id => document.getElementById(id);
+        const setText = (id, value) => { $(id).textContent = value || ''; };
+
+        window.applyPortfolioData = function (d) {
+            // Den här mallen har fasta färger och ignorerar valt färgtema.
+            const name = (d.name || '').trim();
+            setText('txt-name', name);
+            setText('nav-name', name);
+            setText('foot-name', name);
+            setText('foot-copy', `© ${new Date().getFullYear()} ${name}`);
+            document.title = name ? `${name} – Byggprofil` : 'Byggprofil';
+
+            setText('txt-title', d.title);
+            $('txt-title').hidden = !d.title;
+
+            setText('txt-bio', d.bio);
+            $('txt-bio').hidden = d.sections?.about === false || !d.bio;
+
+            const location = (d.location || '').trim();
+            setText('txt-location', location);
+            setText('fact-location', location);
+            $('photo-tag').hidden = !location;
+            $('fact-location-box').hidden = !location;
+
+            const email = (d.email || '').trim();
+            $('btn-email').href = `mailto:${email}`;
+            $('link-email').href = `mailto:${email}`;
+            setText('txt-email', email);
+            $('btn-email').hidden = !email;
+            $('row-email').hidden = !email;
+
+            const phone = (d.phone || '').trim();
+            $('link-phone').href = `tel:${phone.replace(/[^\d+]/g, '')}`;
+            setText('txt-phone', phone);
+            $('row-phone').hidden = !phone;
+
+            const link = (d.linkedin || '').trim();
+            $('link-profile').href = link || '#';
+            $('row-link').hidden = !link;
+
+            if (d.avatar) $('img-avatar').src = d.avatar;
+            $('img-avatar').alt = name ? `Porträtt av ${name}` : 'Profilbild';
+
+            setText('txt-edu1', d.edu1);
+            setText('txt-edu2', d.edu2);
+            $('card-edu1').hidden = !d.edu1;
+            $('card-edu2').hidden = !d.edu2;
+
+            const skills = (d.skills || '').split(',').map(s => s.trim()).filter(Boolean);
+            $('skills-list').replaceChildren(...skills.map(skill => {
+                const li = document.createElement('li');
+                const chev = document.createElement('span');
+                chev.className = 'chev';
+                li.append(chev, document.createTextNode(skill));
+                return li;
+            }));
+
+            const experiences = d.experiences || [];
+            $('exp-list').replaceChildren(...experiences.map(exp => {
+                const li = document.createElement('li');
+                li.className = 'role';
+                const period = document.createElement('span');
+                period.className = 'role-period';
+                period.textContent = exp.period || '';
+                period.hidden = !exp.period;
+                const role = document.createElement('h3');
+                role.textContent = exp.role || '';
+                const org = document.createElement('p');
+                org.className = 'role-org';
+                const chev = document.createElement('span');
+                chev.className = 'chev';
+                org.append(chev, document.createTextNode(exp.company || ''));
+                org.hidden = !exp.company;
+                const desc = document.createElement('p');
+                desc.className = 'role-desc';
+                desc.textContent = exp.desc || '';
+                desc.hidden = !exp.desc;
+                li.append(period, role, org, desc);
+                return li;
+            }));
+
+            const showExp = d.sections?.experience !== false && experiences.length > 0;
+            const showSkills = d.sections?.skills !== false && skills.length > 0;
+            const showEdu = d.sections?.education !== false && !!(d.edu1 || d.edu2);
+            $('fact-email').href = `mailto:${email}`;
+            setText('fact-email', email);
+            $('fact-email-box').hidden = !email;
+            $('fact-phone').href = `tel:${phone.replace(/[^\d+]/g, '')}`;
+            setText('fact-phone', phone);
+            $('fact-phone-box').hidden = !phone;
+            document.querySelector('.facts').hidden = !location && !email && !phone;
+            $('btn-experience').hidden = !showExp;
+
+            [['experience', showExp], ['education', showEdu], ['skills', showSkills]].forEach(([section, show]) => {
+                $(`section-${section}`).hidden = !show;
+                $(`nav-${section}`).hidden = !show;
+                $(`foot-${section}`).hidden = !show;
+            });
+
+            // Varannan sektion får ljusgrå bakgrund, oavsett vilka som är dolda
+            [...document.querySelectorAll('main .section')].filter(s => !s.hidden).forEach((s, i) => s.classList.toggle('soft', i % 2 === 1));
+
+            if (window.parent !== window) {
+                window.parent.postMessage({ type: 'PORTFOLIO_RENDERED', html: document.documentElement.outerHTML }, '*');
+            }
+        };
+
+        window.addEventListener('message', event => {
+            if (event.data?.type === 'UPDATE_PORTFOLIO') window.applyPortfolioData(event.data.data);
+        });
+    </script>
+</body>
+</html>

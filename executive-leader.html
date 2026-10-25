@@ -49,7 +49,7 @@
         /* Hero */
         .hero { padding: clamp(48px, 9vw, 112px) 0 0; }
         .hero-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
-        .eyebrow { display: flex; align-items: center; gap: 14px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--p-accent); margin-bottom: 22px; }
+        .eyebrow { display: flex; align-items: center; gap: 14px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--p-accent-ink, var(--p-accent)); margin-bottom: 22px; }
         .eyebrow::before { content: ''; flex: none; width: 36px; height: 1px; background: currentColor; }
         h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.6rem, 6.4vw, 5rem); line-height: 1.02; letter-spacing: -0.025em; margin-bottom: 28px; overflow-wrap: break-word; }
         .lead { font-size: clamp(1.05rem, 1.6vw, 1.2rem); color: var(--p-muted); max-width: 36em; margin-bottom: 36px; }
@@ -58,7 +58,7 @@
         .btn-primary { background: var(--p-accent); color: var(--p-btn-text); }
         .btn-primary:hover { background: var(--p-accent-hover); }
         .btn-ghost { border-color: var(--p-border); background: var(--p-card); }
-        .btn-ghost:hover { border-color: var(--p-accent); color: var(--p-accent); }
+        .btn-ghost:hover { border-color: var(--p-accent); color: var(--p-accent-ink, var(--p-accent)); }
         .btn svg { width: 16px; height: 16px; }
 
         .portrait { position: relative; justify-self: end; width: 100%; max-width: 400px; }
@@ -71,13 +71,13 @@
         .facts dt { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--p-muted); margin-bottom: 4px; }
         .facts dd { font-weight: 600; overflow-wrap: anywhere; }
         .facts a { text-decoration: none; }
-        .facts a:hover { color: var(--p-accent); }
+        .facts a:hover { color: var(--p-accent-ink, var(--p-accent)); }
 
         /* Sektioner */
         main.shell { counter-reset: block; padding-bottom: clamp(64px, 9vw, 120px); }
         .block { counter-increment: block; display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); padding: clamp(56px, 8vw, 96px) 0 0; scroll-margin-top: 80px; }
         .block-head { align-self: start; position: sticky; top: 100px; }
-        .block-head::before { content: counter(block, decimal-leading-zero); display: block; font-family: var(--serif); font-style: italic; color: var(--p-accent); font-size: 1rem; margin-bottom: 10px; }
+        .block-head::before { content: counter(block, decimal-leading-zero); display: block; font-family: var(--serif); font-style: italic; color: var(--p-accent-ink, var(--p-accent)); font-size: 1rem; margin-bottom: 10px; }
         .block-head h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(1.8rem, 3vw, 2.3rem); line-height: 1.1; letter-spacing: -0.015em; }
         .block-head p { color: var(--p-muted); font-size: 0.92rem; margin-top: 10px; }
 
@@ -85,12 +85,12 @@
         .role { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 24px; padding: 30px 0; border-bottom: 1px solid var(--p-border); }
         .role-period { font-size: 0.85rem; font-weight: 600; color: var(--p-muted); padding-top: 4px; font-variant-numeric: tabular-nums; }
         .role h3 { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; line-height: 1.25; letter-spacing: -0.01em; }
-        .role-org { color: var(--p-accent); font-weight: 700; font-size: 0.92rem; margin: 6px 0 10px; }
+        .role-org { color: var(--p-accent-ink, var(--p-accent)); font-weight: 700; font-size: 0.92rem; margin: 6px 0 10px; }
         .role-desc { color: var(--p-muted); }
 
         .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
         .edu-card { background: var(--p-card); border: 1px solid var(--p-border); border-radius: 6px; padding: 28px; }
-        .edu-card span { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--p-accent); margin-bottom: 12px; }
+        .edu-card span { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--p-accent-ink, var(--p-accent)); margin-bottom: 12px; }
         .edu-card p { font-family: var(--serif); font-size: 1.2rem; line-height: 1.4; }
 
         .skills { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); border-top: 1px solid var(--p-border); }
@@ -248,7 +248,11 @@
         const setText = (id, value) => { $(id).textContent = value || ''; };
 
         window.applyPortfolioData = function (d) {
-            const values = portfolioThemes[d.theme] || portfolioThemes['theme-nordic'];
+            const pal = d.palette;
+            const base = portfolioThemes[d.theme] || portfolioThemes['theme-nordic'];
+            const values = pal
+                ? { ...portfolioThemes['theme-dark'], '--p-accent': pal.accent, '--p-accent-hover': pal.hover, '--p-accent-light': pal.light, '--p-footer': pal.footer, '--p-btn-text': pal.onAccent, '--p-accent-ink': pal.ink }
+                : { ...base, '--p-accent-ink': base['--p-accent'] };
             Object.entries(values).forEach(([name, value]) => document.documentElement.style.setProperty(name, value));
 
             const name = (d.name || '').trim();
