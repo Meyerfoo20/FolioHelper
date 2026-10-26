@@ -1,4 +1,4 @@
-# EmailJS-inställning för FormFolio
+# EmailJS-inställning för Sidly
 
 Service `service_9zpq6nl`, två mallar (allt EmailJS-relaterat är redan ifyllt i `index.html`):
 - `template_w8cothh` → orderbekräftelse till kunden
@@ -8,9 +8,9 @@ Auto-Reply ska vara **avstängt** på båda mallarna (annars skickas dubbla mejl
 
 ## template_w8cothh – till kunden
 - **To Email:** `{{to_email}}`
-- **From Name:** FormFolio
+- **From Name:** Sidly
 - **Reply To:** `{{reply_to}}`
-- **Subject:** `Orderbekräftelse {{order_id}} – FormFolio`
+- **Subject:** `Orderbekräftelse {{order_id}} – Sidly`
 - **Content:**
 ```
 Hej {{to_name}}!
@@ -25,7 +25,7 @@ Vi sätter nu upp din hemsida. När den är online skickar vi fakturan till dig
 (30 dagars betaltid).
 
 Vänliga hälsningar
-FormFolio
+Sidly
 ```
 
 ## template_umux0d9 – till dig
