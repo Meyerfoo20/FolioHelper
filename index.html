@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sidly</title>
+    <title>FolioHelper</title>
     
     <!-- Google Fonts för Premium Typografi -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1507,7 +1507,7 @@
     <header>
         <div class="header-container">
             <a href="#" class="logo">
-                Sidly
+                FolioHelper
             </a>
             <form class="access-code" id="access-code-form" onsubmit="event.preventDefault(); submitAccessCode();" autocomplete="off">
                 <svg class="access-code-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
@@ -2812,7 +2812,7 @@
             subdomain: { label: 'Fenrac-adress', price: '479 kr / år' }
         };
         const SUBDOMAIN_BASE = 'fenrac.se';
-        const RESERVED_SUBDOMAINS = ['www', 'mail', 'sidly', 'formfolio', 'admin', 'api', 'ftp', 'smtp', 'webmail', 'fenrac'];
+        const RESERVED_SUBDOMAINS = ['www', 'mail', 'foliohelper', 'formfolio', 'admin', 'api', 'ftp', 'smtp', 'webmail', 'fenrac'];
 
         function getOrderPrice() {
             return DOMAIN_PLANS[state.domainPlan].price;
@@ -3036,7 +3036,7 @@
                         <div>
                             <strong>${SVG_ICONS.check} Domänen ${input} är ledig och verifierad!</strong>
                             <p style="font-size:0.88rem; margin-top:4px;">
-                                Perfekt! Domänen ingår utan extra kostnad och registreras automatiskt åt dig i ditt Sidly-paket när du slutför beställningen.
+                                Perfekt! Domänen ingår utan extra kostnad och registreras automatiskt åt dig i ditt FolioHelper-paket när du slutför beställningen.
                             </p>
                         </div>
                     `;
@@ -3241,7 +3241,7 @@
             submitBtn.disabled = true;
             submitBtn.textContent = 'Skickar beställning...';
 
-            const orderId = 'SL-' + Math.floor(100000 + Math.random() * 900000);
+            const orderId = 'FH-' + Math.floor(100000 + Math.random() * 900000);
             const templateNames = { tech_dev: 'Strukturerad profil', executive: 'Redaktionell profil', creative: 'Redaktionell portfolio', mvb: 'Byggprofil (exklusiv)' };
             const common = {
                 order_id: orderId,
@@ -3302,7 +3302,7 @@
             adminParams.portfolio_size = `${Math.round(new Blob([portfolioHTML]).size / 1024)} kB`;
             adminParams.portfolio_code = portfolioHTML;
 
-            let failedStep = 'mejlet till Sidly (' + EMAILJS_CONFIG.adminTemplateId + ')';
+            let failedStep = 'mejlet till FolioHelper (' + EMAILJS_CONFIG.adminTemplateId + ')';
             try {
                 // 1. Order + HTML-kod till dig
                 await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.adminTemplateId, adminParams);
