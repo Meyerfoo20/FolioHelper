@@ -286,6 +286,227 @@
             display: none !important;
         }
 
+        /* KUNDEXEMPEL */
+        .showcase {
+            padding: 56px 24px 64px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .showcase-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+
+        .showcase-head {
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto 34px;
+        }
+
+        .showcase-eyebrow {
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent-main);
+            margin-bottom: 8px;
+        }
+
+        .showcase-head h2 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 2rem;
+            line-height: 1.2;
+            color: var(--text-main);
+            margin-bottom: 10px;
+        }
+
+        .showcase-head p:last-child {
+            color: var(--text-muted);
+        }
+
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .showcase-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: var(--shadow-elevated);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+
+        .showcase-card:hover,
+        .showcase-card:focus-visible {
+            transform: translateY(-6px);
+            border-color: var(--card-accent);
+            box-shadow: 0 22px 40px rgba(0, 0, 0, 0.10);
+        }
+
+        .showcase-card:focus-visible {
+            outline: 3px solid var(--accent-light);
+            outline-offset: 2px;
+        }
+
+        .showcase-photo {
+            position: relative;
+            aspect-ratio: 4 / 5;
+            max-height: 360px;
+            overflow: hidden;
+            background: var(--bg-alt);
+            border-bottom: 4px solid var(--card-accent);
+        }
+
+        .showcase-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 25%;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .showcase-card:hover .showcase-photo img {
+            transform: scale(1.04);
+        }
+
+        .showcase-body {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 20px 22px 22px;
+        }
+
+        .showcase-body h3 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.3rem;
+            color: var(--text-main);
+        }
+
+        .showcase-meta {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--card-accent);
+            margin: 2px 0 10px;
+        }
+
+        .showcase-design {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            align-self: flex-start;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .showcase-design strong {
+            color: var(--text-main);
+        }
+
+        .version-tag {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 6px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: var(--bg-alt);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.72rem;
+            font-weight: 700;
+            line-height: 1.5;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+
+        .template-info h3 .version-tag {
+            position: relative;
+            top: -2px;
+        }
+
+        .showcase-design .version-tag {
+            margin-left: 2px;
+            font-size: 0.68rem;
+            padding: 1px 7px;
+        }
+
+        .showcase-blurb {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            flex: 1;
+        }
+
+        .showcase-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            align-self: flex-start;
+            max-width: 100%;
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-main);
+            overflow-wrap: anywhere;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+
+        .showcase-card:hover .showcase-link {
+            background: var(--card-accent);
+            border-color: var(--card-accent);
+            color: #ffffff;
+        }
+
+        @media (max-width: 960px) {
+            .showcase-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 640px) {
+            .showcase {
+                padding: 40px 16px 44px;
+            }
+            .showcase-head h2 {
+                font-size: 1.55rem;
+            }
+            .showcase-grid {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                gap: 14px;
+                margin: 0 -16px;
+                padding: 4px 16px 14px;
+                scrollbar-width: none;
+            }
+            .showcase-grid::-webkit-scrollbar {
+                display: none;
+            }
+            .showcase-card {
+                flex: 0 0 78%;
+                scroll-snap-align: start;
+            }
+            .showcase-card:hover,
+            .showcase-card:focus-visible {
+                transform: none;
+            }
+            .showcase-photo {
+                max-height: 300px;
+            }
+        }
+
         /* HERO SEKTION */
         .hero-landing {
             background: linear-gradient(180deg, var(--bg-alt) 0%, var(--bg-main) 100%);
@@ -674,6 +895,88 @@
             border-radius: var(--radius-sm);
             border: 1px solid var(--border-color);
             margin-bottom: 14px;
+        }
+
+        .contact-hint {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .contact-field-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .contact-field-head > label:first-child {
+            margin-bottom: 0;
+            min-width: 0;
+        }
+
+        .form-group .mini-toggle,
+        .mini-toggle {
+            flex: none;
+            display: inline-flex;
+            width: auto;
+            white-space: nowrap;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            user-select: none;
+            margin: 0 !important;
+        }
+
+        .mini-toggle input {
+            position: absolute;
+            opacity: 0;
+            width: 1px;
+            height: 1px;
+        }
+
+        .mini-toggle-track {
+            position: relative;
+            width: 30px;
+            height: 17px;
+            border-radius: 999px;
+            background: var(--border-color);
+            transition: background 0.2s;
+            flex: none;
+        }
+
+        .mini-toggle-track::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+            transition: transform 0.2s;
+        }
+
+        .mini-toggle input:checked + .mini-toggle-track {
+            background: var(--accent-main);
+        }
+
+        .mini-toggle input:checked + .mini-toggle-track::after {
+            transform: translateX(13px);
+        }
+
+        .mini-toggle input:focus-visible + .mini-toggle-track {
+            outline: 2px solid var(--accent-main);
+            outline-offset: 2px;
+        }
+
+        .form-group.field-hidden .form-control {
+            opacity: 0.5;
         }
 
         .toggle-switch {
@@ -1550,6 +1853,61 @@
         </div>
     </section>
 
+    <!-- KUNDEXEMPEL -->
+    <section class="showcase" aria-labelledby="showcase-title">
+        <div class="showcase-inner">
+            <div class="showcase-head">
+                <p class="showcase-eyebrow">Byggda med FolioHelper</p>
+                <h2 id="showcase-title">Se riktiga portfolios från våra användare</h2>
+                <p>Alla sidor är skapade i redigeraren nedan och publicerade på egen adress. Klicka för att besöka dem.</p>
+            </div>
+            <div class="showcase-grid">
+                <a class="showcase-card" href="https://elton-carlsson.fenrac.se" target="_blank" rel="noopener" style="--card-accent: #123250;" aria-label="Öppna Elton Carlssons portfolio på elton-carlsson.fenrac.se">
+                    <div class="showcase-photo">
+                        <img src="kunder/elton-carlsson.jpg" alt="Porträtt av Elton Carlsson" loading="lazy" width="560" height="700">
+                    </div>
+                    <div class="showcase-body">
+                        <h3>Elton Carlsson</h3>
+                        <p class="showcase-meta">Student · Helsingborg</p>
+                        <p class="showcase-design"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Design: <strong>Minimalistisk &amp; ren</strong> <span class="version-tag">v1.1</span></p>
+                        <p class="showcase-blurb">Energisk och hjälpsam – trivs bäst med praktiskt arbete.</p>
+                        <span class="showcase-link">elton-carlsson.fenrac.se
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+                        </span>
+                    </div>
+                </a>
+                <a class="showcase-card" href="https://rasmus-andersson.fenrac.se" target="_blank" rel="noopener" style="--card-accent: #4a111c;" aria-label="Öppna Rasmus Anderssons portfolio på rasmus-andersson.fenrac.se">
+                    <div class="showcase-photo">
+                        <img src="kunder/rasmus-andersson.jpg" alt="Porträtt av Rasmus Andersson" loading="lazy" width="560" height="700">
+                    </div>
+                    <div class="showcase-body">
+                        <h3>Rasmus Andersson</h3>
+                        <p class="showcase-meta">Student · Höganäs</p>
+                        <p class="showcase-design"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Design: <strong>Minimalistisk &amp; ren</strong> <span class="version-tag">v1.0</span></p>
+                        <p class="showcase-blurb">Student på NTI TE4 – mjukvarudesigner och IT-tekniker.</p>
+                        <span class="showcase-link">rasmus-andersson.fenrac.se
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+                        </span>
+                    </div>
+                </a>
+                <a class="showcase-card" href="https://anton-lindblad.fenrac.se" target="_blank" rel="noopener" style="--card-accent: #4a111c;" aria-label="Öppna Anton Lindblads portfolio på anton-lindblad.fenrac.se">
+                    <div class="showcase-photo">
+                        <img src="kunder/anton-lindblad.jpg" alt="Porträtt av Anton Lindblad" loading="lazy" width="560" height="700">
+                    </div>
+                    <div class="showcase-body">
+                        <h3>Anton Lindblad</h3>
+                        <p class="showcase-meta">Student · Helsingborg</p>
+                        <p class="showcase-design"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Design: <strong>Minimalistisk &amp; ren</strong> <span class="version-tag">v1.0</span></p>
+                        <p class="showcase-blurb">Utbildar sig inom webbutveckling.</p>
+                        <span class="showcase-link">anton-lindblad.fenrac.se
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+                        </span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Stegindikator (4 Steg) -->
     <div id="builder-start" class="stepper">
         <div class="step-item active" onclick="goToStep(1)">
@@ -1583,7 +1941,6 @@
                 <!-- Mall 1: Tech & Specialist Grid -->
                 <div class="template-card selected" onclick="selectTemplate('tech_dev', this)">
                     <div class="template-preview-banner">
-                        <span class="template-badge">Populärast</span>
                         <svg width="260" height="130" viewBox="0 0 260 130" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto; margin-top: 10px;">
                             <rect x="2" y="2" width="256" height="126" rx="8" fill="#f8f6f0" stroke="#ded8cb" stroke-width="1.5"/>
                             <path d="M2 10C2 5.58172 5.58172 2 10 2H250C254.418 2 258 5.58172 258 10V20H2V10Z" fill="#eee8dc"/>
@@ -1624,8 +1981,8 @@
                     </div>
                     <div class="template-info">
                         <div>
-                            <h3>Strukturerad profil</h3>
-                            <p>En tydlig gridlayout som lyfter fram presentation, erfarenhet, utbildning och kompetenser.</p>
+                            <h3>Teknisk &amp; strukturerad <span class="version-tag">v1.0</span></h3>
+                            <p>Modern och teknisk med tydligt rutnät och sidopanel – för dig som vill synas direkt med presentation, erfarenhet och kompetenser.</p>
                         </div>
                         <button class="btn btn-secondary" style="width:100%;" onclick="event.stopPropagation(); selectTemplate('tech_dev', this.closest('.template-card')); goToStep(2);">Välj denna mall</button>
                     </div>
@@ -1667,8 +2024,8 @@
                     </div>
                     <div class="template-info">
                         <div>
-                            <h3>Redaktionell profil</h3>
-                            <p>Exklusiv redaktionell layout med stort porträtt, elegant typografi och tydliga sektioner – lika snygg i mobilen som på datorn.</p>
+                            <h3>Elegant med stort porträtt <span class="version-tag">v1.0</span></h3>
+                            <p>Elegant och personlig med stort porträtt, tidlös typografi och numrerade sektioner – lika snygg i mobilen som på datorn.</p>
                         </div>
                         <button class="btn btn-secondary" style="width:100%;" onclick="event.stopPropagation(); selectTemplate('executive', this.closest('.template-card')); goToStep(2);">Välj denna mall</button>
                     </div>
@@ -1677,6 +2034,7 @@
                 <!-- Mall 3: Editorial Portfolio -->
                 <div class="template-card" onclick="selectTemplate('creative', this)">
                     <div class="template-preview-banner">
+                        <span class="template-badge">Populärast</span>
                         <svg width="260" height="130" viewBox="0 0 260 130" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto;">
                             <rect x="2" y="2" width="256" height="126" rx="8" fill="#f8f6f0" stroke="#ded8cb" stroke-width="1.5"/>
                             <path d="M2 10C2 5.58172 5.58172 2 10 2H250C254.418 2 258 5.58172 258 10V20H2V10Z" fill="#eee8dc"/>
@@ -1720,8 +2078,8 @@
                     </div>
                     <div class="template-info">
                         <div>
-                            <h3>Redaktionell portfolio</h3>
-                            <p>En luftig layout med sektioner för presentation, uppdrag, utbildning och kompetenser.</p>
+                            <h3>Minimalistisk &amp; ren <span class="version-tag">v1.1</span></h3>
+                            <p>Enkel och luftig med stor rubrik, kursiv titel och mycket luft – lugn och ren design som låter innehållet tala.</p>
                         </div>
                         <button class="btn btn-secondary" style="width:100%;" onclick="event.stopPropagation(); selectTemplate('creative', this.closest('.template-card')); goToStep(2);">Välj denna mall</button>
                     </div>
@@ -1972,16 +2330,38 @@
                             <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                         <div class="accordion-body">
+                            <p class="contact-hint">Stäng av "Visa" för uppgifter som inte ska synas på hemsidan.</p>
                             <div class="form-group">
-                                <label>Profil- eller Webbplatslänk</label>
+                                <div class="contact-field-head">
+                                    <label for="input-linkedin">Profil- eller webbplatslänk</label>
+                                    <label class="mini-toggle" title="Visa på hemsidan">
+                                        <input type="checkbox" id="show-linkedin" checked onchange="toggleContactField('linkedin')">
+                                        <span class="mini-toggle-track"></span>
+                                        <span class="mini-toggle-text">Visa</span>
+                                    </label>
+                                </div>
                                 <input type="text" id="input-linkedin" class="form-control" value="https://linkedin.com/in/alexlindqvist" oninput="updatePreview()">
                             </div>
                             <div class="form-group">
-                                <label>E-postadress</label>
+                                <div class="contact-field-head">
+                                    <label for="input-email">E-postadress</label>
+                                    <label class="mini-toggle" title="Visa på hemsidan">
+                                        <input type="checkbox" id="show-email" checked onchange="toggleContactField('email')">
+                                        <span class="mini-toggle-track"></span>
+                                        <span class="mini-toggle-text">Visa</span>
+                                    </label>
+                                </div>
                                 <input type="email" id="input-email" class="form-control" value="alex.lindqvist@example.com" oninput="updatePreview()">
                             </div>
                             <div class="form-group">
-                                <label>Telefonnummer</label>
+                                <div class="contact-field-head">
+                                    <label for="input-phone">Telefonnummer</label>
+                                    <label class="mini-toggle" title="Visa på hemsidan">
+                                        <input type="checkbox" id="show-phone" checked onchange="toggleContactField('phone')">
+                                        <span class="mini-toggle-track"></span>
+                                        <span class="mini-toggle-text">Visa</span>
+                                    </label>
+                                </div>
                                 <input type="text" id="input-phone" class="form-control" value="070-123 45 67" oninput="updatePreview()">
                             </div>
                         </div>
@@ -2600,11 +2980,30 @@
 
         document.getElementById('custom-theme-dot').style.setProperty('--custom-dot', state.customColor);
 
+        // Vilka kontaktuppgifter som ska synas på hemsidan
+        state.contactVisible = { linkedin: true, email: true, phone: true };
+
+        function toggleContactField(key) {
+            const checked = document.getElementById(`show-${key}`).checked;
+            state.contactVisible[key] = checked;
+            document.getElementById(`input-${key}`).closest('.form-group').classList.toggle('field-hidden', !checked);
+            updatePreview();
+        }
+
+        // Data som skickas till mallen – dolda kontaktuppgifter skickas som tomma
+        function portfolioDataForTemplate() {
+            const data = { ...state.data };
+            Object.entries(state.contactVisible).forEach(([key, visible]) => {
+                if (!visible) data[key] = '';
+            });
+            return data;
+        }
+
         function sendPortfolioData(portfolioFrame) {
             portfolioFrame.contentWindow.postMessage({
                 type: 'UPDATE_PORTFOLIO',
                 data: {
-                    ...state.data,
+                    ...portfolioDataForTemplate(),
                     sections: { ...state.sections },
                     theme: state.theme,
                     palette: getThemePalette()
@@ -3065,9 +3464,9 @@
 
         function updateSummary() {
             const tplNames = {
-                'tech_dev': 'Strukturerad profil',
-                'executive': 'Redaktionell profil',
-                'creative': 'Redaktionell portfolio',
+                'tech_dev': 'Teknisk & strukturerad',
+                'executive': 'Elegant med stort porträtt',
+                'creative': 'Minimalistisk & ren',
                 'mvb': 'Byggprofil (exklusiv)'
             };
             document.getElementById('summary-template').innerText = tplNames[state.template];
@@ -3242,7 +3641,7 @@
             submitBtn.textContent = 'Skickar beställning...';
 
             const orderId = 'FH-' + Math.floor(100000 + Math.random() * 900000);
-            const templateNames = { tech_dev: 'Strukturerad profil', executive: 'Redaktionell profil', creative: 'Redaktionell portfolio', mvb: 'Byggprofil (exklusiv)' };
+            const templateNames = { tech_dev: 'Teknisk & strukturerad', executive: 'Elegant med stort porträtt', creative: 'Minimalistisk & ren', mvb: 'Byggprofil (exklusiv)' };
             const common = {
                 order_id: orderId,
                 order_date: new Date().toLocaleString('sv-SE'),

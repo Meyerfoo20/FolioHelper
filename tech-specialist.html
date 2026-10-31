@@ -867,6 +867,10 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             E-post
           </a>
+          <a id="link-phone-sub" href="tel:0701234567">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span id="txt-phone-sub">070-123 45 67</span>
+          </a>
         </div>
 
         <div class="sidebar-meta">
@@ -947,6 +951,7 @@
       <div class="footer-links">
         <a id="footer-email" href="mailto:alex@lindqvist.se">E-post</a>
         <a id="footer-linkedin" href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a id="footer-phone" href="tel:0701234567">Telefon</a>
       </div>
       <p class="copyright">
         &copy; 2026 Alex Lindqvist. Alla rättigheter förbehållna.
@@ -1125,19 +1130,35 @@
       if (d.edu2) document.getElementById('txt-edu2').textContent = d.edu2;
       if (d.avatar) document.getElementById('img-avatar').src = d.avatar;
       
-      if (d.email) {
-        const mailto = `mailto:${d.email}`;
-        document.getElementById('btn-email').href = mailto;
-        const subEmail = document.getElementById('link-email-sub');
-        if (subEmail) subEmail.href = mailto;
-        document.getElementById('footer-email').href = mailto;
-      }
-      
-      if (d.linkedin) {
-        document.getElementById('btn-linkedin').href = d.linkedin;
-        document.getElementById('link-linkedin-sub').href = d.linkedin;
-        document.getElementById('footer-linkedin').href = d.linkedin;
-      }
+      // Kontaktuppgifter: tomt fält (eller dolt i redigeraren) döljer länkarna
+      const email = (d.email || '').trim();
+      ['btn-email', 'link-email-sub', 'footer-email'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.href = `mailto:${email}`;
+        el.hidden = !email;
+      });
+
+      const link = (d.linkedin || '').trim();
+      ['btn-linkedin', 'link-linkedin-sub', 'footer-linkedin'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.href = link || '#';
+        el.hidden = !link;
+      });
+
+      const phone = (d.phone || '').trim();
+      const tel = `tel:${phone.replace(/[^\d+]/g, '')}`;
+      ['link-phone-sub', 'footer-phone'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.href = tel;
+        el.hidden = !phone;
+      });
+      const phoneText = document.getElementById('txt-phone-sub');
+      if (phoneText) phoneText.textContent = phone;
+      const socials = document.querySelector('.sidebar-socials');
+      if (socials) socials.hidden = !email && !link && !phone;
 
       if (d.skills) {
         const skillsContainer = document.getElementById('skills-list');

@@ -212,7 +212,7 @@
       }
       .contact {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
         gap: 32px;
         border-top: 1px solid var(--border);
         padding-top: 36px;
@@ -228,7 +228,22 @@
       }
       footer .wrap {
         display: flex;
+        flex-wrap: wrap;
+        align-items: center;
         justify-content: space-between;
+        gap: 8px 24px;
+      }
+      .footer-phone {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: inherit;
+        font-weight: 500;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s;
+      }
+      .footer-phone:hover {
+        border-color: currentColor;
       }
       .fade {
         animation: up 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
@@ -423,17 +438,21 @@
           Hör gärna av dig om uppdrag, samarbeten eller frågor.
         </p>
         <div class="contact">
-          <div>
+          <div id="contact-email">
             <div class="eyebrow">E-post</div>
-            <a href="mailto:hello@example.com">hello@example.com</a>
+            <a id="link-email" href="mailto:hello@example.com">hello@example.com</a>
           </div>
-          <div>
+          <div id="contact-phone">
+            <div class="eyebrow">Telefon</div>
+            <a id="link-phone" href="tel:0701234567">070-123 45 67</a>
+          </div>
+          <div id="contact-linkedin">
             <div class="eyebrow">LinkedIn</div>
-            <a href="https://linkedin.com">Profil eller webbplats</a>
+            <a id="link-linkedin" href="https://linkedin.com">Profil eller webbplats</a>
           </div>
-          <div>
+          <div id="contact-location">
             <div class="eyebrow">Plats</div>
-            Stockholm, Sverige
+            <span id="txt-location">Stockholm, Sverige</span>
           </div>
         </div>
       </div>
@@ -441,8 +460,12 @@
 
     <footer>
       <div class="wrap">
-        <span>© 2026 Ditt namn</span
-        ><span>Professionell profil</span>
+        <span id="foot-copy">© 2026 Ditt namn</span>
+        <a id="footer-phone" class="footer-phone" href="tel:0701234567">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span id="footer-phone-text">070-123 45 67</span>
+        </a>
+        <span id="foot-title">Professionell profil</span>
       </div>
     </footer>
     <script>
@@ -592,19 +615,27 @@
           });
         }
 
-        const contact = document.querySelector(".contact");
-        if (contact) {
-          const links = contact.querySelectorAll("a");
-          if (links[0]) {
-            links[0].href = `mailto:${data.email}`;
-            links[0].textContent = data.email;
-          }
-          if (links[1]) {
-            links[1].href = data.linkedin;
-            links[1].textContent = "Profil eller webbplats";
-          }
-          setText(".contact > div:last-child:last-child", data.location);
-        }
+        // Kontaktuppgifter: tomt fält (eller dolt i redigeraren) döljer raden
+        const byId = (id) => document.getElementById(id);
+        const email = (data.email || "").trim();
+        const phone = (data.phone || "").trim();
+        const link = (data.linkedin || "").trim();
+        const place = (data.location || "").trim();
+        const tel = `tel:${phone.replace(/[^\d+]/g, "")}`;
+        byId("link-email").href = `mailto:${email}`;
+        byId("link-email").textContent = email;
+        byId("contact-email").hidden = !email;
+        byId("link-phone").href = tel;
+        byId("link-phone").textContent = phone;
+        byId("contact-phone").hidden = !phone;
+        byId("link-linkedin").href = link || "#";
+        byId("link-linkedin").textContent = "Profil eller webbplats";
+        byId("contact-linkedin").hidden = !link;
+        byId("txt-location").textContent = place;
+        byId("contact-location").hidden = !place;
+        byId("footer-phone").href = tel;
+        byId("footer-phone-text").textContent = phone;
+        byId("footer-phone").hidden = !phone;
 
         const stats = document.querySelectorAll(".stat .serif");
         if (stats[0]) stats[0].textContent = String(data.experiences.length);
@@ -617,11 +648,8 @@
         if (statLabels[0]) statLabels[0].textContent = "Erfarenheter";
         if (statLabels[1]) statLabels[1].textContent = "Kompetenser";
         if (statLabels[2]) statLabels[2].textContent = "Plats";
-        setText(
-          "footer .wrap span:first-child",
-          `© ${new Date().getFullYear()} ${data.name}`,
-        );
-        setText("footer .wrap span:last-child", data.title);
+        setText("#foot-copy", `© ${new Date().getFullYear()} ${data.name}`);
+        setText("#foot-title", data.title);
 
         const setHidden = (element, hidden) => {
           if (element) element.hidden = hidden;
