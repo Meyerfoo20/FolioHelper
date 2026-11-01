@@ -194,9 +194,34 @@
         padding: 16px 0;
         border-top: 1px solid var(--border);
       }
+      .cv {
+        max-width: 860px;
+        border-bottom: 1px solid var(--border);
+      }
+      .cv div {
+        gap: 24px;
+        align-items: baseline;
+        padding: 22px 0;
+      }
       .cv span {
-        color: var(--muted);
-        font-size: 0.85rem;
+        color: var(--primary-ink, var(--primary));
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+      }
+      .cv p {
+        font-family: "Instrument Serif", Georgia, serif;
+        font-size: 1.6rem;
+        line-height: 1.25;
+      }
+      @media (max-width: 760px) {
+        .cv div {
+          grid-template-columns: 1fr;
+          gap: 6px;
+        }
+        .cv p {
+          font-size: 1.35rem;
+        }
       }
       .tags {
         display: flex;
@@ -342,8 +367,8 @@
       <div class="wrap">
         <a href="#" class="logo serif">Elin Nordström</a>
         <nav>
-          <a href="#research">Erfarenhet</a><a href="#about">Om mig</a
-          ><a href="#contact">Kontakt</a>
+          <a href="#research">Erfarenhet</a><a id="nav-education" href="#education">Utbildning</a
+          ><a href="#about">Om mig</a><a href="#contact">Kontakt</a>
         </nav>
       </div>
     </header>
@@ -405,6 +430,23 @@
             Samordnade aktiviteter, kommunikation och praktiska uppgifter mellan
             flera personer och funktioner.
           </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="education">
+      <div class="wrap">
+        <p class="eyebrow">Utbildning och certifikat</p>
+        <h2>Utbildning</h2>
+        <div class="cv">
+          <div id="edu-row-1">
+            <span>Utbildning</span>
+            <p id="txt-edu1">Utbildning eller examen</p>
+          </div>
+          <div id="edu-row-2">
+            <span>Certifikat</span>
+            <p id="txt-edu2">Kurser, certifikat eller behörigheter</p>
+          </div>
         </div>
       </div>
     </section>
@@ -601,19 +643,16 @@
           );
         }
 
-        const cv = about?.querySelector(".cv");
-        if (cv) {
-          cv.replaceChildren();
-          [data.edu1, data.edu2].filter(Boolean).forEach((education, index) => {
-            const row = document.createElement("div");
-            const label = document.createElement("span");
-            label.textContent = index === 0 ? "Utbildning" : "Certifiering";
-            const detail = document.createElement("p");
-            detail.textContent = education;
-            row.append(label, detail);
-            cv.appendChild(row);
-          });
-        }
+        // Utbildning & certifikat
+        const edu1 = (data.edu1 || "").trim();
+        const edu2 = (data.edu2 || "").trim();
+        document.getElementById("txt-edu1").textContent = edu1;
+        document.getElementById("txt-edu2").textContent = edu2;
+        document.getElementById("edu-row-1").hidden = !edu1;
+        document.getElementById("edu-row-2").hidden = !edu2;
+        const hideEducation = data.sections?.education === false || (!edu1 && !edu2);
+        document.getElementById("education").hidden = hideEducation;
+        document.getElementById("nav-education").hidden = hideEducation;
 
         // Kontaktuppgifter: tomt fält (eller dolt i redigeraren) döljer raden
         const byId = (id) => document.getElementById(id);
@@ -655,7 +694,6 @@
           if (element) element.hidden = hidden;
         };
         setHidden(document.getElementById("research"), data.sections?.experience === false);
-        setHidden(document.querySelector(".cv"), data.sections?.education === false);
         setHidden(document.querySelector(".tags"), data.sections?.skills === false);
         setHidden(document.getElementById("about"), data.sections?.about === false);
 
