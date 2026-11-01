@@ -8,7 +8,7 @@
     <!-- Google Fonts för Premium Typografi -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bagel+Fat+One&family=Fredoka:wght@700&family=DM+Serif+Display&display=swap" rel="stylesheet">
     
     <!-- EmailJS för orderbekräftelser -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js"></script>
@@ -625,6 +625,243 @@
 
         .step-item.active .step-label {
             color: var(--accent-main);
+        }
+
+        /* ===== Steg 4: Ikon ===== */
+        .icon-step {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 28px;
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        .icon-preview-panel,
+        .icon-controls {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-elevated);
+            padding: 28px;
+        }
+
+        .icon-big-wrap {
+            display: flex;
+            justify-content: center;
+            padding: 8px 0 26px;
+        }
+
+        .icon-big {
+            width: 180px;
+            height: 180px;
+            border-radius: 40px;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
+        }
+
+        .icon-mock-label {
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin: 6px 0 8px;
+        }
+
+        .icon-mock-tab {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            background: #dfe3e8;
+            border-radius: 10px 10px 0 0;
+            padding: 8px 10px 0;
+            margin-bottom: 18px;
+            min-width: 0;
+        }
+
+        .mock-dots {
+            display: flex;
+            gap: 5px;
+            padding-bottom: 12px;
+        }
+
+        .mock-dots i {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #c4c9cf;
+        }
+
+        .mock-tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+            max-width: 260px;
+            background: #ffffff;
+            border-radius: 8px 8px 0 0;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            color: #1f2937;
+        }
+
+        .mock-tab img {
+            width: 16px;
+            height: 16px;
+            flex: none;
+        }
+
+        .mock-tab span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .icon-mock-home {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 18px 14px;
+            border-radius: 18px;
+            background: linear-gradient(160deg, #3b5b7a, #1f2f45);
+        }
+
+        .home-app {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.68rem;
+            color: #ffffff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+            min-width: 0;
+        }
+
+        .home-app span:last-child {
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .home-fake,
+        .home-app img {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+        }
+
+        .home-fake {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .home-app-mine img {
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9);
+        }
+
+        .icon-initials-input {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            max-width: 140px;
+            text-align: center;
+        }
+
+        .icon-hint {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        .icon-options {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .icon-options-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .icon-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 6px 10px;
+            background: var(--bg-main);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font: inherit;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .icon-option img {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+        }
+
+        .icon-option:hover {
+            border-color: var(--accent-main);
+        }
+
+        .icon-option.active {
+            border-color: var(--accent-main);
+            background: var(--accent-light);
+        }
+
+        .summary-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 860px) {
+            .icon-step {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .icon-preview-panel,
+            .icon-controls {
+                padding: 18px;
+            }
+            .icon-big {
+                width: 140px;
+                height: 140px;
+                border-radius: 31px;
+            }
+            .icon-options {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .stepper {
+                padding: 0 6px;
+            }
+            .stepper::before {
+                left: 30px;
+                right: 30px;
+            }
+            .step-item {
+                padding: 0 4px;
+            }
+            .step-circle {
+                width: 32px;
+                height: 32px;
+                font-size: 0.85rem;
+            }
+            .step-label {
+                font-size: 0.68rem;
+                text-align: center;
+                max-width: 64px;
+                line-height: 1.2;
+            }
         }
 
         .container {
@@ -1909,7 +2146,7 @@
         </div>
     </section>
 
-    <!-- Stegindikator (4 Steg) -->
+    <!-- Stegindikator (5 Steg) -->
     <div id="builder-start" class="stepper">
         <div class="step-item active" onclick="goToStep(1)">
             <div class="step-circle">1</div>
@@ -1925,6 +2162,10 @@
         </div>
         <div class="step-item" onclick="goToStep(4)">
             <div class="step-circle">4</div>
+            <span class="step-label">Välj ikon</span>
+        </div>
+        <div class="step-item" onclick="goToStep(5)">
+            <div class="step-circle">5</div>
             <span class="step-label">Kassa</span>
         </div>
     </div>
@@ -2446,12 +2687,77 @@
 
             <div class="nav-buttons">
                 <button class="btn btn-secondary" onclick="goToStep(2)">&larr; Tillbaka</button>
-                <button class="btn btn-primary" onclick="goToStep(4)">Gå till kassa & faktura &rarr;</button>
+                <button class="btn btn-primary" onclick="goToStep(4)">Gå vidare till ikon &rarr;</button>
             </div>
         </section>
 
-        <!-- STEG 4: KASSA & FAKTURA -->
+        <!-- STEG 4: IKON (FLIK & HEMSKÄRM) -->
         <section id="step-4" class="step-content">
+            <div class="section-title">
+                <h2>Välj ikon för din hemsida</h2>
+                <p>Ikonen syns i webbläsarfliken och när någon sparar din sida på hemskärmen i mobilen.</p>
+            </div>
+
+            <div class="icon-step">
+                <div class="icon-preview-panel">
+                    <div class="icon-big-wrap">
+                        <img id="icon-big" class="icon-big" alt="Förhandsvisning av ikonen" width="180" height="180">
+                    </div>
+
+                    <div class="icon-mock-label">I webbläsaren</div>
+                    <div class="icon-mock-tab">
+                        <span class="mock-dots"><i></i><i></i><i></i></span>
+                        <span class="mock-tab">
+                            <img id="icon-tab" alt="" width="16" height="16">
+                            <span id="icon-tab-title">Alex Lindqvist – Portfolio</span>
+                        </span>
+                    </div>
+
+                    <div class="icon-mock-label">På hemskärmen</div>
+                    <div class="icon-mock-home">
+                        <div class="home-app"><span class="home-fake"></span><span>Kalender</span></div>
+                        <div class="home-app home-app-mine"><img id="icon-home" alt="" width="60" height="60"><span id="icon-home-label">Alex</span></div>
+                        <div class="home-app"><span class="home-fake"></span><span>Kamera</span></div>
+                        <div class="home-app"><span class="home-fake"></span><span>Kartor</span></div>
+                    </div>
+                </div>
+
+                <div class="icon-controls">
+                    <div class="form-group">
+                        <label for="icon-initials">Initialer</label>
+                        <input type="text" id="icon-initials" class="form-control icon-initials-input" maxlength="3" autocomplete="off" spellcheck="false" oninput="onIconInitials()">
+                        <p class="icon-hint">Hämtas från ditt namn – du kan ändra till 1–3 tecken.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Stil</label>
+                        <div class="icon-options" id="icon-style-options">
+                            <button type="button" class="icon-option" data-style="soft" onclick="setIconStyle('soft')"><img alt=""><span>Bubblig</span></button>
+                            <button type="button" class="icon-option" data-style="round" onclick="setIconStyle('round')"><img alt=""><span>Rundad</span></button>
+                            <button type="button" class="icon-option" data-style="classic" onclick="setIconStyle('classic')"><img alt=""><span>Klassisk</span></button>
+                            <button type="button" class="icon-option" data-style="modern" onclick="setIconStyle('modern')"><img alt=""><span>Modern</span></button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Färger</label>
+                        <div class="icon-options icon-options-2" id="icon-variant-options">
+                            <button type="button" class="icon-option" data-variant="light" onclick="setIconVariant('light')"><img alt=""><span>Ljus bakgrund</span></button>
+                            <button type="button" class="icon-option" data-variant="filled" onclick="setIconVariant('filled')"><img alt=""><span>Färgad bakgrund</span></button>
+                        </div>
+                        <p class="icon-hint">Färgerna följer temat du valde i redigeraren.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="goToStep(3)">&larr; Tillbaka</button>
+                <button class="btn btn-primary" onclick="goToStep(5)">Gå till kassa & faktura &rarr;</button>
+            </div>
+        </section>
+
+        <!-- STEG 5: KASSA & FAKTURA -->
+        <section id="step-5" class="step-content">
             <div id="checkout-form-container">
                 <div class="section-title">
                     <h2>Slutför beställning</h2>
@@ -2500,6 +2806,10 @@
                             <strong id="summary-theme">Marinblå</strong>
                         </div>
                         <div class="summary-row">
+                            <span>Ikon:</span>
+                            <img id="summary-icon" class="summary-icon" alt="Vald ikon" width="32" height="32">
+                        </div>
+                        <div class="summary-row">
                             <span>Vald Domän:</span>
                             <strong id="summary-domain" style="color:var(--accent-main);">alexlindqvist.se</strong>
                         </div>
@@ -2523,7 +2833,7 @@
                 </div>
 
                 <div class="nav-buttons">
-                    <button class="btn btn-secondary" onclick="goToStep(3)">&larr; Tillbaka</button>
+                    <button class="btn btn-secondary" onclick="goToStep(4)">&larr; Tillbaka</button>
                 </div>
             </div>
 
@@ -2722,7 +3032,8 @@
                 setTimeout(updateDesktopScale, 100);
             }
             if (stepNum === 3) checkDomain();
-            if (stepNum === 4) updateSummary();
+            if (stepNum === 4) initIconStep();
+            if (stepNum === 5) { updateSummary(); ensureIcons().then(() => { document.getElementById('summary-icon').src = state.icon.urls.small; }); }
         }
 
         /* ==========================================================================
@@ -3559,12 +3870,174 @@
                 .replace(/\n{2,}/g, '\n');
         }
 
+        /* ==========================================================================
+           IKON (favicon + hemskärmsikon) – ritas i webbläsaren och bäddas in i sidan
+           ========================================================================== */
+        const ICON_STYLES = {
+            soft:    { font: '"Bagel Fat One", "Fredoka", sans-serif', weight: '400', scale: 1.0 },
+            round:   { font: '"Fredoka", sans-serif', weight: '700', scale: 1.0 },
+            classic: { font: '"DM Serif Display", Georgia, serif', weight: '400', scale: 1.0 },
+            modern:  { font: '"Bricolage Grotesque", sans-serif', weight: '800', scale: 1.0 }
+        };
+        const PRESET_ACCENTS = {
+            'theme-nordic': '#123250',
+            'theme-dark': '#1b3b2b',
+            'theme-warm': '#421a4f',
+            'theme-ocean': '#4a111c'
+        };
+        const ICON_LIGHT_BG = '#f8f4ec';
+        state.icon = { initials: '', auto: true, style: 'soft', variant: 'light', urls: null, key: '' };
+
+        function defaultInitials() {
+            const words = (state.data.name || '').trim().split(/\s+/).filter(Boolean);
+            if (!words.length) return 'A';
+            const first = words[0][0];
+            const last = words.length > 1 ? words[words.length - 1][0] : '';
+            return (first + last).toUpperCase();
+        }
+
+        function iconColors(variant) {
+            if (LOCKED_COLOR_TEMPLATES.includes(state.template)) {
+                // Byggprofil: gult och svart
+                return variant === 'filled' ? { bg: '#222222', fg: '#f9dd16' } : { bg: '#f9dd16', fg: '#222222' };
+            }
+            const pal = getThemePalette();
+            const accent = pal ? pal.accent : (PRESET_ACCENTS[state.theme] || '#123250');
+            const ink = pal ? pal.ink : accent;
+            const onAccent = pal ? pal.onAccent : '#ffffff';
+            return variant === 'filled' ? { bg: accent, fg: onAccent } : { bg: ICON_LIGHT_BG, fg: ink };
+        }
+
+        function iconFontsReady() {
+            const loads = Object.values(ICON_STYLES).map(st => document.fonts.load(`${st.weight} 100px ${st.font}`).catch(() => null));
+            return Promise.race([Promise.all(loads), new Promise(r => setTimeout(r, 2500))]);
+        }
+
+        // Ritar ikonen. rounded=true ger rundade hörn med genomskinlig bakgrund (flik),
+        // false ger en hel kvadrat (hemskärm – telefonen rundar själv hörnen).
+        function drawIcon(size, { initials, style, variant }, rounded) {
+            const canvas = document.createElement('canvas');
+            canvas.width = canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            const { bg, fg } = iconColors(variant);
+            const st = ICON_STYLES[style] || ICON_STYLES.soft;
+
+            ctx.fillStyle = bg;
+            if (rounded) {
+                const r = size * 0.22;
+                ctx.beginPath();
+                ctx.moveTo(r, 0);
+                ctx.arcTo(size, 0, size, size, r);
+                ctx.arcTo(size, size, 0, size, r);
+                ctx.arcTo(0, size, 0, 0, r);
+                ctx.arcTo(0, 0, size, 0, r);
+                ctx.closePath();
+                ctx.fill();
+            } else {
+                ctx.fillRect(0, 0, size, size);
+            }
+
+            const text = (initials || 'A').toUpperCase();
+            let fontSize = size * 0.56 * st.scale;
+            const setFont = () => { ctx.font = `${st.weight} ${fontSize}px ${st.font}`; };
+            setFont();
+            // Krymp texten tills den får plats (max 72 % av bredden)
+            const maxW = size * (text.length > 2 ? 0.8 : 0.72);
+            let m = ctx.measureText(text);
+            if (m.width > maxW) { fontSize *= maxW / m.width; setFont(); m = ctx.measureText(text); }
+            const ascent = m.actualBoundingBoxAscent, descent = m.actualBoundingBoxDescent;
+            const left = m.actualBoundingBoxLeft, right = m.actualBoundingBoxRight;
+            const x = (size - (left + right)) / 2 + left;
+            const y = (size - (ascent + descent)) / 2 + ascent;
+            ctx.fillStyle = fg;
+            ctx.textBaseline = 'alphabetic';
+            ctx.fillText(text, x, y);
+            return canvas.toDataURL('image/png');
+        }
+
+        function iconKey(opts) {
+            return [opts.initials, opts.style, opts.variant, state.template, state.theme, state.customColor].join('|');
+        }
+
+        async function ensureIcons() {
+            if (!state.icon.initials || state.icon.auto) state.icon.initials = defaultInitials();
+            const key = iconKey(state.icon);
+            if (state.icon.urls && state.icon.key === key) return state.icon.urls;
+            await iconFontsReady();
+            state.icon.urls = {
+                small: drawIcon(64, state.icon, true),    // webbläsarflik
+                large: drawIcon(180, state.icon, false)   // hemskärm (iPhone/Android)
+            };
+            state.icon.key = key;
+            return state.icon.urls;
+        }
+
+        async function renderIconStep() {
+            const urls = await ensureIcons();
+            document.getElementById('icon-big').src = drawIcon(180, state.icon, true);
+            document.getElementById('icon-tab').src = urls.small;
+            document.getElementById('icon-home').src = urls.large;
+            document.getElementById('icon-tab-title').textContent = `${state.data.name || 'Ditt namn'} – Portfolio`;
+            document.getElementById('icon-home-label').textContent = (state.data.name || 'Portfolio').split(/\s+/)[0];
+            document.querySelectorAll('#icon-style-options .icon-option').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.style === state.icon.style);
+                btn.querySelector('img').src = drawIcon(104, { ...state.icon, style: btn.dataset.style }, true);
+            });
+            document.querySelectorAll('#icon-variant-options .icon-option').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.variant === state.icon.variant);
+                btn.querySelector('img').src = drawIcon(104, { ...state.icon, variant: btn.dataset.variant }, true);
+            });
+        }
+
+        function initIconStep() {
+            const input = document.getElementById('icon-initials');
+            if (state.icon.auto) state.icon.initials = defaultInitials();
+            input.value = state.icon.initials;
+            renderIconStep();
+        }
+
+        function onIconInitials() {
+            const input = document.getElementById('icon-initials');
+            const value = input.value.replace(/\s+/g, '').slice(0, 3).toUpperCase();
+            state.icon.auto = value === '';
+            state.icon.initials = value || defaultInitials();
+            renderIconStep();
+        }
+
+        function setIconStyle(style) {
+            state.icon.style = style;
+            renderIconStep();
+        }
+
+        function setIconVariant(variant) {
+            state.icon.variant = variant;
+            renderIconStep();
+        }
+
+        // Lägger in ikonerna i den exporterade sidans <head>
+        function addIconsToDocument(doc) {
+            const head = doc.querySelector('head');
+            if (!head || !state.icon.urls) return;
+            head.querySelectorAll('link[rel~="icon"], link[rel="apple-touch-icon"], meta[name="apple-mobile-web-app-title"], meta[name="theme-color"]').forEach(el => el.remove());
+            const owner = doc.ownerDocument || doc;
+            const add = (tag, attrs) => {
+                const el = owner.createElement(tag);
+                Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+                head.appendChild(el);
+            };
+            add('link', { rel: 'icon', type: 'image/png', sizes: '64x64', href: state.icon.urls.small });
+            add('link', { rel: 'apple-touch-icon', href: state.icon.urls.large });
+            add('meta', { name: 'apple-mobile-web-app-title', content: (state.data.name || 'Portfolio').split(/\s+/)[0] });
+            add('meta', { name: 'theme-color', content: iconColors(state.icon.variant).bg });
+        }
+
         function buildPortfolioHTML(avatarOverride) {
             if (!renderedPortfolioHTML) return '';
             const exportedDocument = new DOMParser().parseFromString(renderedPortfolioHTML, 'text/html').documentElement;
             const titleEl = exportedDocument.querySelector('title');
             if (titleEl) titleEl.textContent = `${state.data.name} – Portfolio`;
             exportedDocument.querySelectorAll('script').forEach(script => script.remove());
+            addIconsToDocument(exportedDocument);
             if (avatarOverride) {
                 exportedDocument.querySelectorAll('img').forEach(img => {
                     if (img.getAttribute('src') === state.data.avatar) img.setAttribute('src', avatarOverride);
@@ -3603,6 +4076,7 @@
         }
 
         async function processOrder() {
+            await ensureIcons();
             const customer = {
                 name: document.getElementById('cust-name').value.trim(),
                 id: document.getElementById('cust-id').value.trim(),
