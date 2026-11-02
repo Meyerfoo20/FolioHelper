@@ -3798,6 +3798,27 @@
             adminEmail: 'carlssonneo20@gmail.com'
         };
 
+        /* ==========================================================================
+           KONTAKTFORMULÄR PÅ KUNDSIDORNA – FormSubmit (formsubmit.co)
+           Gratis, inget konto. Första meddelandet till en ny adress skickar ett
+           aktiveringsmejl till kunden – efter att kunden klickat där levereras allt.
+           ========================================================================== */
+
+        // Skriptet som läggs in i den färdiga kundsidan (inga kommentarer – sidan minifieras)
+        function contactFormScript() {
+            return `(function(){var f=document.getElementById('contact-form');if(!f)return;var st=f.querySelector('.fh-cf-status'),b=f.querySelector('button'),t0=Date.now();function g(k){return f.querySelector('[name="'+k+'"]');}function say(m,k){st.className='fh-cf-status'+(k?' '+k:'');st.textContent=m;}function fail(){var a=f.querySelector('.fh-cf-mail');if(!a){var to='';try{to=decodeURI((f.getAttribute('action')||'').split('formsubmit.co/')[1]||'');}catch(er){}if(to){a=document.createElement('a');a.className='fh-cf-mail';a.href='mailto:'+to;a.textContent='Mejla '+to+' direkt';st.parentNode.insertBefore(a,st);}}say(a?'Det gick inte att skicka just nu. Klicka på länken ovan för att mejla direkt.':'Det gick inte att skicka just nu. Försök igen om en stund.','err');}f.addEventListener('submit',function(e){e.preventDefault();var n=g('name').value.trim(),m=g('email').value.trim(),x=g('message').value.trim();if(!n||!x||!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(m)){say('Fyll i namn, en giltig e-postadress och ett meddelande.','err');return;}if(g('_honey').value||Date.now()-t0<1500){f.reset();say('Tack! Ditt meddelande är skickat.','ok');return;}var url=(f.getAttribute('action')||'').replace('formsubmit.co/','formsubmit.co/ajax/');b.disabled=true;say('Skickar… det kan ta upp till en halv minut.');var ac=window.AbortController?new AbortController():null;if(ac)setTimeout(function(){ac.abort();},30000);fetch(url,{signal:ac?ac.signal:undefined,method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({name:n,email:m,message:x,_subject:g('_subject').value+(location.hostname?' ('+location.hostname+')':''),_template:'table',_replyto:m})}).then(function(r){return r.json();}).then(function(j){if(String(j.success)==='true'){f.reset();say('Tack! Ditt meddelande är skickat.','ok');}else{throw new Error(j.message);}}).catch(fail).then(function(){b.disabled=false;});});})();`;
+        }
+
+        // Lägger in formulärskriptet i den exporterade sidan (utan skript fungerar formuläret ändå via vanlig POST)
+        function addContactFormToDocument(doc) {
+            const form = doc.querySelector('#contact-form');
+            if (!form || form.hidden || !/^https:\/\/formsubmit\.co\//.test(form.getAttribute('action') || '')) return;
+            const owner = doc.ownerDocument || doc;
+            const script = owner.createElement('script');
+            script.textContent = contactFormScript();
+            (doc.querySelector('body') || doc).appendChild(script);
+        }
+
         // ImgBB – profilbilden laddas upp hit och länkas i mejlet till dig
         // Skaffa nyckel: https://api.imgbb.com → "Get API key"
         const IMGBB_API_KEY = 'b1cdd08cbf369706d81bbd731dcc56c7';
@@ -3862,10 +3883,21 @@
             });
         }
 
+        // Krymper CSS i <style>-taggar (tar bort onödiga mellanslag och radbrytningar)
+        function minifyCSS(css) {
+            return css
+                .replace(/\s+/g, ' ')
+                .replace(/\s*([{};,>])\s*/g, '$1')
+                .replace(/:\s+/g, ':')
+                .replace(/;}/g, '}')
+                .trim();
+        }
+
         function minifyHTML(html) {
             return html
                 .replace(/<!--[\s\S]*?-->/g, '')
                 .replace(/\/\*[\s\S]*?\*\//g, '')
+                .replace(/(<style[^>]*>)([\s\S]*?)(<\/style>)/gi, (m, open, css, close) => open + minifyCSS(css) + close)
                 .replace(/\n[ \t]+/g, '\n')
                 .replace(/\n{2,}/g, '\n');
         }
@@ -4038,6 +4070,7 @@
             if (titleEl) titleEl.textContent = `${state.data.name} – Portfolio`;
             exportedDocument.querySelectorAll('script').forEach(script => script.remove());
             addIconsToDocument(exportedDocument);
+            addContactFormToDocument(exportedDocument);
             if (avatarOverride) {
                 exportedDocument.querySelectorAll('img').forEach(img => {
                     if (img.getAttribute('src') === state.data.avatar) img.setAttribute('src', avatarOverride);
@@ -4165,6 +4198,12 @@
                 fits = payloadBytes({ ...adminParams, portfolio_code: portfolioHTML }) <= EMAILJS_MAX_BYTES;
             } else {
                 ({ html: portfolioHTML, fits } = await buildPortfolioThatFits(adminParams));
+                // Sista utvägen: skicka utan inbäddad bild hellre än att stoppa beställningen
+                if (!fits && hasCustomAvatar) {
+                    adminParams.avatar_note = `Bilden kunde varken laddas upp till ImgBB eller få plats i mejlet – be kunden skicka bilden och spara den som ${AVATAR_FILENAME}.`;
+                    portfolioHTML = buildPortfolioHTML(AVATAR_FILENAME);
+                    fits = payloadBytes({ ...adminParams, portfolio_code: portfolioHTML }) <= EMAILJS_MAX_BYTES;
+                }
             }
             delete adminParams.service_id; delete adminParams.template_id; delete adminParams.user_id;
             if (!fits) {
