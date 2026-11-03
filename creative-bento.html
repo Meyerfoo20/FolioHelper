@@ -361,35 +361,34 @@
         color: var(--on-primary-soft, rgba(255, 255, 255, 0.78));
       }
     
-    /* Kontaktformulär (FolioHelper) */
-    .fh-cf{display:grid;gap:14px;max-width:640px;margin-top:var(--cf-gap,36px);font:inherit;text-align:left}
-    .fh-cf-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .fh-cf label{display:grid;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cf-muted)}
-    .fh-cf input,.fh-cf textarea{width:100%;font:inherit;font-size:1rem;font-weight:400;letter-spacing:normal;text-transform:none;color:var(--cf-text);background:var(--cf-bg);border:1px solid var(--cf-border);border-radius:var(--cf-radius);padding:12px 14px;outline:none;transition:border-color .2s,box-shadow .2s}
-    .fh-cf input::placeholder,.fh-cf textarea::placeholder{color:var(--cf-muted);opacity:.7}
-    .fh-cf textarea{min-height:140px;resize:vertical}
-    .fh-cf input:focus,.fh-cf textarea:focus{border-color:var(--cf-accent);box-shadow:0 0 0 3px var(--cf-ring)}
-    .fh-cf button{justify-self:start;display:inline-flex;align-items:center;gap:10px;font:inherit;font-size:.95rem;font-weight:700;cursor:pointer;border:0;border-radius:var(--cf-btn-radius,var(--cf-radius));padding:14px 28px;background:var(--cf-accent);color:var(--cf-on-accent);transition:opacity .2s,transform .2s}
-    .fh-cf button:hover{opacity:.88}
-    .fh-cf button:disabled{opacity:.6;cursor:wait}
-    .fh-cf-hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important}
-    .fh-cf-status{min-height:1.4em;font-size:.92rem;color:var(--cf-muted)}
-    .fh-cf-status:empty{display:none}
-    .fh-cf-status.ok{color:var(--cf-text);font-weight:700}
-    .fh-cf-status.err{color:var(--cf-err,#b42318);font-weight:700}.fh-cf-mail{justify-self:start;color:var(--cf-text);font-weight:700;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
-    @media (max-width:640px){.fh-cf-row{grid-template-columns:1fr}.fh-cf button{justify-self:stretch;justify-content:center}}
-    .fh-cf{--cf-bg:var(--card);--cf-text:var(--fg);--cf-border:var(--border);--cf-muted:var(--muted);--cf-accent:var(--primary);--cf-on-accent:var(--on-primary,#fff);--cf-radius:3px;--cf-ring:color-mix(in srgb,var(--primary) 18%,transparent);--cf-gap:44px}
-    .fh-cf label{font-weight:500;letter-spacing:.18em}
+/* Hamburgermeny på mobil */
+.nav-toggle{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+.nav-burger{display:none;flex:none;align-items:center;justify-content:center;width:42px;height:42px;border:1px solid var(--border);border-radius:3px;color:var(--primary-ink,var(--primary));background:transparent;cursor:pointer;transition:background .2s}
+.nav-burger .burger-close{display:none}
+header .wrap{gap:16px}
+.logo{min-width:0;overflow-wrap:anywhere}
+@media (max-width:760px){
+header .wrap{position:relative}
+.nav-burger{display:flex}
+header nav{position:absolute;top:100%;left:0;right:0;display:none;flex-direction:column;gap:0;padding:4px 24px 12px;background:var(--bg);border-bottom:1px solid var(--border);box-shadow:0 14px 24px rgba(0,0,0,.08);font-size:1rem}
+header nav a{padding:14px 0;border-bottom:1px solid var(--border);color:var(--fg)}
+header nav a:last-of-type{border-bottom:0}
+.nav-toggle:checked~nav{display:flex}
+.nav-toggle:checked~.nav-burger{background:color-mix(in srgb,var(--primary) 8%,transparent)}
+.nav-toggle:checked~.nav-burger .burger-open{display:none}
+.nav-toggle:checked~.nav-burger .burger-close{display:block}
+.nav-toggle:focus-visible~.nav-burger{outline:2px solid var(--primary);outline-offset:2px}
+}
 </style>
   </head>
   <body>
     <header>
       <div class="wrap">
         <a href="#" class="logo serif">Elin Nordström</a>
-        <nav>
-          <a href="#research">Erfarenhet</a><a id="nav-education" href="#education">Utbildning</a
-          ><a href="#about">Om mig</a><a href="#contact">Kontakt</a>
-        </nav>
+        <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Öppna meny"><nav>
+          <a onclick="document.getElementById('nav-toggle').checked=false" href="#research">Erfarenhet</a><a onclick="document.getElementById('nav-toggle').checked=false" id="nav-education" href="#education">Utbildning</a
+          ><a onclick="document.getElementById('nav-toggle').checked=false" href="#about">Om mig</a><a onclick="document.getElementById('nav-toggle').checked=false" href="#contact">Kontakt</a>
+        </nav><label for="nav-toggle" class="nav-burger" aria-hidden="true"><svg class="burger-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg><svg class="burger-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></label>
       </div>
     </header>
 
@@ -502,7 +501,7 @@
         <div class="contact">
           <div id="contact-email">
             <div class="eyebrow">E-post</div>
-            <a id="link-email" href="#contact-form">hello@example.com</a>
+            <a id="link-email" href="mailto:hello@example.com">hello@example.com</a>
           </div>
           <div id="contact-phone">
             <div class="eyebrow">Telefon</div>
@@ -517,18 +516,6 @@
             <span id="txt-location">Stockholm, Sverige</span>
           </div>
         </div>
-        <form id="contact-form" class="fh-cf" action="#" method="POST" novalidate>
-          <div class="fh-cf-row">
-            <label>Namn<input name="name" type="text" autocomplete="name" placeholder="Ditt namn" required></label>
-            <label>E-post<input name="email" type="email" autocomplete="email" placeholder="namn@exempel.se" required></label>
-          </div>
-          <label>Meddelande<textarea name="message" rows="5" placeholder="Skriv ditt meddelande här" required></textarea></label>
-          <input type="hidden" name="_subject" value="Nytt meddelande från din hemsida">
-          <input type="hidden" name="_template" value="table">
-          <input class="fh-cf-hp" name="_honey" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <button type="submit">Skicka meddelande</button>
-          <p class="fh-cf-status" role="status" aria-live="polite"></p>
-        </form>
       </div>
     </section>
 
@@ -693,16 +680,7 @@
         const link = (data.linkedin || "").trim();
         const place = (data.location || "").trim();
         const tel = `tel:${phone.replace(/[^\d+]/g, "")}`;
-        byId("link-email").href = "#contact-form";
-      // Kontaktformulär (FormSubmit): skickas till kundens e-post, döljs utan e-post
-      (function () {
-        const form = document.getElementById('contact-form');
-        if (!form) return;
-        const to = email;
-        form.setAttribute('action', to ? 'https://formsubmit.co/' + encodeURI(to) : '#');
-        form.hidden = !to;
-      })();
-
+        byId("link-email").href = `mailto:${email}`;
         byId("link-email").textContent = email;
         byId("contact-email").hidden = !email;
         byId("link-phone").href = tel;
@@ -754,19 +732,5 @@
           window.applyPortfolioData(event.data.data);
       });
     </script>
-  
-    <script>
-      // Förhandsvisning: på den publicerade sidan ersätts detta av riktig utskick
-      (function () {
-        const form = document.getElementById('contact-form');
-        if (!form) return;
-        form.addEventListener('submit', function (e) {
-          e.preventDefault();
-          const s = form.querySelector('.fh-cf-status');
-          s.className = 'fh-cf-status';
-          s.textContent = 'Förhandsvisning: på den publicerade sidan skickas meddelandet till din e-post.';
-        });
-      })();
-    </script>
-</body>
+  </body>
 </html>
