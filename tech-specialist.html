@@ -797,29 +797,7 @@
       .avatar-wrapper { grid-row: auto; }
       .sidebar-socials a { justify-content: center; }
     }
-  
-    /* Kontaktformulär (FolioHelper) */
-    .fh-cf{display:grid;gap:14px;max-width:640px;margin-top:var(--cf-gap,36px);font:inherit;text-align:left}
-    .fh-cf-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .fh-cf label{display:grid;gap:6px;font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cf-muted)}
-    .fh-cf input,.fh-cf textarea{width:100%;font:inherit;font-size:1rem;font-weight:400;letter-spacing:normal;text-transform:none;color:var(--cf-text);background:var(--cf-bg);border:1px solid var(--cf-border);border-radius:var(--cf-radius);padding:12px 14px;outline:none;transition:border-color .2s,box-shadow .2s}
-    .fh-cf input::placeholder,.fh-cf textarea::placeholder{color:var(--cf-muted);opacity:.7}
-    .fh-cf textarea{min-height:140px;resize:vertical}
-    .fh-cf input:focus,.fh-cf textarea:focus{border-color:var(--cf-accent);box-shadow:0 0 0 3px var(--cf-ring)}
-    .fh-cf button{justify-self:start;display:inline-flex;align-items:center;gap:10px;font:inherit;font-size:.95rem;font-weight:700;cursor:pointer;border:0;border-radius:var(--cf-btn-radius,var(--cf-radius));padding:14px 28px;background:var(--cf-accent);color:var(--cf-on-accent);transition:opacity .2s,transform .2s}
-    .fh-cf button:hover{opacity:.88}
-    .fh-cf button:disabled{opacity:.6;cursor:wait}
-    .fh-cf-hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important}
-    .fh-cf-status{min-height:1.4em;font-size:.92rem;color:var(--cf-muted)}
-    .fh-cf-status:empty{display:none}
-    .fh-cf-status.ok{color:var(--cf-text);font-weight:700}
-    .fh-cf-status.err{color:var(--cf-err,#b42318);font-weight:700}.fh-cf-mail{justify-self:start;color:var(--cf-text);font-weight:700;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
-    @media (max-width:640px){.fh-cf-row{grid-template-columns:1fr}.fh-cf button{justify-self:stretch;justify-content:center}}
-    .fh-cf{--cf-bg:var(--bg-main);--cf-text:var(--text-main);--cf-border:var(--border-color);--cf-muted:var(--text-muted);--cf-accent:var(--accent-green);--cf-on-accent:var(--btn-text,#000);--cf-radius:12px;--cf-btn-radius:999px;--cf-ring:var(--accent-green-light);--cf-gap:22px;max-width:none}
-    [data-theme="dark"] .fh-cf{--cf-err:#fca5a5}
-    .contact-intro{color:var(--text-muted);max-width:40em}
-    #section-contact{background-color:var(--bg-main)}
-</style>
+  </style>
 </head>
 <body>
 
@@ -834,7 +812,7 @@
         <li class="nav-start"><a href="#hero" onclick="document.getElementById('nav-toggle').checked=false">Start</a></li>
         <li><a href="#section-skills" onclick="document.getElementById('nav-toggle').checked=false">Kompetenser</a></li>
         <li><a href="#section-experience" onclick="document.getElementById('nav-toggle').checked=false">Erfarenhet</a></li>
-        <li><a href="#section-contact" onclick="document.getElementById('nav-toggle').checked=false">Kontakt</a></li>
+        <li><a href="#footer" onclick="document.getElementById('nav-toggle').checked=false">Kontakt</a></li>
       </ul>
 
       <label for="nav-toggle" class="nav-burger" aria-hidden="true">
@@ -861,7 +839,7 @@
         </p>
 
         <div class="hero-buttons">
-          <a id="btn-email" href="#section-contact" class="btn-green">
+          <a id="btn-email" href="mailto:alex@lindqvist.se" class="btn-green">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             Kontakta mig
           </a>
@@ -885,7 +863,7 @@
             <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.74a1.62 1.62 0 1 0 0 3.24 1.62 1.62 0 0 0 0-3.24z"/></svg>
             LinkedIn
           </a>
-          <a id="link-email-sub" href="#section-contact">
+          <a id="link-email-sub" href="mailto:alex@lindqvist.se">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             E-post
           </a>
@@ -967,36 +945,11 @@
     </div>
   </section>
 
-  <!-- Kontakt Sektion -->
-  <section id="section-contact">
-    <div class="container">
-      <div class="card">
-        <h2 class="section-title">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          Kontakt
-        </h2>
-        <p class="contact-intro">Hör gärna av dig om uppdrag, samarbeten eller frågor – jag svarar så snart jag kan.</p>
-        <form id="contact-form" class="fh-cf" action="#" method="POST" novalidate>
-          <div class="fh-cf-row">
-            <label>Namn<input name="name" type="text" autocomplete="name" placeholder="Ditt namn" required></label>
-            <label>E-post<input name="email" type="email" autocomplete="email" placeholder="namn@exempel.se" required></label>
-          </div>
-          <label>Meddelande<textarea name="message" rows="5" placeholder="Skriv ditt meddelande här" required></textarea></label>
-          <input type="hidden" name="_subject" value="Nytt meddelande från din hemsida">
-          <input type="hidden" name="_template" value="table">
-          <input class="fh-cf-hp" name="_honey" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <button type="submit">Skicka meddelande</button>
-          <p class="fh-cf-status" role="status" aria-live="polite"></p>
-        </form>
-      </div>
-    </div>
-  </section>
-
   <!-- Footer -->
   <footer id="footer">
     <div class="footer-container">
       <div class="footer-links">
-        <a id="footer-email" href="#section-contact">E-post</a>
+        <a id="footer-email" href="mailto:alex@lindqvist.se">E-post</a>
         <a id="footer-linkedin" href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a id="footer-phone" href="tel:0701234567">Telefon</a>
       </div>
@@ -1182,20 +1135,9 @@
       ['btn-email', 'link-email-sub', 'footer-email'].forEach(id => {
         const el = document.getElementById(id);
         if (!el) return;
-        el.href = '#section-contact';
+        el.href = `mailto:${email}`;
         el.hidden = !email;
       });
-
-
-      // Kontaktformulär (FormSubmit): skickas till kundens e-post, döljs utan e-post
-      (function () {
-        const form = document.getElementById('contact-form');
-        if (!form) return;
-        const to = email;
-        form.setAttribute('action', to ? 'https://formsubmit.co/' + encodeURI(to) : '#');
-        form.hidden = !to;
-      })();
-      document.getElementById('section-contact').hidden = !email;
 
       const link = (d.linkedin || '').trim();
       ['btn-linkedin', 'link-linkedin-sub', 'footer-linkedin'].forEach(id => {
@@ -1265,19 +1207,5 @@
       }
     });
   </script>
-
-    <script>
-      // Förhandsvisning: på den publicerade sidan ersätts detta av riktig utskick
-      (function () {
-        const form = document.getElementById('contact-form');
-        if (!form) return;
-        form.addEventListener('submit', function (e) {
-          e.preventDefault();
-          const s = form.querySelector('.fh-cf-status');
-          s.className = 'fh-cf-status';
-          s.textContent = 'Förhandsvisning: på den publicerade sidan skickas meddelandet till din e-post.';
-        });
-      })();
-    </script>
 </body>
 </html>
