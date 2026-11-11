@@ -2057,7 +2057,7 @@
             </form>
             <div style="display:flex; align-items:center; gap:16px;">
                 <div class="header-price" style="font-size:0.9rem;">
-                    Årsplan: <strong>från 479 kr/år</strong> (Faktura)
+                    Årsplan: <strong>från 479 kr/år</strong> + moms (kort)
                 </div>
             </div>
         </div>
@@ -2080,7 +2080,7 @@
                 </div>
                 <div class="hero-feature-item">
                     <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#84cc16" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    Inkluderar PDF-faktura
+                    Säker kortbetalning via Stripe
                 </div>
                 <div class="hero-feature-item">
                     <svg class="svg-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#84cc16" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -2660,13 +2660,13 @@
                 <button type="button" class="domain-plan selected" id="plan-custom" role="radio" aria-checked="true" onclick="selectDomainPlan('custom')">
                     <span class="domain-plan-title">Egen domän</span>
                     <span class="domain-plan-example">dittnamn.se</span>
-                    <span class="domain-plan-price">979 kr/år</span>
+                    <span class="domain-plan-price">979 kr/år <small>+ moms</small></span>
                     <span class="domain-plan-note">Din egen domän ingår i priset – vi registrerar den åt dig.</span>
                 </button>
                 <button type="button" class="domain-plan" id="plan-sub" role="radio" aria-checked="false" onclick="selectDomainPlan('subdomain')">
                     <span class="domain-plan-title">Fenrac-adress</span>
                     <span class="domain-plan-example">dittnamn.fenrac.se</span>
-                    <span class="domain-plan-price">479 kr/år</span>
+                    <span class="domain-plan-price">479 kr/år <small>+ moms</small></span>
                     <span class="domain-plan-note">Billigaste alternativet – ingen egen domän behövs.</span>
                 </button>
             </div>
@@ -2752,21 +2752,21 @@
 
             <div class="nav-buttons">
                 <button class="btn btn-secondary" onclick="goToStep(3)">&larr; Tillbaka</button>
-                <button class="btn btn-primary" onclick="goToStep(5)">Gå till kassa & faktura &rarr;</button>
+                <button class="btn btn-primary" onclick="goToStep(5)">Gå till kassan &rarr;</button>
             </div>
         </section>
 
-        <!-- STEG 5: KASSA & FAKTURA -->
+        <!-- STEG 5: KASSA (Stripe-kortbetalning) -->
         <section id="step-5" class="step-content">
             <div id="checkout-form-container">
                 <div class="section-title">
                     <h2>Slutför beställning</h2>
-                    <p>Fyll i dina fakturauppgifter. Vi publicerar din hemsida och skickar fakturan när den är online.</p>
+                    <p>Fyll i dina uppgifter och betala med kort. Vi sätter upp din hemsida direkt efter betalningen.</p>
                 </div>
 
                 <div class="checkout-grid">
                     <div style="background:var(--bg-card); padding:26px; border-radius:var(--radius-md); border:1px solid var(--border-color);">
-                        <h3 style="margin-bottom:16px; font-family:'Bricolage Grotesque';">Fakturauppgifter</h3>
+                        <h3 style="margin-bottom:16px; font-family:'Bricolage Grotesque';">Dina uppgifter</h3>
                         <div class="form-group">
                             <label>Namn / Företag *</label>
                             <input type="text" id="cust-name" class="form-control" value="Lindqvist Consulting AB" required>
@@ -2776,23 +2776,10 @@
                             <input type="text" id="cust-id" class="form-control" placeholder="556677-8899">
                         </div>
                         <div class="form-group">
-                            <label>E-postadress för faktura *</label>
+                            <label>E-postadress (kvitto skickas hit) *</label>
                             <input type="email" id="cust-email" class="form-control" value="alex.lindqvist@example.com" required>
                         </div>
-                        <div class="form-group">
-                            <label>Gatuadress *</label>
-                            <input type="text" id="cust-address" class="form-control" value="Kungsgatan 18" required>
-                        </div>
-                        <div style="display:grid; grid-template-columns: 1fr 2fr; gap:12px;">
-                            <div class="form-group">
-                                <label>Postnr *</label>
-                                <input type="text" id="cust-zip" class="form-control" value="111 43" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Postort *</label>
-                                <input type="text" id="cust-city" class="form-control" value="Stockholm" required>
-                            </div>
-                        </div>
+                        <p style="font-size:0.82rem; color:var(--text-muted); margin:0;">Adress och kortuppgifter fyller du i på nästa steg i Stripes kassa.</p>
                     </div>
 
                     <div class="order-summary">
@@ -2819,14 +2806,14 @@
                         </div>
                         <div class="summary-row total">
                             <span>Totalt att betala:</span>
-                            <span id="summary-price">979 kr / år</span>
+                            <span id="summary-price">979 kr / år + moms</span>
                         </div>
                         <p style="font-size:0.82rem; color:var(--text-muted); margin-top:12px;">
-                            Betalning via faktura (30 dagars betaltid) som skickas när din hemsida är online. Inga dolda avgifter.
+                            Du betalar med kort i Stripes säkra kassa (även Apple Pay/Google Pay). Abonnemanget förnyas automatiskt varje år och kan sägas upp när som helst. Moms (25 %) tillkommer. Inga dolda avgifter.
                         </p>
 
                         <button id="order-submit-btn" class="btn btn-success" style="width:100%; margin-top:24px; padding:16px;" onclick="processOrder()">
-                            Slutför beställning
+                            Gå till betalning &rarr;
                         </button>
                         <p id="order-error" role="alert" style="display:none; margin-top:12px; font-size:0.88rem; color:#b91c1c; white-space:pre-line; word-break:break-word;"></p>
                     </div>
@@ -2846,7 +2833,7 @@
                     Din order är genomförd. En bekräftelse har skickats till <strong id="success-email"></strong>.
                 </p>
                 <p style="color:var(--text-muted); margin: 0 0 8px 0;">
-                    Vi sätter nu upp din hemsida på <strong id="success-domain" style="color:var(--accent-main);"></strong>. Fakturan skickas till dig när hemsidan är online.
+                    Vi sätter nu upp din hemsida på <strong id="success-domain" style="color:var(--accent-main);"></strong>. Du får ett kvitto från Stripe på mejlen, och vi hör av oss när hemsidan är online.
                 </p>
                 <p style="color:var(--text-muted); font-size:0.85rem;">Ordernummer: <strong id="success-order-id"></strong></p>
             </div>
@@ -3519,8 +3506,8 @@
 
         /* DOMÄNPLANER: egen domän eller namn.fenrac.se */
         const DOMAIN_PLANS = {
-            custom: { label: 'Egen domän', price: '979 kr / år' },
-            subdomain: { label: 'Fenrac-adress', price: '479 kr / år' }
+            custom: { label: 'Egen domän', price: '979 kr / år + moms', paymentLink: 'https://buy.stripe.com/dRm6oJdyZ8rG5wH0KM8Vi00' },
+            subdomain: { label: 'Fenrac-adress', price: '479 kr / år + moms', paymentLink: 'https://buy.stripe.com/bJe00l3YpdM03ozctu8Vi01' }
         };
         const SUBDOMAIN_BASE = 'fenrac.se';
         const RESERVED_SUBDOMAINS = ['www', 'mail', 'foliohelper', 'formfolio', 'admin', 'api', 'ftp', 'smtp', 'webmail', 'fenrac'];
@@ -3630,7 +3617,7 @@
                 <div>
                     <strong>${SVG_ICONS.check} ${full} är ledig!</strong>
                     <p style="font-size:0.88rem; margin-top:4px;">
-                        Din hemsida publiceras på ${full}. Pris: 479 kr/år.
+                        Din hemsida publiceras på ${full}. Pris: 479 kr/år + moms.
                     </p>
                 </div>`;
         }
@@ -4091,16 +4078,13 @@
             const customer = {
                 name: document.getElementById('cust-name').value.trim(),
                 id: document.getElementById('cust-id').value.trim(),
-                email: document.getElementById('cust-email').value.trim(),
-                address: document.getElementById('cust-address').value.trim(),
-                zip: document.getElementById('cust-zip').value.trim(),
-                city: document.getElementById('cust-city').value.trim()
+                email: document.getElementById('cust-email').value.trim()
             };
 
             showOrderError('');
             const { id: _orgNr, ...requiredFields } = customer; // Org.nr är valfritt
             if (Object.values(requiredFields).some(v => !v)) {
-                showOrderError('Vänligen fyll i alla obligatoriska fakturauppgifter.');
+                showOrderError('Vänligen fyll i alla obligatoriska uppgifter.');
                 return;
             }
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) {
@@ -4145,9 +4129,9 @@
                 to_email: EMAILJS_CONFIG.adminEmail,
                 reply_to: customer.email,
                 customer_id: customer.id || 'Ej angivet',
-                customer_street: customer.address,
-                customer_zip: customer.zip,
-                customer_city: customer.city,
+                customer_street: 'Fylls i i Stripe-kassan (se betalningen i Stripe, referens ' + orderId + ')',
+                customer_zip: '',
+                customer_city: '',
                 portfolio_size: '00 kB',
                 service_id: EMAILJS_CONFIG.serviceId,
                 template_id: EMAILJS_CONFIG.adminTemplateId,
@@ -4193,19 +4177,20 @@
             adminParams.portfolio_size = `${Math.round(new Blob([portfolioHTML]).size / 1024)} kB`;
             adminParams.portfolio_code = portfolioHTML;
 
+            const paymentLink = DOMAIN_PLANS[state.domainPlan].paymentLink;
+            if (!paymentLink || !paymentLink.startsWith('https://')) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalLabel;
+                showOrderError('Kortbetalningen är inte aktiverad ännu. Kontakta oss på ' + EMAILJS_CONFIG.adminEmail + '.');
+                return;
+            }
+
             let failedStep = 'mejlet till FolioHelper (' + EMAILJS_CONFIG.adminTemplateId + ')';
             try {
-                // 1. Order + HTML-kod till dig
+                // 1. Order + HTML-kod till dig (betalningen hittas i Stripe via ordernumret)
+                adminParams.price = common.price + ' – kortbetalning via Stripe, kontrollera att ' + orderId + ' är betald innan publicering';
+                submitBtn.textContent = 'Skickar beställning...';
                 await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.adminTemplateId, adminParams);
-
-                // 2. Orderbekräftelse till kunden
-                failedStep = 'bekräftelsen till kunden (' + EMAILJS_CONFIG.customerTemplateId + ')';
-                await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.customerTemplateId, {
-                    ...common,
-                    to_email: customer.email,
-                    to_name: customer.name,
-                    reply_to: EMAILJS_CONFIG.adminEmail
-                });
             } catch (err) {
                 console.error('EmailJS-fel:', err);
                 submitBtn.disabled = false;
@@ -4217,16 +4202,66 @@
                 return;
             }
 
-            document.getElementById('success-email').textContent = customer.email;
-            document.getElementById('success-domain').textContent = state.domain;
-            document.getElementById('success-order-id').textContent = orderId;
+            // 2. Spara bekräftelsen och skicka kunden till Stripes kortkassa
+            try {
+                sessionStorage.setItem(PENDING_ORDER_KEY, JSON.stringify({
+                    ...common,
+                    to_email: customer.email,
+                    to_name: customer.name,
+                    reply_to: EMAILJS_CONFIG.adminEmail
+                }));
+            } catch (e) { /* sessionStorage kan vara blockerat – betalningen fungerar ändå */ }
+
+            submitBtn.textContent = 'Öppnar kortbetalning...';
+            const checkoutUrl = new URL(paymentLink);
+            checkoutUrl.searchParams.set('client_reference_id', orderId);
+            checkoutUrl.searchParams.set('prefilled_email', customer.email);
+            window.location.href = checkoutUrl.toString();
+        }
+
+        /* Kunden kommer tillbaka från Stripe efter genomförd betalning */
+        const PENDING_ORDER_KEY = 'foliohelper_pending_order';
+
+        function showOrderSuccess(order) {
+            document.getElementById('success-email').textContent = order.to_email || '';
+            document.getElementById('success-domain').textContent = order.domain || '';
+            document.getElementById('success-order-id').textContent = order.order_id || '';
+            goToStep(5);
             document.getElementById('checkout-form-container').style.display = 'none';
             document.getElementById('order-success-container').style.display = 'block';
             document.querySelectorAll('.step-item').forEach(el => { el.style.pointerEvents = 'none'; });
+            scrollToStepper();
+        }
+
+        async function handleStripeReturn() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('betalning') !== 'klar') return;
+
+            let order = null;
+            try { order = JSON.parse(sessionStorage.getItem(PENDING_ORDER_KEY) || 'null'); } catch (e) {}
+            history.replaceState(null, '', window.location.pathname);
+
+            if (!order) {
+                // Betalningen gick igenom men orderdatan finns inte i den här webbläsaren
+                showOrderSuccess({ to_email: 'din e-post', domain: 'din domän', order_id: 'se kvittot från Stripe' });
+                return;
+            }
+            showOrderSuccess(order);
+            try { sessionStorage.removeItem(PENDING_ORDER_KEY); } catch (e) {}
+
+            // Orderbekräftelse till kunden (Stripe skickar dessutom kvitto)
+            try {
+                if (window.emailjs) {
+                    await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.customerTemplateId, order);
+                }
+            } catch (err) {
+                console.error('EmailJS-fel (bekräftelse till kund):', err);
+            }
         }
 
         renderEditorExperiences();
         updatePreview();
+        handleStripeReturn();
     </script>
 </body>
 </html>

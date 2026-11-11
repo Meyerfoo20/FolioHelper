@@ -360,35 +360,16 @@
         background: var(--primary);
         color: var(--on-primary-soft, rgba(255, 255, 255, 0.78));
       }
-    
-/* Hamburgermeny på mobil */
-.nav-toggle{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
-.nav-burger{display:none;flex:none;align-items:center;justify-content:center;width:42px;height:42px;border:1px solid var(--border);border-radius:3px;color:var(--primary-ink,var(--primary));background:transparent;cursor:pointer;transition:background .2s}
-.nav-burger .burger-close{display:none}
-header .wrap{gap:16px}
-.logo{min-width:0;overflow-wrap:anywhere}
-@media (max-width:760px){
-header .wrap{position:relative}
-.nav-burger{display:flex}
-header nav{position:absolute;top:100%;left:0;right:0;display:none;flex-direction:column;gap:0;padding:4px 24px 12px;background:var(--bg);border-bottom:1px solid var(--border);box-shadow:0 14px 24px rgba(0,0,0,.08);font-size:1rem}
-header nav a{padding:14px 0;border-bottom:1px solid var(--border);color:var(--fg)}
-header nav a:last-of-type{border-bottom:0}
-.nav-toggle:checked~nav{display:flex}
-.nav-toggle:checked~.nav-burger{background:color-mix(in srgb,var(--primary) 8%,transparent)}
-.nav-toggle:checked~.nav-burger .burger-open{display:none}
-.nav-toggle:checked~.nav-burger .burger-close{display:block}
-.nav-toggle:focus-visible~.nav-burger{outline:2px solid var(--primary);outline-offset:2px}
-}
-</style>
+    </style>
   </head>
   <body>
     <header>
       <div class="wrap">
         <a href="#" class="logo serif">Elin Nordström</a>
-        <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Öppna meny"><nav>
-          <a onclick="document.getElementById('nav-toggle').checked=false" href="#research">Erfarenhet</a><a onclick="document.getElementById('nav-toggle').checked=false" id="nav-education" href="#education">Utbildning</a
-          ><a onclick="document.getElementById('nav-toggle').checked=false" href="#about">Om mig</a><a onclick="document.getElementById('nav-toggle').checked=false" href="#contact">Kontakt</a>
-        </nav><label for="nav-toggle" class="nav-burger" aria-hidden="true"><svg class="burger-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg><svg class="burger-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></label>
+        <nav>
+          <a href="#research">Erfarenhet</a><a id="nav-education" href="#education">Utbildning</a
+          ><a href="#about">Om mig</a><a href="#contact">Kontakt</a>
+        </nav>
       </div>
     </header>
 
