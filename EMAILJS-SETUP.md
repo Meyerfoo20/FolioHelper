@@ -21,8 +21,10 @@ Domän: {{domain}}
 Design: {{template_name}} ({{theme_name}})
 Pris: {{price}}
 
-Vi sätter nu upp din hemsida. När den är online skickar vi fakturan till dig
-(30 dagars betaltid).
+Betalningen är mottagen – kvittot kommer separat från Stripe.
+Vi sätter nu upp din hemsida och hör av oss när den är online.
+
+Abonnemanget förnyas automatiskt varje år och kan sägas upp när som helst.
 
 Vänliga hälsningar
 FolioHelper
@@ -50,7 +52,7 @@ FolioHelper
     Pris: {{price}}
   </p>
 
-  <h3 style="border-bottom:2px solid #e5e7eb; padding-bottom:6px;">3. Kund &amp; fakturauppgifter</h3>
+  <h3 style="border-bottom:2px solid #e5e7eb; padding-bottom:6px;">3. Kunduppgifter</h3>
   <p style="margin:8px 0 24px 0; line-height:1.7;">
     Namn/Företag: {{customer_name}}<br>
     Pers/Org.nr: {{customer_id}}<br>
@@ -74,6 +76,18 @@ FolioHelper
 ```
 
 Obs: `{{portfolio_code}}` med **två** klammerparenteser – då visas koden som text.
+
+## Betalning via Stripe
+Kunden betalar med kort i Stripes kassa (betallänkar i `DOMAIN_PLANS` i `index.html`).
+Båda mejlen skickas först när kunden kommer tillbaka från Stripe efter genomförd betalning.
+I ordermejlet står "BETALD med kort via Stripe (session cs_...)" och ordernumret FH-xxxxxx
+finns som referens (client_reference_id) på betalningen i Stripe.
+
+Obs: stänger kunden fliken innan hen skickas tillbaka från Stripe kommer inget ordermejl –
+betalningen syns då ändå i Stripe, så kontakta kunden därifrån.
+
+Rabattkod `Student-Fenrac` ger 149 kr/år + moms för Fenrac-adress (`PROMO_CODES` i `index.html`
+och kampanjkoden med samma namn i Stripe).
 
 ## ImgBB – profilbilden
 1. Skapa ett gratis konto på https://imgbb.com

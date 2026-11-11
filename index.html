@@ -1806,6 +1806,49 @@
             font-size: 0.95rem;
         }
 
+        .promo-row {
+            padding: 14px 0 4px 0;
+        }
+
+        .promo-row label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .promo-input-wrap {
+            display: flex;
+            gap: 8px;
+        }
+
+        .promo-input-wrap .form-control {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .promo-input-wrap .btn {
+            padding: 10px 16px;
+        }
+
+        .promo-msg {
+            display: block;
+            min-height: 1.2em;
+            margin-top: 6px;
+            font-size: 0.82rem;
+        }
+
+        .promo-msg.ok { color: #15803d; }
+        .promo-msg.err { color: #b91c1c; }
+
+        .summary-old-price {
+            text-decoration: line-through;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-right: 8px;
+        }
+
         .summary-row.total {
             border-bottom: none;
             font-size: 1.25rem;
@@ -2804,9 +2847,17 @@
                             <span>Webbhotell & Licens:</span>
                             <span>1 År</span>
                         </div>
+                        <div class="promo-row">
+                            <label for="promo-input">Rabattkod</label>
+                            <div class="promo-input-wrap">
+                                <input type="text" id="promo-input" class="form-control" placeholder="Har du en kod?" autocomplete="off" onkeydown="if (event.key === 'Enter') applyPromoCode()">
+                                <button type="button" class="btn btn-secondary" onclick="applyPromoCode()">Använd</button>
+                            </div>
+                            <span id="promo-msg" class="promo-msg" role="status" aria-live="polite"></span>
+                        </div>
                         <div class="summary-row total">
                             <span>Totalt att betala:</span>
-                            <span id="summary-price">979 kr / år + moms</span>
+                            <span><span id="summary-old-price" class="summary-old-price" style="display:none;"></span><span id="summary-price">979 kr / år + moms</span></span>
                         </div>
                         <p style="font-size:0.82rem; color:var(--text-muted); margin-top:12px;">
                             Du betalar med kort i Stripes säkra kassa (även Apple Pay/Google Pay). Abonnemanget förnyas automatiskt varje år och kan sägas upp när som helst. Moms (25 %) tillkommer. Inga dolda avgifter.
@@ -2859,6 +2910,7 @@
             isExpanded: false,
             domain: 'alexlindqvist.se',
             domainAvailable: true,
+            promoCode: null,
             domainPlan: 'custom', // 'custom' = egen domän, 'subdomain' = namn.fenrac.se
             sections: {
                 about: true,
@@ -3020,7 +3072,7 @@
             }
             if (stepNum === 3) checkDomain();
             if (stepNum === 4) initIconStep();
-            if (stepNum === 5) { updateSummary(); ensureIcons().then(() => { document.getElementById('summary-icon').src = state.icon.urls.small; }); }
+            if (stepNum === 5) { if (document.getElementById('promo-input').value.trim()) applyPromoCode(); else updateSummary(); ensureIcons().then(() => { document.getElementById('summary-icon').src = state.icon.urls.small; }); }
         }
 
         /* ==========================================================================
@@ -3512,8 +3564,46 @@
         const SUBDOMAIN_BASE = 'fenrac.se';
         const RESERVED_SUBDOMAINS = ['www', 'mail', 'foliohelper', 'formfolio', 'admin', 'api', 'ftp', 'smtp', 'webmail', 'fenrac'];
 
+        /* RABATTKODER – kontrolleras även av Stripe, som bara godtar koden för rätt paket */
+        const PROMO_CODES = {
+            'student-fenrac': { code: 'Student-Fenrac', plan: 'subdomain', price: '149 kr / år + moms', label: 'Studentpris' }
+        };
+
+        function getActivePromo() {
+            const promo = state.promoCode && PROMO_CODES[state.promoCode.toLowerCase()];
+            return promo && promo.plan === state.domainPlan ? promo : null;
+        }
+
         function getOrderPrice() {
-            return DOMAIN_PLANS[state.domainPlan].price;
+            const promo = getActivePromo();
+            return promo ? promo.price : DOMAIN_PLANS[state.domainPlan].price;
+        }
+
+        function applyPromoCode() {
+            const input = document.getElementById('promo-input');
+            const entered = input.value.trim();
+            const promo = PROMO_CODES[entered.toLowerCase()];
+            const msg = document.getElementById('promo-msg');
+
+            if (!entered) {
+                state.promoCode = null;
+                msg.className = 'promo-msg';
+                msg.textContent = '';
+            } else if (!promo) {
+                state.promoCode = null;
+                msg.className = 'promo-msg err';
+                msg.textContent = 'Koden är inte giltig.';
+            } else if (promo.plan !== state.domainPlan) {
+                state.promoCode = promo.code;
+                msg.className = 'promo-msg err';
+                msg.textContent = 'Koden gäller bara för en Fenrac-adress (dittnamn.fenrac.se). Byt domän i steg 3 för att använda den.';
+            } else {
+                state.promoCode = promo.code;
+                input.value = promo.code;
+                msg.className = 'promo-msg ok';
+                msg.textContent = promo.label + ' tillagt – ' + promo.price + '.';
+            }
+            updateSummary();
         }
 
         function selectDomainPlan(plan) {
@@ -3772,6 +3862,13 @@
             document.getElementById('summary-theme').innerText = LOCKED_COLOR_TEMPLATES.includes(state.template) ? 'Mallens egna färger' : themeLabel();
             document.getElementById('summary-domain').innerText = state.domain || 'Ej vald';
             document.getElementById('summary-price').innerText = getOrderPrice();
+            const oldPrice = document.getElementById('summary-old-price');
+            if (getActivePromo()) {
+                oldPrice.textContent = DOMAIN_PLANS[state.domainPlan].price.replace(' + moms', '');
+                oldPrice.style.display = 'inline';
+            } else {
+                oldPrice.style.display = 'none';
+            }
         }
 
         /* ==========================================================================
@@ -4108,7 +4205,7 @@
             const submitBtn = document.getElementById('order-submit-btn');
             const originalLabel = submitBtn.textContent;
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Skickar beställning...';
+            submitBtn.textContent = 'Förbereder beställning...';
 
             const orderId = 'FH-' + Math.floor(100000 + Math.random() * 900000);
             const templateNames = { tech_dev: 'Teknisk & strukturerad', executive: 'Elegant med stort porträtt', creative: 'Minimalistisk & ren', mvb: 'Byggprofil (exklusiv)' };
@@ -4185,37 +4282,35 @@
                 return;
             }
 
-            let failedStep = 'mejlet till FolioHelper (' + EMAILJS_CONFIG.adminTemplateId + ')';
-            try {
-                // 1. Order + HTML-kod till dig (betalningen hittas i Stripe via ordernumret)
-                adminParams.price = common.price + ' – kortbetalning via Stripe, kontrollera att ' + orderId + ' är betald innan publicering';
-                submitBtn.textContent = 'Skickar beställning...';
-                await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.adminTemplateId, adminParams);
-            } catch (err) {
-                console.error('EmailJS-fel:', err);
-                submitBtn.disabled = false;
-                submitBtn.textContent = originalLabel;
-                const detail = err && (err.status || err.text)
-                    ? `Felkod ${err.status}: ${err.text}`
-                    : (err && err.message) || String(err);
-                showOrderError('Beställningen kunde inte skickas just nu. Försök igen om en stund eller kontakta oss på ' + EMAILJS_CONFIG.adminEmail + '.\n\nTekniskt fel vid ' + failedStep + ' – ' + detail);
-                return;
-            }
-
-            // 2. Spara bekräftelsen och skicka kunden till Stripes kortkassa
+            // Ordern sparas här i webbläsaren och mejlas först när Stripe har bekräftat betalningen
+            if (getActivePromo()) common.price += ' (rabattkod ' + getActivePromo().code + ')';
+            adminParams.price = common.price;
             try {
                 sessionStorage.setItem(PENDING_ORDER_KEY, JSON.stringify({
-                    ...common,
-                    to_email: customer.email,
-                    to_name: customer.name,
-                    reply_to: EMAILJS_CONFIG.adminEmail
+                    admin: adminParams,
+                    customer: {
+                        ...common,
+                        to_email: customer.email,
+                        to_name: customer.name,
+                        reply_to: EMAILJS_CONFIG.adminEmail
+                    },
+                    adminSent: false,
+                    customerSent: false
                 }));
-            } catch (e) { /* sessionStorage kan vara blockerat – betalningen fungerar ändå */ }
+            } catch (e) {
+                console.error('Kunde inte spara ordern:', e);
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalLabel;
+                showOrderError('Din webbläsare blockerar lagring, så beställningen kan inte slutföras. Stäng av privat läge eller prova en annan webbläsare – eller kontakta oss på ' + EMAILJS_CONFIG.adminEmail + '.');
+                return;
+            }
 
             submitBtn.textContent = 'Öppnar kortbetalning...';
             const checkoutUrl = new URL(paymentLink);
             checkoutUrl.searchParams.set('client_reference_id', orderId);
             checkoutUrl.searchParams.set('prefilled_email', customer.email);
+            const activePromo = getActivePromo();
+            if (activePromo) checkoutUrl.searchParams.set('prefilled_promo_code', activePromo.code);
             window.location.href = checkoutUrl.toString();
         }
 
@@ -4233,30 +4328,85 @@
             scrollToStepper();
         }
 
+        function readPendingOrder() {
+            try { return JSON.parse(sessionStorage.getItem(PENDING_ORDER_KEY) || 'null'); } catch (e) { return null; }
+        }
+
+        function savePendingOrder(order) {
+            try { sessionStorage.setItem(PENDING_ORDER_KEY, JSON.stringify(order)); } catch (e) {}
+        }
+
+        function showReturnError(message, canRetry) {
+            const box = document.getElementById('order-success-container');
+            let el = document.getElementById('order-return-error');
+            if (!el) {
+                el = document.createElement('div');
+                el.id = 'order-return-error';
+                el.setAttribute('role', 'alert');
+                el.style.cssText = 'margin-top:16px; padding:14px; border-radius:10px; background:#fef2f2; color:#b91c1c; font-size:0.9rem; white-space:pre-line;';
+                box.appendChild(el);
+            }
+            el.innerHTML = '';
+            el.appendChild(document.createTextNode(message));
+            if (canRetry) {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-primary';
+                btn.style.cssText = 'display:block; margin:12px auto 0 auto;';
+                btn.textContent = 'Försök skicka igen';
+                btn.onclick = () => { el.remove(); sendPaidOrder(); };
+                el.appendChild(btn);
+            }
+        }
+
+        // Skickar ordern (med HTML-koden) till dig och bekräftelsen till kunden – endast efter betalning
+        async function sendPaidOrder() {
+            const order = readPendingOrder();
+            if (!order) return;
+            if (!window.emailjs) {
+                showReturnError('Betalningen är klar, men beställningen kunde inte skickas eftersom mejltjänsten inte laddades. Ladda om sidan, eller mejla ' + EMAILJS_CONFIG.adminEmail + ' med ordernumret ' + order.customer.order_id + '.', true);
+                return;
+            }
+            if (!order.adminSent) {
+                try {
+                    await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.adminTemplateId, order.admin);
+                    order.adminSent = true;
+                    savePendingOrder(order);
+                } catch (err) {
+                    console.error('EmailJS-fel (order till FolioHelper):', err);
+                    showReturnError('Betalningen är klar, men beställningen kunde inte skickas till oss just nu. Tryck på knappen för att försöka igen – stäng inte sidan. Fungerar det inte, mejla ' + EMAILJS_CONFIG.adminEmail + ' med ordernumret ' + order.customer.order_id + '.', true);
+                    return;
+                }
+            }
+            if (!order.customerSent) {
+                try {
+                    await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.customerTemplateId, order.customer);
+                } catch (err) {
+                    console.error('EmailJS-fel (bekräftelse till kund):', err);
+                }
+            }
+            try { sessionStorage.removeItem(PENDING_ORDER_KEY); } catch (e) {}
+        }
+
         async function handleStripeReturn() {
             const params = new URLSearchParams(window.location.search);
             if (params.get('betalning') !== 'klar') return;
-
-            let order = null;
-            try { order = JSON.parse(sessionStorage.getItem(PENDING_ORDER_KEY) || 'null'); } catch (e) {}
+            const sessionId = params.get('session_id') || '';
             history.replaceState(null, '', window.location.pathname);
 
-            if (!order) {
-                // Betalningen gick igenom men orderdatan finns inte i den här webbläsaren
+            const order = readPendingOrder();
+            if (!order || !sessionId.startsWith('cs_')) {
+                // Betalningen gick igenom men orderdatan finns inte i den här fliken
                 showOrderSuccess({ to_email: 'din e-post', domain: 'din domän', order_id: 'se kvittot från Stripe' });
+                showReturnError('Vi hittar inte din beställning i den här webbläsarfliken. Mejla ' + EMAILJS_CONFIG.adminEmail + ' med kvittot från Stripe så hjälper vi dig.', false);
                 return;
             }
-            showOrderSuccess(order);
-            try { sessionStorage.removeItem(PENDING_ORDER_KEY); } catch (e) {}
 
-            // Orderbekräftelse till kunden (Stripe skickar dessutom kvitto)
-            try {
-                if (window.emailjs) {
-                    await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.customerTemplateId, order);
-                }
-            } catch (err) {
-                console.error('EmailJS-fel (bekräftelse till kund):', err);
+            if (!order.adminSent) {
+                order.admin.price = order.customer.price + ' – BETALD med kort via Stripe (session ' + sessionId + ')';
+                savePendingOrder(order);
             }
+            showOrderSuccess(order.customer);
+            await sendPaidOrder();
         }
 
         renderEditorExperiences();
