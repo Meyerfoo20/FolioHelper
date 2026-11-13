@@ -2822,7 +2822,7 @@
                             <label>E-postadress (kvitto skickas hit) *</label>
                             <input type="email" id="cust-email" class="form-control" value="alex.lindqvist@example.com" required>
                         </div>
-                        <p style="font-size:0.82rem; color:var(--text-muted); margin:0;">Adress och kortuppgifter fyller du i på nästa steg i Stripes kassa.</p>
+                        <p id="stripe-address-note" style="font-size:0.82rem; color:var(--text-muted); margin:0;">Adress och kortuppgifter fyller du i på nästa steg i Stripes kassa.</p>
                     </div>
 
                     <div class="order-summary">
@@ -2859,7 +2859,7 @@
                             <span>Totalt att betala:</span>
                             <span><span id="summary-old-price" class="summary-old-price" style="display:none;"></span><span id="summary-price">979 kr / år + moms</span></span>
                         </div>
-                        <p style="font-size:0.82rem; color:var(--text-muted); margin-top:12px;">
+                        <p id="payment-info" style="font-size:0.82rem; color:var(--text-muted); margin-top:12px;">
                             Du betalar med kort i Stripes säkra kassa (även Apple Pay/Google Pay). Abonnemanget förnyas automatiskt varje år och kan sägas upp när som helst. Moms (25 %) tillkommer. Inga dolda avgifter.
                         </p>
 
@@ -2884,7 +2884,7 @@
                     Din order är genomförd. En bekräftelse har skickats till <strong id="success-email"></strong>.
                 </p>
                 <p style="color:var(--text-muted); margin: 0 0 8px 0;">
-                    Vi sätter nu upp din hemsida på <strong id="success-domain" style="color:var(--accent-main);"></strong>. Du får ett kvitto från Stripe på mejlen, och vi hör av oss när hemsidan är online.
+                    Vi sätter nu upp din hemsida på <strong id="success-domain" style="color:var(--accent-main);"></strong><span id="success-receipt">. Du får ett kvitto från Stripe på mejlen,</span> och vi hör av oss när hemsidan är online.
                 </p>
                 <p style="color:var(--text-muted); font-size:0.85rem;">Ordernummer: <strong id="success-order-id"></strong></p>
             </div>
@@ -3569,9 +3569,27 @@
             'student-fenrac': { code: 'Student-Fenrac', plan: 'subdomain', price: '149 kr / år + moms', label: 'Studentpris' }
         };
 
+        /* GRATISKOD – hoppar över Stripe helt. Lagras som hash så att koden inte syns i källkoden. */
+        const FREE_CODES = {
+            '4f77316b': { plan: 'any', price: '0 kr', label: 'Gratiskod', free: true }
+        };
+
+        function findPromo(entered) {
+            const key = (entered || '').trim().toLowerCase();
+            if (!key) return null;
+            if (PROMO_CODES[key]) return PROMO_CODES[key];
+            const free = FREE_CODES[hashCode(key)];
+            return free ? { ...free, code: (entered || '').trim() } : null;
+        }
+
         function getActivePromo() {
-            const promo = state.promoCode && PROMO_CODES[state.promoCode.toLowerCase()];
-            return promo && promo.plan === state.domainPlan ? promo : null;
+            const promo = findPromo(state.promoCode);
+            return promo && (promo.plan === 'any' || promo.plan === state.domainPlan) ? promo : null;
+        }
+
+        function isFreeOrder() {
+            const promo = getActivePromo();
+            return !!(promo && promo.free);
         }
 
         function getOrderPrice() {
@@ -3582,7 +3600,7 @@
         function applyPromoCode() {
             const input = document.getElementById('promo-input');
             const entered = input.value.trim();
-            const promo = PROMO_CODES[entered.toLowerCase()];
+            const promo = findPromo(entered);
             const msg = document.getElementById('promo-msg');
 
             if (!entered) {
@@ -3593,7 +3611,7 @@
                 state.promoCode = null;
                 msg.className = 'promo-msg err';
                 msg.textContent = 'Koden är inte giltig.';
-            } else if (promo.plan !== state.domainPlan) {
+            } else if (promo.plan !== 'any' && promo.plan !== state.domainPlan) {
                 state.promoCode = promo.code;
                 msg.className = 'promo-msg err';
                 msg.textContent = 'Koden gäller bara för en Fenrac-adress (dittnamn.fenrac.se). Byt domän i steg 3 för att använda den.';
@@ -3601,7 +3619,7 @@
                 state.promoCode = promo.code;
                 input.value = promo.code;
                 msg.className = 'promo-msg ok';
-                msg.textContent = promo.label + ' tillagt – ' + promo.price + '.';
+                msg.textContent = promo.free ? 'Gratiskod tillagd – din beställning kostar ingenting.' : promo.label + ' tillagt – ' + promo.price + '.';
             }
             updateSummary();
         }
@@ -3863,6 +3881,12 @@
             document.getElementById('summary-domain').innerText = state.domain || 'Ej vald';
             document.getElementById('summary-price').innerText = getOrderPrice();
             const oldPrice = document.getElementById('summary-old-price');
+            const free = isFreeOrder();
+            document.getElementById('stripe-address-note').style.display = free ? 'none' : '';
+            document.getElementById('order-submit-btn').innerHTML = free ? 'Slutför beställning &rarr;' : 'Gå till betalning &rarr;';
+            document.getElementById('payment-info').textContent = free
+                ? 'Din gratiskod gäller – du behöver inte betala något och skickas inte vidare till någon kassa. Vi hör av oss när hemsidan är online.'
+                : PAYMENT_INFO_TEXT;
             if (getActivePromo()) {
                 oldPrice.textContent = DOMAIN_PLANS[state.domainPlan].price.replace(' + moms', '');
                 oldPrice.style.display = 'inline';
@@ -4274,6 +4298,41 @@
             adminParams.portfolio_size = `${Math.round(new Blob([portfolioHTML]).size / 1024)} kB`;
             adminParams.portfolio_code = portfolioHTML;
 
+            // Gratiskod: ingen Stripe-kassa – ordern skickas direkt
+            if (isFreeOrder()) {
+                const freeCode = getActivePromo().code;
+                common.price = '0 kr (gratiskod ' + freeCode + ')';
+                adminParams.price = '0 kr – GRATIS med koden ' + freeCode + ' (ingen betalning gjord)';
+                adminParams.customer_street = 'Ingen betalning – gratisbeställning med kod (adress samlas inte in)';
+                const order = {
+                    admin: adminParams,
+                    customer: { ...common, to_email: customer.email, to_name: customer.name, reply_to: EMAILJS_CONFIG.adminEmail },
+                    adminSent: false,
+                    customerSent: false,
+                    free: true
+                };
+                savePendingOrder(order);
+                if (!readPendingOrder()) {
+                    // Utan sessionStorage: skicka direkt från minnet
+                    try {
+                        await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.adminTemplateId, order.admin);
+                    } catch (err) {
+                        console.error('EmailJS-fel (gratisorder):', err);
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalLabel;
+                        showOrderError('Beställningen kunde inte skickas just nu. Försök igen om en stund eller kontakta oss på ' + EMAILJS_CONFIG.adminEmail + '.');
+                        return;
+                    }
+                    try { await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.customerTemplateId, order.customer); } catch (err) { console.error(err); }
+                    showOrderSuccess(order.customer, true);
+                    return;
+                }
+                submitBtn.textContent = 'Skickar beställning...';
+                showOrderSuccess(order.customer, true);
+                await sendPaidOrder();
+                return;
+            }
+
             const paymentLink = DOMAIN_PLANS[state.domainPlan].paymentLink;
             if (!paymentLink || !paymentLink.startsWith('https://')) {
                 submitBtn.disabled = false;
@@ -4316,8 +4375,10 @@
 
         /* Kunden kommer tillbaka från Stripe efter genomförd betalning */
         const PENDING_ORDER_KEY = 'foliohelper_pending_order';
+        const PAYMENT_INFO_TEXT = 'Du betalar med kort i Stripes säkra kassa (även Apple Pay/Google Pay). Abonnemanget förnyas automatiskt varje år och kan sägas upp när som helst. Moms (25 %) tillkommer. Inga dolda avgifter.';
 
-        function showOrderSuccess(order) {
+        function showOrderSuccess(order, free) {
+            document.getElementById('success-receipt').style.display = free ? 'none' : '';
             document.getElementById('success-email').textContent = order.to_email || '';
             document.getElementById('success-domain').textContent = order.domain || '';
             document.getElementById('success-order-id').textContent = order.order_id || '';
@@ -4363,7 +4424,7 @@
             const order = readPendingOrder();
             if (!order) return;
             if (!window.emailjs) {
-                showReturnError('Betalningen är klar, men beställningen kunde inte skickas eftersom mejltjänsten inte laddades. Ladda om sidan, eller mejla ' + EMAILJS_CONFIG.adminEmail + ' med ordernumret ' + order.customer.order_id + '.', true);
+                showReturnError((order.free ? 'Beställningen' : 'Betalningen är klar, men beställningen') + ' kunde inte skickas eftersom mejltjänsten inte laddades. Ladda om sidan, eller mejla ' + EMAILJS_CONFIG.adminEmail + ' med ordernumret ' + order.customer.order_id + '.', true);
                 return;
             }
             if (!order.adminSent) {
@@ -4373,7 +4434,7 @@
                     savePendingOrder(order);
                 } catch (err) {
                     console.error('EmailJS-fel (order till FolioHelper):', err);
-                    showReturnError('Betalningen är klar, men beställningen kunde inte skickas till oss just nu. Tryck på knappen för att försöka igen – stäng inte sidan. Fungerar det inte, mejla ' + EMAILJS_CONFIG.adminEmail + ' med ordernumret ' + order.customer.order_id + '.', true);
+                    showReturnError((order.free ? 'Beställningen' : 'Betalningen är klar, men beställningen') + ' kunde inte skickas till oss just nu. Tryck på knappen för att försöka igen – stäng inte sidan. Fungerar det inte, mejla ' + EMAILJS_CONFIG.adminEmail + ' med ordernumret ' + order.customer.order_id + '.', true);
                     return;
                 }
             }
